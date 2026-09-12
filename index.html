@@ -110,6 +110,22 @@
   .ms.past .mv{color:#fff;} .ms.future .mv{color:#FFB27A;} .ms.na .mv{color:#C7CBF7;}
   .ms .mh{font-size:11.5px; color:var(--ink-3); margin-top:2px;}
 
+  /* ---------- TODAY SUMMARY ---------- */
+  .summary{background:#fff; border-radius:var(--r); box-shadow:var(--shadow); padding:20px 26px; display:grid; grid-template-columns:1.25fr 1fr; gap:24px; align-items:center; margin-bottom:22px;}
+  .sm-k{font-size:12px; font-weight:800; letter-spacing:.08em; color:var(--ink-3); margin-bottom:6px;}
+  .sm-h{font-size:22px; font-weight:800; letter-spacing:-.03em; line-height:1.3;}
+  .sm-h em{font-style:normal; color:var(--accent);}
+  .sm-b{font-size:14px; color:var(--ink-2); margin-top:6px; line-height:1.55;}
+  .sm-list{display:grid; gap:6px;}
+  .sm-row{display:flex; align-items:center; gap:10px; font-size:13.5px; color:var(--ink-2); padding:8px 12px; border-radius:999px; background:var(--card-2);}
+  .sm-row i{width:9px; height:9px; border-radius:50%; flex:0 0 9px;}
+  .sm-row b{color:var(--ink); min-width:82px;}
+  .sm-row .st{font-weight:800; margin-right:2px;}
+  .sm-row.go i{background:var(--go);} .sm-row.go .st{color:var(--go-ink);}
+  .sm-row.alert i{background:var(--alert);} .sm-row.alert .st{color:var(--alert-ink);}
+  .sm-row.amber i{background:var(--amber);} .sm-row.amber .st{color:var(--amber-ink);}
+  .sm-row.wait i{background:var(--wait);} .sm-row.wait .st{color:var(--wait-ink);}
+
   /* ---------- SECTION HEADS ---------- */
   .sec{display:flex; align-items:baseline; justify-content:space-between; gap:14px; margin:34px 0 14px; flex-wrap:wrap;}
   .sec h2{margin:0; font-size:22px; font-weight:800; letter-spacing:-.03em;}
@@ -183,7 +199,7 @@
   .pt .w i.dash{background:transparent; border:2px solid var(--accent); width:6px; height:6px;}
   .pt .ws-s{font-size:11.5px; color:var(--ink-3);}
   .pt .gv{font-size:46px; line-height:1; font-weight:900; letter-spacing:-.05em; margin:10px 0 6px;}
-  .pt.ok .gv{color:var(--accent-ink);} .pt.no .gv{color:var(--accent-ink);} .pt.na .gv{color:var(--ink-4);}
+  .pt.ok .gv{color:var(--accent);} .pt.no .gv{color:var(--accent);} .pt.na .gv{color:var(--ink-4);}
   .pt .thr{font-size:12.5px; color:var(--ink-3);}
   .mark{align-self:flex-start; font-size:12px; font-weight:800; padding:6px 12px; border-radius:999px; margin-top:8px; background:#fff; display:inline-flex; gap:5px; align-items:center;}
   .mark.ok{color:#fff; background:var(--brand);} .mark.no{color:#fff; background:var(--alert);} .mark.na{color:var(--ink-3);}
@@ -223,7 +239,8 @@
   .mt .mv{font-weight:800; font-size:16px; letter-spacing:-.02em;}
   .mt .mv.go{color:var(--go-ink);} .mt .mv.amber{color:var(--amber-ink);} .mt .mv.alert{color:var(--alert-ink);}
   .bar{height:16px; border-radius:999px; background:var(--hatch); overflow:hidden; border:1px solid var(--line);}
-  .bar > i{display:block; height:100%; border-radius:999px; background:var(--accent);}
+  .bar > i{display:block; height:100%; border-radius:999px; background:var(--brand);}
+  .mt .mv#mvSos{color:var(--accent-ink);}
   .sparkwrap{position:relative; flex:1; min-height:60px;}
   .spark{position:absolute; inset:0; width:100%; height:100%; display:block;}
   .cap{display:flex; justify-content:space-between; font-size:11px; color:var(--ink-4); margin-top:5px;}
@@ -238,7 +255,7 @@
   .ig:hover{transform:translateY(-2px); box-shadow:var(--shadow-2);}
   .ig .th{position:relative; aspect-ratio:4/5; background:#E3E8F0; overflow:hidden;}
   .ig .th img,.ig .th video{width:100%; height:100%; object-fit:cover; display:block;}
-  .ig .rank{position:absolute; left:8px; top:8px; min-width:26px; height:26px; padding:0 8px; border-radius:999px; background:var(--brand-deep); color:#fff; font-size:12px; font-weight:800; display:grid; place-items:center;}
+  .ig .rank{position:absolute; left:10px; top:10px; min-width:36px; height:36px; padding:0 10px; border-radius:999px; background:var(--brand); color:#fff; font-size:16px; font-weight:900; display:grid; place-items:center; box-shadow:0 0 0 3px #fff, 0 4px 12px rgba(27,35,80,.25);}
   .ig:nth-child(-n+3) .rank{background:var(--accent);}
   .ig .tag{position:absolute; right:8px; top:8px; font-size:11px; font-weight:800; background:rgba(255,255,255,.92); color:var(--ink-2); border-radius:999px; padding:3px 8px;}
   .ig .cap{font-size:12.5px; padding:10px 12px 4px; color:var(--ink-2); line-height:1.45; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;}
@@ -262,6 +279,7 @@
   @media (max-width:1040px){
     .ws{grid-template-columns:1fr;}
     .now{grid-template-columns:1fr;} .now-photos{justify-content:flex-start;}
+    .summary{grid-template-columns:1fr;}
     .relay{grid-template-columns:1fr 1fr;}
     .dcols{grid-template-columns:1fr;} .vs{flex-direction:row;} .vs::before,.vs::after{width:auto; height:1px;}
     .ig-grid{grid-template-columns:repeat(3,1fr);}
@@ -284,8 +302,8 @@
   <nav class="rail" aria-label="섹션 이동">
     <div class="logo" title="Discovery Expedition"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2l2.4 7.6H22l-6.2 4.5 2.4 7.6L12 17.2l-6.2 4.5 2.4-7.6L2 9.6h7.6L12 2z" fill="#fff"/></svg></div>
     <a href="#relay-sec" class="on" data-sec="relay-sec" title="카테고리별 현황"><svg viewBox="0 0 24 24" fill="none"><path d="M4 11.5 12 5l8 6.5V19a1 1 0 0 1-1 1h-4.5v-5h-5v5H5a1 1 0 0 1-1-1v-7.5z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></a>
-    <a href="#ws-sec" data-sec="ws-sec" title="작년보다 앞서고 있나"><svg viewBox="0 0 24 24" fill="none"><path d="M4 18 10 11l4 4 6-8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 21h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></a>
-    <a href="#diag-sec" data-sec="diag-sec" title="왜 그런가"><svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="6.5" stroke="currentColor" stroke-width="1.8"/><path d="m16 16 4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M8.5 11h5M11 8.5v5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></a>
+    <a href="#ws-sec" data-sec="ws-sec" title="브랜드 관심도"><svg viewBox="0 0 24 24" fill="none"><path d="M4 18 10 11l4 4 6-8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 21h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></a>
+    <a href="#diag-sec" data-sec="diag-sec" title="원인 분석"><svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="6.5" stroke="currentColor" stroke-width="1.8"/><path d="m16 16 4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M8.5 11h5M11 8.5v5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></a>
     <div class="sp"></div>
     <div class="gate">결과 확인<b class="num">D-12</b></div>
   </nav>
@@ -317,6 +335,15 @@
       </div>
     </section>
 
+    <section class="summary" id="summary" aria-label="오늘의 요약">
+      <div class="sm-main">
+        <div class="sm-k">오늘의 요약</div>
+        <div class="sm-h" id="smHead"></div>
+        <div class="sm-b" id="smBody"></div>
+      </div>
+      <div class="sm-list" id="smList"></div>
+    </section>
+
     <!-- RELAY -->
     <div class="sec" id="relay-sec">
       <h2>카테고리별 현황 <span>경량 → 숏 → 미드 → 롱</span></h2>
@@ -325,13 +352,13 @@
 
     <!-- WORKSPACE -->
     <div class="sec" id="ws-sec">
-      <h2>작년보다 앞서고 있나?</h2>
+      <h2>브랜드 관심도 <span>전년 대비</span></h2>
       <span class="sel"><i></i><span id="selName">숏 다운</span></span>
     </div>
     <div class="ws">
       <section class="panel chart">
         <div class="p-head">
-          <div><h3>브랜드 관심도 · 올해 vs 작년</h3><span class="ps" id="trackerSub">우리 브랜드 검색량 + 자사몰 조회수 + 패딩 검색 중 우리 비중 (0~100 환산)</span></div>
+          <div><h3>브랜드 관심도 · 올해 vs 작년</h3><span class="ps" id="trackerSub">우리 브랜드 검색량 + 자사몰 조회수 + 패딩 검색 중 우리 비중 (0~100 환산) · 빗금 = 패딩 검색량(시장 전체)</span></div>
           <div class="seg" role="group" aria-label="비교 기준">
             <button id="btnCal" class="on" type="button">날짜 기준</button>
             <button id="btnAlign" type="button">태동일 기준</button>
@@ -341,7 +368,7 @@
         <div class="legend">
           <span><i></i>올해</span>
           <span><i class="dash"></i>작년</span>
-          <span><i class="hatch"></i>시장 전체 수요</span>
+          <span><i class="hatch"></i>패딩 검색량 (시장 전체)</span>
           <span><i class="mk"></i>태동 (수요 시작)</span>
           <span><i class="mk dash"></i>피크 (최대 수요)</span>
         </div>
@@ -372,7 +399,7 @@
 
     <!-- DIAGNOSIS -->
     <div class="sec" id="diag-sec">
-      <h2>왜 그런가?</h2>
+      <h2>원인 분석 <span>콘텐츠 반응 vs 브랜드 검색</span></h2>
       <span class="sel"><i></i><span id="diagCat">숏 다운</span></span>
     </div>
     <section class="panel">
@@ -437,7 +464,7 @@ const CATS = {
       lastY:[6,8,10,12,15,18,22,28,38,52,60,58],
       demand:[8,10,12,15,18,22,28,36,48,64,80,86],
       alignLbl:["-8주","-7주","-6주","-5주","-4주","-3주","-2주","-1주","태동","+1주","+2주","+3주"],
-      lastYAlign:[8,10,12,15,18,22,28,38,52,60,58,55],
+      lastYAlign:[7,9,11,14,17,21,26,33,40,50,58,56],
       onsetIdx:8, peakIdx:10, onsetEst:false, peakEst:false
     },
     verdict:{tag:"태동·피크 모두 작년보다 앞섬 · 성공", body:"미리 알린 효과가 성수기까지 이어졌습니다. 이 리드타임(63일)과 노출 배분을 다음 카테고리 기준으로 삼습니다.", cls:"go"},
@@ -571,6 +598,27 @@ function renderNow(){
   document.querySelector(".rail .gate").innerHTML = `결과 확인<b class="num">${gTxt}</b>`;
 }
 
+/* ---------------- TODAY SUMMARY ---------------- */
+function renderSummary(){
+  const rows = ORDER.map(k=>{ const c=CATS[k], t=TIMELINE[k];
+    const d = c.verdictKey==="success" ? "태동·피크 모두 작년보다 앞섬"
+            : c.verdictKey==="warn"    ? "태동 땐 앞섰지만 피크 때 뒤처짐"
+            : c.verdictKey==="fail"    ? "태동 때 작년보다 뒤처짐"
+            : c.verdictKey==="progress"? `태동 통과 · 피크 ${fmtMD(parseD(t.peak.date))} 판정`
+            : `${fmtMD(parseD(t.launch))}부터 노출`;
+    return `<div class="sm-row ${c.sig}"><i></i><b>${c.name}</b><span class="st">${c.state}</span><span>${d}</span></div>`; }).join("");
+  document.getElementById("smList").innerHTML = rows;
+  const warn = ORDER.map(k=>CATS[k]).find(c=>c.verdictKey==="warn"||c.verdictKey==="fail");
+  const prog = ORDER.map(k=>CATS[k]).find(c=>c.verdictKey==="progress");
+  let head, body;
+  if(warn){ head = `<em>${warn.name}</em>이 피크에서 작년보다 뒤처졌습니다.`; body = warn.verdict.body; }
+  else if(prog){ head = `<em>${prog.name}</em> 태동 통과, 피크 판정을 기다리는 중입니다.`; body = "아직 조정할 것은 없습니다."; }
+  else { head = "모든 카테고리가 계획대로 진행 중입니다."; body = ""; }
+  if(warn && prog){ body += ` 지금 진행 중인 <b>${prog.name}</b>은 태동을 통과했고, 피크(${fmtMD(parseD(TIMELINE[ORDER.find(k=>CATS[k]===prog)].peak.date))})에 노출을 집중합니다.`; }
+  document.getElementById("smHead").innerHTML = head;
+  document.getElementById("smBody").innerHTML = body;
+}
+
 /* ---------------- RELAY CARDS ---------------- */
 const tr = t => t==="up"?"tr-up":t==="dn"?"tr-dn":"tr-fl";
 function renderRelay(){
@@ -630,7 +678,7 @@ function renderVerdict(){
 }
 
 /* ---------------- DIAGNOSIS ---------------- */
-function sparkline(id, arr, color){
+function sparkline(id, arr, color, dot){
   const svg=document.getElementById(id); if(!svg) return;
   const data=arr.filter(v=>v!==null&&v!==undefined);
   // 실제 렌더 폭을 좌표계로 써서 (늘려 그리지 않음) 끝점 원이 찌그러지지 않게 한다
@@ -645,7 +693,7 @@ function sparkline(id, arr, color){
   svg.innerHTML=`<defs><linearGradient id="${gid}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${color}" stop-opacity=".22"/><stop offset="1" stop-color="${color}" stop-opacity="0"/></linearGradient></defs>`+
     `<path d="${area}" fill="url(#${gid})"/>`+
     `<path d="${d}" fill="none" stroke="${color}" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>`+
-    `<circle cx="${pts[pts.length-1][0].toFixed(1)}" cy="${pts[pts.length-1][1].toFixed(1)}" r="4.5" fill="#F2814A" stroke="#fff" stroke-width="2"/>`;
+    `<circle cx="${pts[pts.length-1][0].toFixed(1)}" cy="${pts[pts.length-1][1].toFixed(1)}" r="4.5" fill="${dot||color}" stroke="#fff" stroke-width="2"/>`;
 }
 let _rs; window.addEventListener("resize", ()=>{ clearTimeout(_rs); _rs=setTimeout(()=>{ renderDiag(); buildChart(); }, 120); });
 const ICON_OK =`<svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#5058D9"/><path d="M7.5 12.5l3 3 6-7" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
@@ -667,7 +715,7 @@ function renderDiag(){
   setTxt("mvView",  c.diag.viewTxt||"—",  c.diag.viewCls);
   sparkline("sparkResp", c.diag.resp, C.sparkL);
   sparkline("sparkBrand", c.diag.brand, C.sparkR);
-  sparkline("sparkSos", c.diag.sos||[], C.sparkR);
+  sparkline("sparkSos", c.diag.sos||[], C.sparkR, C.accent);
   sparkline("sparkView", c.diag.view, C.sparkR);
   renderContent();
 }
@@ -696,7 +744,7 @@ const IG = {
       { src:"img/ig/ht-05.jpg", brand:"뉴발란스", cap:"#광고 저랑 가을 겨울 준비 할 사람 💨 뉴발란스 플라잉 77 구스다운으로 데일리 룩부터 아웃도어 룩까지", eng:9700, date:"9/08", ad:true },
       { src:"img/ig/ht-02.jpg", brand:"무신사", cap:"#광고 뭐든 일찍 준비해서 나쁠건 없지! 무신사 경량 패딩 스타일링 기획전 10~20일", eng:8600, date:"9/07", ad:true },
       { src:"img/ig/ht-12.jpg", brand:"헬리녹스", cap:"#광고 헬리녹스 웨어의 이클립스 팩 다운 자켓. 지난 시즌 완판 + 2026 레드닷 어워드 수상", eng:7300, date:"9/06", ad:true },
-      { src:"img/ig/ht-09.jpg", brand:"스몰 브랜드", cap:"많고 많은 경량패딩 샘플들 중에서 선택된 패딩. 빵빵하면서 가볍고 + 부해 보임 없고 + 퀄, 디테일 좋은 ✨", eng:6100, date:"9/05" },
+      { src:"img/ig/ht-09.jpg", brand:"노티카", cap:"많고 많은 경량패딩 샘플들 중에서 선택된 패딩. 빵빵하면서 가볍고 + 부해 보임 없고 + 퀄, 디테일 좋은 ✨", eng:6100, date:"9/05" },
       { src:"img/ig/ht-06.jpg", brand:"Teton Bros", cap:"#광고 Functional Beauty tetonbros 🔎 Alive Lightweight Down · Goose 850FP", eng:4200, date:"9/04", ad:true },
       { src:"img/ig/ht-13.jpg", brand:"매거진", cap:"경량 패딩 이렇게 입으면 됩니다 · 요즘 유행하는 뉴발란스 실버 경량패딩 코디", eng:3900, date:"9/03" }
     ]
@@ -828,6 +876,7 @@ const io=new IntersectionObserver(es=>{ es.forEach(e=>{ if(e.isIntersecting){ ra
 railLinks.forEach(a=>{ const s=document.getElementById(a.dataset.sec); if(s) io.observe(s); });
 
 renderNow();
+renderSummary();
 selectCat();
 </script>
 </body>
