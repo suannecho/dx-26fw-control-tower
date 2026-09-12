@@ -46,8 +46,8 @@
   .rail .gate{width:52px; text-align:center; font-size:10.5px; font-weight:700; color:var(--ink-3); line-height:1.25;}
   .rail .gate b{display:block; font-size:15px; color:var(--ink); letter-spacing:-.02em;}
 
-  .main{padding:26px 32px 80px 8px; min-width:0;}
-  .inner{max-width:1260px;}
+  .main{padding:26px 36px 80px 10px; min-width:0;}
+  .inner{max-width:1800px; margin:0 auto;}
 
   /* ---------- TOP ---------- */
   .top{display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; margin-bottom:26px;}
@@ -79,6 +79,35 @@
   .gatecard .gl{font-size:12px; color:#AEB4C2; font-weight:600;}
   .gatecard .gd{font-size:40px; font-weight:800; letter-spacing:-.04em; line-height:1; margin:6px 0 4px; position:relative;}
   .gatecard .gn{font-size:12.5px; color:#D7DBE3; font-weight:500;}
+
+  /* ---------- NOW CARD (today · current category · timeline) ---------- */
+  .now{background:#fff; border-radius:var(--r); box-shadow:var(--shadow); padding:24px 26px; display:grid; grid-template-columns:auto 1fr auto; gap:30px; align-items:center; margin-bottom:22px;}
+  .now-photos{display:flex; gap:10px;}
+  .now-photos .ph{position:relative; width:136px; height:180px; border-radius:18px; overflow:hidden; background:var(--card-2);}
+  .now-photos .ph img{width:100%; height:100%; object-fit:cover; display:block;}
+  .now-photos .ph span{position:absolute; left:8px; bottom:8px; font-size:11px; font-weight:700; color:var(--ink); background:rgba(255,255,255,.92); border-radius:999px; padding:3px 9px;}
+  .now-photos .ph.empty{display:grid; place-items:center; color:var(--ink-4); font-size:12px; font-weight:600; background:var(--hatch); border:1px solid var(--line);}
+  .now-date{font-size:13px; color:var(--ink-3); font-weight:600;}
+  .now-date b{display:block; font-size:32px; font-weight:800; letter-spacing:-.035em; color:var(--ink); line-height:1.1; margin-top:2px;}
+  .now-cat{display:flex; align-items:center; gap:12px; margin-top:14px; flex-wrap:wrap;}
+  .tag-live{display:inline-flex; align-items:center; gap:7px; padding:6px 12px 6px 9px; border-radius:999px; background:var(--go-tint); color:var(--go-ink); font-size:12.5px; font-weight:800;}
+  .tag-live i{width:8px; height:8px; border-radius:50%; background:var(--go); box-shadow:0 0 0 0 rgba(23,163,91,.5); animation:pulse 1.8s infinite;}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(23,163,91,.45)} 70%{box-shadow:0 0 0 8px rgba(23,163,91,0)} 100%{box-shadow:0 0 0 0 rgba(23,163,91,0)}}
+  .nc-name{font-size:24px; font-weight:800; letter-spacing:-.03em;}
+  .nc-sub{font-size:13px; color:var(--ink-3); font-weight:500;}
+  .tl{margin-top:30px;}
+  .tl-bar{position:relative; height:12px; border-radius:99px; background:var(--hatch); border:1px solid var(--line);}
+  .tl-bar > i{position:absolute; left:0; top:0; bottom:0; border-radius:99px; background:linear-gradient(90deg,var(--brand-2),var(--brand));}
+  .tl-bar .tick{position:absolute; top:-6px; width:2px; height:22px; background:var(--ink-4); border-radius:2px; transform:translateX(-50%);}
+  .tl-bar .today{position:absolute; top:50%; transform:translate(-50%,-50%); width:20px; height:20px; border-radius:50%; background:var(--ink); border:3px solid #fff; box-shadow:0 2px 8px rgba(0,0,0,.25);}
+  .tl-bar .today::after{content:"오늘"; position:absolute; top:-30px; left:50%; transform:translateX(-50%); font-size:11px; font-weight:800; background:var(--ink); color:#fff; padding:3px 9px; border-radius:999px; white-space:nowrap;}
+  .tl-ms{display:grid; grid-template-columns:1fr 1fr 1fr; margin-top:14px; gap:10px;}
+  .ms:nth-child(2){text-align:center;} .ms:nth-child(3){text-align:right;}
+  .ms .ml{font-size:12.5px; color:var(--ink-2); font-weight:700;}
+  .ms .ml em{font-style:normal; color:var(--ink-3); font-weight:500; margin-left:5px;}
+  .ms .mv{font-size:28px; font-weight:800; letter-spacing:-.035em; line-height:1.1; margin-top:3px;}
+  .ms.past .mv{color:var(--brand);} .ms.future .mv{color:var(--ink);} .ms.na .mv{color:var(--ink-4);}
+  .ms .mh{font-size:11.5px; color:var(--ink-3); margin-top:2px;}
 
   /* ---------- SECTION HEADS ---------- */
   .sec{display:flex; align-items:baseline; justify-content:space-between; gap:14px; margin:34px 0 14px; flex-wrap:wrap;}
@@ -215,6 +244,7 @@
   /* ---------- RESPONSIVE ---------- */
   @media (max-width:1040px){
     .ws{grid-template-columns:1fr;}
+    .now{grid-template-columns:1fr;} .now-photos{justify-content:flex-start;}
     .relay{grid-template-columns:1fr 1fr;}
     .dcols{grid-template-columns:1fr;} .vs{flex-direction:row;} .vs::before,.vs::after{width:auto; height:1px;}
   }
@@ -247,20 +277,33 @@
       <div class="crumb"><b>Discovery Expedition</b> · 26FW 선제 커뮤니케이션 관제탑</div>
       <div class="right">
         <span class="pill warn">예시 데이터 · 실제 수치 미연결</span>
-        <span class="pill"><i class="dot"></i>주 1회 자동 갱신 · 판정은 월말 게이트에서</span>
+        <span class="pill"><i class="dot"></i>매일 자동 갱신 · 판정은 월말 게이트에서</span>
       </div>
     </div>
+
+    <section class="now" aria-label="오늘 상황">
+      <div class="now-photos" id="nowPhotos"></div>
+      <div>
+        <div class="now-date">오늘<b id="nowDate"></b></div>
+        <div class="now-cat">
+          <span class="tag-live"><i></i>지금 진행 중</span>
+          <span class="nc-name" id="nowName"></span>
+          <span class="nc-sub" id="nowSub"></span>
+        </div>
+        <div class="tl" id="tl"></div>
+      </div>
+      <div class="gatecard">
+        <div class="gl">다음 판정 게이트</div>
+        <div class="gd num" id="gateDay">D-12</div>
+        <div class="gn" id="gateName">GATE 3 · 11월 말</div>
+      </div>
+    </section>
 
     <header class="hero">
       <div>
         <div class="eyebrow">이번 주 판정 👋 선제 커뮤니케이션이 궤도 위에 있나요?</div>
         <h1 id="headline"><!-- injected --></h1>
         <p class="lead" id="heroSub"><!-- injected --></p>
-      </div>
-      <div class="gatecard">
-        <div class="gl">다음 판정 게이트</div>
-        <div class="gd num">D-12</div>
-        <div class="gn">GATE 3 · 11월 말 · 미드 피크 판정 확정</div>
       </div>
     </header>
 
@@ -461,6 +504,18 @@ const MATRIX_ROWS = [
 ];
 const OUT_COLOR = { success:"go", warn:"alert", fail:"alert", progress:"amber", wait:"wait" };
 
+/* ---- 캘린더 타임라인 (출시·태동·피크 실제 날짜) · 상단 '지금' 카드용 ----
+   est:true = 예측값. photos = 제품 사진(없으면 빈 프레임). 실제 연결 시 이 객체만 갱신. */
+const NOW_CAT = "light";                       // 지금 노출·판정 중인 카테고리
+const NEXT_GATE = { date:"2026-09-30", name:"GATE 1 · 9월 말 · 경량 태동 판정" };
+const TIMELINE = {
+  light: { launch:"2026-08-04", onset:{date:"2026-10-06", est:true}, peak:{date:"2026-10-20", est:true},
+           sub:"여성·남성 경량 패딩", photos:[{src:"img/light-women.jpg", cap:"여성"},{src:"img/light-men.jpg", cap:"남성"}] },
+  short: { launch:"2026-09-08", onset:{date:"2026-10-20", est:true}, peak:{date:"2026-11-10", est:true}, sub:"숏 다운", photos:[] },
+  mid:   { launch:"2026-10-13", onset:{date:"2026-11-10", est:true}, peak:{date:"2026-12-01", est:true}, sub:"미드 다운", photos:[] },
+  long:  { launch:"2026-11-10", onset:{date:"2026-12-08", est:true}, peak:{date:"2026-12-22", est:true}, sub:"롱 다운 · 방한화", photos:[] }
+};
+
 /* chart / spark colors — one place */
 const C = { brand:"#6C5CE7", brand2:"#8B7CF6", lastY:"#8A91A0", demandLine:"#C9CED6", ink:"#121418",
   grid:"#EEF0F3", axis:"#DDE1E7", tick:"#8A91A0", sparkL:"#6C5CE7", sparkR:"#0EA5E9" };
@@ -471,6 +526,44 @@ let alignMode = false;
 const mkSym = m => m==='ok'?'○':m==='no'?'✕':'—';
 const mkCls = m => m==='ok'?'ok':m==='no'?'no':'na';
 const shortName = n => n.replace(" 다운","");
+
+/* ---------------- NOW CARD ---------------- */
+const DAY = 86400000;
+const parseD = s => { const [y,m,d]=s.split("-").map(Number); return new Date(y,m-1,d); };
+function todayDate(){ const q=new URLSearchParams(location.search).get("today"); const d=q?parseD(q):new Date(); d.setHours(0,0,0,0); return d; }
+const diffDays = (a,b) => Math.round((a-b)/DAY);           // a - b (days)
+const fmtMD = d => `${d.getMonth()+1}/${d.getDate()}`;
+const WEEK = ["일","월","화","수","목","금","토"];
+function renderNow(){
+  const today=todayDate(), c=CATS[NOW_CAT], t=TIMELINE[NOW_CAT];
+  document.getElementById("nowDate").textContent = `${today.getFullYear()}년 ${today.getMonth()+1}월 ${today.getDate()}일 ${WEEK[today.getDay()]}요일`;
+  document.getElementById("nowName").textContent = c.name;
+  const launch=parseD(t.launch), onset=parseD(t.onset.date), peak=parseD(t.peak.date);
+  document.getElementById("nowSub").textContent = `${t.sub} · 출시 ${fmtMD(launch)}`;
+  // photos
+  const ph=document.getElementById("nowPhotos");
+  ph.innerHTML = (t.photos.length ? t.photos : [{},{}]).map(p => p.src
+    ? `<div class="ph"><img src="${p.src}" alt="${c.name} ${p.cap}"><span>${p.cap}</span></div>`
+    : `<div class="ph empty">사진 준비 중</div>`).join("");
+  // milestones
+  const rel = (d, before, after) => { const n=diffDays(d,today); return n>0 ? {txt:`${before} D-${n}`, cls:"future"} : {txt:`${after} +${-n}일`, cls:"past"}; };
+  const mL=rel(launch,"출시까지","출시 후"), mO=rel(onset,"태동까지","태동 후"), mP=rel(peak,"피크까지","피크 후");
+  const est = o => o.est ? "<em>예측</em>" : "";
+  const span=Math.max(1, diffDays(peak,launch)), pos=Math.max(0,Math.min(100, diffDays(today,launch)/span*100)), onsetPos=diffDays(onset,launch)/span*100;
+  document.getElementById("tl").innerHTML = `
+    <div class="tl-bar"><i style="width:${pos.toFixed(1)}%"></i><span class="tick" style="left:${onsetPos.toFixed(1)}%"></span><span class="today" style="left:${pos.toFixed(1)}%"></span></div>
+    <div class="tl-ms">
+      <div class="ms ${mL.cls}"><div class="ml">출시 <em>${fmtMD(launch)}</em></div><div class="mv num">${mL.txt}</div></div>
+      <div class="ms ${mO.cls}"><div class="ml">태동 ${est(t.onset)}<em>${fmtMD(onset)}</em></div><div class="mv num">${mO.txt}</div></div>
+      <div class="ms ${mP.cls}"><div class="ml">피크 ${est(t.peak)}<em>${fmtMD(peak)}</em></div><div class="mv num">${mP.txt}</div></div>
+    </div>`;
+  // gate
+  const g=diffDays(parseD(NEXT_GATE.date), today);
+  const gTxt = g>0 ? `D-${g}` : g===0 ? "D-DAY" : `D+${-g}`;
+  document.getElementById("gateDay").textContent = gTxt;
+  document.getElementById("gateName").textContent = NEXT_GATE.name;
+  document.querySelector(".rail .gate").innerHTML = `${NEXT_GATE.name.split(" · ")[0]}<b class="num">${gTxt}</b>`;
+}
 
 /* ---------------- HERO ---------------- */
 function renderHero(){
@@ -675,6 +768,7 @@ const railLinks=[...document.querySelectorAll(".rail a[data-sec]")];
 const io=new IntersectionObserver(es=>{ es.forEach(e=>{ if(e.isIntersecting){ railLinks.forEach(a=>a.classList.toggle("on", a.dataset.sec===e.target.id)); } }); },{rootMargin:"-30% 0px -60% 0px"});
 railLinks.forEach(a=>{ const s=document.getElementById(a.dataset.sec); if(s) io.observe(s); });
 
+renderNow();
 renderHero();
 selectCat();
 </script>
