@@ -7,13 +7,13 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
 <style>
   :root{
-    --bg:#D9DDF3; --card:#FFFFFF; --card-2:#F4F6FB; --line:#E3E8F0; --line-2:#CBD3E1;
-    --ink:#0F1533; --ink-2:#3B4363; --ink-3:#646C8A; --ink-4:#9AA3BF;
-    --brand:#4F46E5; --brand-2:#818CF8; --brand-deep:#312E81; --brand-tint:#E0E7FF; --brand-tint-2:#EEF2FF;
+    --bg:#D5DDEC; --card:#FFFFFF; --card-2:#F4F6FB; --line:#E3E8F0; --line-2:#CBD3E1;
+    --ink:#0C1830; --ink-2:#37435F; --ink-3:#5F6B87; --ink-4:#97A3BC;
+    --brand:#1E4DB7; --brand-2:#5B84E0; --brand-deep:#0F2557; --brand-tint:#DCE6F8; --brand-tint-2:#EDF2FB;
     /* signal system = information, not decoration */
-    --go:#4F46E5; --go-ink:#312E81; --go-tint:#E0E7FF; --go-tint-2:#C7D2FE;
+    --go:#1E4DB7; --go-ink:#0F2557; --go-tint:#DCE6F8; --go-tint-2:#C3D3F2;
     --alert:#E5484D; --alert-ink:#A32D31; --alert-tint:#FDE8E8; --alert-tint-2:#F9CFCF;
-    --amber:#818CF8; --amber-ink:#4338CA; --amber-tint:#EEF2FF; --amber-tint-2:#E0E7FF;
+    --amber:#5B84E0; --amber-ink:#1B3F8F; --amber-tint:#EDF2FB; --amber-tint-2:#DCE6F8;
     --wait:#9AA3BF; --wait-ink:#646C8A; --wait-tint:#F1F3F9; --wait-tint-2:#E3E8F0;
     --disrupt:#0EA5E9; --disrupt-tint:#DDF2FC;
     --r:24px; --r-sm:16px; --r-xs:12px;
@@ -38,12 +38,12 @@
   .rail{position:sticky; top:0; height:100vh; padding:22px 0; display:flex; flex-direction:column; align-items:center; gap:10px; background:var(--brand-deep);}
   .rail .logo{width:40px; height:40px; border-radius:12px; background:#fff; display:grid; place-items:center; margin-bottom:22px; box-shadow:var(--shadow-2);}
   .rail .logo svg{width:20px; height:20px;}
-  .rail a{width:42px; height:42px; border-radius:50%; display:grid; place-items:center; color:#A5B4FC; text-decoration:none; transition:background .15s, color .15s;}
+  .rail a{width:42px; height:42px; border-radius:50%; display:grid; place-items:center; color:#9DB4E6; text-decoration:none; transition:background .15s, color .15s;}
   .rail a:hover{background:rgba(255,255,255,.14); color:#fff;}
   .rail a.on{background:#fff; color:var(--brand-deep); box-shadow:var(--shadow-2);}
   .rail a svg{width:20px; height:20px;}
   .rail .sp{flex:1;}
-  .rail .gate{width:60px; text-align:center; font-size:10.5px; font-weight:700; color:#A5B4FC; line-height:1.25;}
+  .rail .gate{width:60px; text-align:center; font-size:10.5px; font-weight:700; color:#9DB4E6; line-height:1.25;}
   .rail .gate b{display:block; font-size:15px; color:#fff; letter-spacing:-.02em;}
 
   .main{padding:26px 36px 80px 32px; min-width:0;}
@@ -75,38 +75,38 @@
   .hero .lead{margin:12px 0 0; font-size:15px; color:var(--ink-2); max-width:72ch;}
   .hero .lead .flag{font-weight:700; color:var(--alert-ink);}
   .gatecard{background:#fff; color:var(--brand-deep); border-radius:var(--r); padding:18px 22px; min-width:190px; box-shadow:var(--shadow-2); position:relative; overflow:hidden;}
-  .gatecard::after{content:""; position:absolute; right:-30px; top:-30px; width:120px; height:120px; border-radius:50%; background:radial-gradient(circle, rgba(79,70,229,.18), transparent 65%);}
+  .gatecard::after{content:""; position:absolute; right:-30px; top:-30px; width:120px; height:120px; border-radius:50%; background:radial-gradient(circle, rgba(30,77,183,.18), transparent 65%);}
   .gatecard .gl{font-size:12.5px; color:var(--ink-3); font-weight:600;}
   .gatecard .gd{font-size:40px; font-weight:800; letter-spacing:-.04em; line-height:1; margin:6px 0 4px; position:relative;}
   .gatecard .gn{font-size:13px; color:var(--ink-2); font-weight:500;}
 
   /* ---------- NOW CARD (today · current category · timeline) ---------- */
-  .now{color:#fff; background:linear-gradient(120deg,#312E81 0%,#4338CA 55%,#4F46E5 100%); border-radius:var(--r); box-shadow:var(--shadow); padding:24px 26px; display:grid; grid-template-columns:auto 1fr auto; gap:30px; align-items:center; margin-bottom:22px;}
+  .now{color:#fff; background:linear-gradient(120deg,#0F2557 0%,#173C8F 55%,#1E4DB7 100%); border-radius:var(--r); box-shadow:var(--shadow); padding:24px 26px; display:grid; grid-template-columns:auto 1fr auto; gap:30px; align-items:center; margin-bottom:22px;}
   .now-photos{display:flex; gap:10px;}
   .now-photos .ph{position:relative; width:136px; height:180px; border-radius:18px; overflow:hidden; background:rgba(255,255,255,.12); box-shadow:0 0 0 2px rgba(255,255,255,.35);}
   .now-photos .ph img{width:100%; height:100%; object-fit:cover; display:block;}
   .now-photos .ph span{position:absolute; left:8px; bottom:8px; font-size:11px; font-weight:700; color:var(--ink); background:rgba(255,255,255,.92); border-radius:999px; padding:3px 9px;}
   .now-photos .ph.empty{display:grid; place-items:center; color:var(--ink-4); font-size:12px; font-weight:600; background:var(--hatch); border:1px solid var(--line);}
-  .now-date{font-size:13px; color:#C7D2FE; font-weight:600;}
+  .now-date{font-size:13px; color:#C5D3F0; font-weight:600;}
   .now-date b{display:block; font-size:32px; font-weight:800; letter-spacing:-.035em; color:#fff; line-height:1.1; margin-top:2px;}
   .now-cat{display:flex; align-items:center; gap:12px; margin-top:14px; flex-wrap:wrap;}
   .tag-live{display:inline-flex; align-items:center; gap:7px; padding:6px 12px 6px 9px; border-radius:999px; background:#fff; color:var(--brand-deep); font-size:12.5px; font-weight:800;}
-  .tag-live i{width:8px; height:8px; border-radius:50%; background:var(--brand); box-shadow:0 0 0 0 rgba(79,70,229,.6); animation:pulse 1.8s infinite;}
-  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(79,70,229,.6)} 70%{box-shadow:0 0 0 7px rgba(79,70,229,0)} 100%{box-shadow:0 0 0 0 rgba(79,70,229,0)}}
+  .tag-live i{width:8px; height:8px; border-radius:50%; background:var(--brand); box-shadow:0 0 0 0 rgba(30,77,183,.6); animation:pulse 1.8s infinite;}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(30,77,183,.6)} 70%{box-shadow:0 0 0 7px rgba(30,77,183,0)} 100%{box-shadow:0 0 0 0 rgba(30,77,183,0)}}
   .nc-name{font-size:24px; font-weight:800; letter-spacing:-.03em; color:#fff;}
   .nc-sub{font-size:13px; color:var(--ink-3); font-weight:500;}
   .tl{margin-top:30px;}
   .tl-bar{position:relative; height:12px; border-radius:99px; background:repeating-linear-gradient(135deg, rgba(255,255,255,.38) 0 1.5px, transparent 1.5px 7px), rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.25);}
-  .tl-bar > i{position:absolute; left:0; top:0; bottom:0; border-radius:99px; background:linear-gradient(90deg,#A5B4FC,#FFFFFF);}
+  .tl-bar > i{position:absolute; left:0; top:0; bottom:0; border-radius:99px; background:linear-gradient(90deg,#9DB4E6,#FFFFFF);}
   .tl-bar .tick{position:absolute; top:-6px; width:2px; height:22px; background:rgba(255,255,255,.7); border-radius:2px; transform:translateX(-50%);}
   .tl-bar .today{position:absolute; top:50%; transform:translate(-50%,-50%); width:20px; height:20px; border-radius:50%; background:#fff; border:3px solid var(--brand-deep); box-shadow:0 2px 8px rgba(0,0,0,.25);}
   .tl-bar .today::after{content:"오늘"; position:absolute; top:-30px; left:50%; transform:translateX(-50%); font-size:11px; font-weight:800; background:#fff; color:var(--brand-deep); padding:3px 9px; border-radius:999px; white-space:nowrap;}
   .tl-ms{display:grid; grid-template-columns:1fr 1fr 1fr; margin-top:14px; gap:10px;}
   .ms:nth-child(2){text-align:center;} .ms:nth-child(3){text-align:right;}
-  .ms .ml{font-size:13.5px; color:#E0E7FF; font-weight:700;}
-  .ms .ml em{font-style:normal; color:#A5B4FC; font-weight:500; margin-left:5px;}
+  .ms .ml{font-size:13.5px; color:#DCE6F8; font-weight:700;}
+  .ms .ml em{font-style:normal; color:#9DB4E6; font-weight:500; margin-left:5px;}
   .ms .mv{font-size:28px; font-weight:800; letter-spacing:-.035em; line-height:1.1; margin-top:3px;}
-  .ms.past .mv{color:#C7D2FE;} .ms.future .mv{color:#fff;} .ms.na .mv{color:#A5B4FC;}
+  .ms.past .mv{color:#C5D3F0;} .ms.future .mv{color:#fff;} .ms.na .mv{color:#9DB4E6;}
   .ms .mh{font-size:11.5px; color:var(--ink-3); margin-top:2px;}
 
   /* ---------- SECTION HEADS ---------- */
@@ -125,7 +125,7 @@
   .card:hover{transform:translateY(-2px); box-shadow:var(--shadow-2);}
   .card:focus-visible{outline:2px solid var(--ink); outline-offset:3px;}
   .card.active{box-shadow:0 0 0 2px var(--brand-deep), var(--shadow-2);}
-  .card.go{background:var(--brand); color:#fff;} .card.go .c-step,.card.go .c-range{color:#C7D2FE;} .card.go .c-state{color:#fff;} .card.go .c-state i{background:#fff;} .card.go .kpi .kl{color:#C7D2FE;} .card.go .kpi .kv{color:#fff;} .card.go .c-go{background:#fff; color:var(--brand);}
+  .card.go{background:var(--brand); color:#fff;} .card.go .c-step,.card.go .c-range{color:#C5D3F0;} .card.go .c-state{color:#fff;} .card.go .c-state i{background:#fff;} .card.go .kpi .kl{color:#C5D3F0;} .card.go .kpi .kv{color:#fff;} .card.go .c-go{background:#fff; color:var(--brand);}
   .c-top{display:flex; justify-content:space-between; align-items:flex-start;}
   .c-step{font-size:11.5px; font-weight:700; color:var(--ink-3); letter-spacing:.04em;}
   .c-name{font-size:17px; font-weight:800; letter-spacing:-.02em; display:block; margin-top:2px;}
@@ -281,7 +281,7 @@
 <div class="app">
   <!-- ============ RAIL ============ -->
   <nav class="rail" aria-label="섹션 이동">
-    <div class="logo" title="Discovery Expedition"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2l2.4 7.6H22l-6.2 4.5 2.4 7.6L12 17.2l-6.2 4.5 2.4-7.6L2 9.6h7.6L12 2z" fill="#312E81"/></svg></div>
+    <div class="logo" title="Discovery Expedition"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2l2.4 7.6H22l-6.2 4.5 2.4 7.6L12 17.2l-6.2 4.5 2.4-7.6L2 9.6h7.6L12 2z" fill="#0F2557"/></svg></div>
     <a href="#relay-sec" class="on" data-sec="relay-sec" title="카테고리별 현황"><svg viewBox="0 0 24 24" fill="none"><path d="M4 11.5 12 5l8 6.5V19a1 1 0 0 1-1 1h-4.5v-5h-5v5H5a1 1 0 0 1-1-1v-7.5z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></a>
     <a href="#ws-sec" data-sec="ws-sec" title="작년보다 앞서고 있나"><svg viewBox="0 0 24 24" fill="none"><path d="M4 18 10 11l4 4 6-8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 21h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></a>
     <a href="#diag-sec" data-sec="diag-sec" title="왜 그런가"><svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="6.5" stroke="currentColor" stroke-width="1.8"/><path d="m16 16 4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M8.5 11h5M11 8.5v5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></a>
@@ -523,8 +523,8 @@ const TIMELINE = {
 };
 
 /* chart / spark colors — one place */
-const C = { brand:"#4F46E5", brand2:"#818CF8", lastY:"#9AA3BF", demandLine:"#CBD3E1", ink:"#312E81",
-  grid:"#EDF0F6", axis:"#CBD3E1", tick:"#646C8A", sparkL:"#4F46E5", sparkR:"#4F46E5" };
+const C = { brand:"#1E4DB7", brand2:"#5B84E0", lastY:"#97A3BC", demandLine:"#CBD3E1", ink:"#0F2557",
+  grid:"#EDF0F6", axis:"#CBD3E1", tick:"#646C8A", sparkL:"#1E4DB7", sparkR:"#1E4DB7" };
 
 const ORDER = ["light","short","mid","long"];
 let current = NOW_CAT;
@@ -647,7 +647,7 @@ function sparkline(id, arr, color){
     `<circle cx="${pts[pts.length-1][0].toFixed(1)}" cy="${pts[pts.length-1][1].toFixed(1)}" r="4" fill="${color}" stroke="#fff" stroke-width="2"/>`;
 }
 let _rs; window.addEventListener("resize", ()=>{ clearTimeout(_rs); _rs=setTimeout(()=>{ renderDiag(); buildChart(); }, 120); });
-const ICON_OK =`<svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#4F46E5"/><path d="M7.5 12.5l3 3 6-7" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+const ICON_OK =`<svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#1E4DB7"/><path d="M7.5 12.5l3 3 6-7" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 const ICON_BAD=`<svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#E5484D"/><path d="M12 7.5v5.5" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/><circle cx="12" cy="16.5" r="1.3" fill="#fff"/></svg>`;
 function renderDiag(){
   const c=CATS[current];
@@ -688,16 +688,15 @@ const IG = {
       { src:"img/ig/ig-05.jpg", cap:"#디스커버리 #DISCOVERY 🍃🍃", eng:1730, date:"9/01" }
     ],
     hashtag: [
-      { src:"img/ig/ig-09.jpg", cap:"#경량패딩 장만하기 딱 좋은 타이밍 🍁", eng:7420, date:"9/11", ours:true },
-      { src:"img/ig/ig-05.jpg", cap:"#경량패딩 #가을코디 🍃", eng:6880, date:"9/10", ours:true },
-      { src:"img/ig/ig-06.jpg", cap:"#경량패딩 #데일리룩 살짝 서늘해지자마자", eng:5210, date:"9/09", ours:true },
-      { src:"img/ig/ig-03.jpg", cap:"#경량패딩 초경량이라 몸에 감기는 느낌", eng:4930, date:"9/08", ours:true },
-      { src:"img/ig/ig-02.jpg", cap:"#경량패딩 #후드패딩 가볍게 걸치기 좋은", eng:4360, date:"9/07", ours:true },
-      { src:"img/ig/ig-04.jpg", cap:"#경량패딩 #여행룩 산 위로 올라가니 살짝 쌀쌀", eng:3970, date:"9/06", ours:true },
-      { src:"img/ig/ig-08.jpg", cap:"#경량패딩 스포티하게 툭 걸쳐도 실루엣이 예뻤던", eng:3150, date:"9/05", ours:true },
-      { src:"img/ig/ig-10.jpg", cap:"#경량패딩 #액티브웰니스", eng:2840, date:"9/04", ours:true },
-      { src:"img/ig/ig-01.jpg", cap:"#경량패딩 #가을캠페인", eng:2610, date:"9/03", ours:true },
-      { src:"img/ig/ig-07.mp4", poster:"img/ig/ig-01.jpg", cap:"#경량패딩 빈칸 채우기 챌린지", eng:2280, date:"9/02", ours:true, video:true }
+      { src:"img/ig/ht-08.jpg", brand:"Parfait", cap:"[겨울에 사면 늦어요 지금 사야 할 경량패딩] 요즘 갑자기 훅- 쌀쌀해진 거 느껴지죠", eng:21300, date:"9/12" },
+      { src:"img/ig/ht-04.jpg", brand:"뉴발란스", cap:"춥댜추워ㅓ #광고 #플라잉77구스다운 #경량패딩", eng:15800, date:"9/11", ad:true },
+      { src:"img/ig/ht-01.jpg", brand:"마하그리드", cap:"#광고 겨울엔 역시 큼직한 실루엣이 제맛 🖤 넉넉하게 떨어지는 핏이라 레이어드해서 입기도 좋고", eng:12400, date:"9/10", ad:true },
+      { src:"img/ig/ht-03.jpg", brand:"노스페이스", cap:"#광고 이제 가을겨울 시즌만 남았다🍂 아침저녁으로 쌀쌀한 날씨에 가볍게 걸쳐주기 좋은 노스페이스 라이트", eng:11900, date:"9/09", ad:true },
+      { src:"img/ig/ht-05.jpg", brand:"뉴발란스", cap:"#광고 저랑 가을 겨울 준비 할 사람 💨 뉴발란스 플라잉 77 구스다운으로 데일리 룩부터 아웃도어 룩까지", eng:9700, date:"9/08", ad:true },
+      { src:"img/ig/ht-02.jpg", brand:"무신사", cap:"#광고 뭐든 일찍 준비해서 나쁠건 없지! 무신사 경량 패딩 스타일링 기획전 10~20일", eng:8600, date:"9/07", ad:true },
+      { src:"img/ig/ht-12.jpg", brand:"헬리녹스", cap:"#광고 헬리녹스 웨어의 이클립스 팩 다운 자켓. 지난 시즌 완판 + 2026 레드닷 어워드 수상", eng:7300, date:"9/06", ad:true },
+      { src:"img/ig/ht-09.jpg", brand:"리뷰", cap:"많고 많은 경량패딩 샘플들 중에서 선택된 패딩. 빵빵하면서 가볍고 + 부해 보임 없고 + 퀄, 디테일 좋은 ✨", eng:6100, date:"9/05" },
+      { src:"img/ig/ht-06.jpg", brand:"Teton Bros", cap:"#광고 Functional Beauty tetonbros 🔎 Alive Lightweight Down · Goose 850FP", eng:4200, date:"9/04", ad:true }
     ]
   }
 };
@@ -705,7 +704,7 @@ let igTab = "tagged";
 const fmtN = n => n>=10000 ? (n/10000).toFixed(1).replace(/\.0$/,"")+"만" : n.toLocaleString("ko-KR");
 function renderContent(){
   const c=CATS[current], data=(IG[current]||{})[igTab]||[];
-  document.getElementById("igTitle").textContent = igTab==="tagged" ? "우리 브랜드가 태그된 콘텐츠 TOP 10" : "#경량패딩 인기 콘텐츠 TOP 10";
+  document.getElementById("igTitle").textContent = igTab==="tagged" ? "우리 브랜드가 태그된 콘텐츠 TOP 10" : "#경량패딩 인기 콘텐츠 TOP 9";
   const g=document.getElementById("igGrid");
   if(!data.length){ g.innerHTML=`<div class="ig-empty" style="grid-column:1/-1">${c.name}은 아직 노출 전입니다.</div>`; return; }
   g.innerHTML = data.slice(0,10).map((p,i)=>`
@@ -713,7 +712,7 @@ function renderContent(){
       <div class="th">
         ${p.video ? `<video src="${p.src}" ${p.poster?`poster="${p.poster}"`:""} muted loop playsinline preload="metadata" onmouseenter="this.play()" onmouseleave="this.pause()"></video>` : `<img src="${p.src}" alt="" loading="lazy">`}
         <span class="rank">${i+1}</span>
-        ${p.video ? `<span class="tag">영상</span>` : p.ad ? `<span class="tag">광고</span>` : ``}
+        ${p.brand ? `<span class="tag">${p.brand}</span>` : p.video ? `<span class="tag">영상</span>` : p.ad ? `<span class="tag">광고</span>` : ``}
       </div>
       <div class="cap">${p.cap}</div>
       <div class="meta"><span><b class="num">${fmtN(p.eng)}</b> 반응</span><span class="num">${p.date}</span></div>
@@ -791,7 +790,7 @@ function buildChart(){
   const gTop=(PT/VB_H*100).toFixed(2), gBot=(PB/VB_H*100).toFixed(2);
   holder.innerHTML=svg+
     `<div id="cGuide" style="position:absolute;top:${gTop}%;bottom:${gBot}%;width:0;border-left:1.5px dashed #9AA3BF;display:none;pointer-events:none;"></div>`+
-    `<div id="cTip" style="position:absolute;display:none;pointer-events:none;background:#312E81;color:#fff;font-size:12.5px;line-height:1.6;padding:10px 13px;border-radius:14px;box-shadow:0 10px 30px rgba(18,20,24,.25);white-space:nowrap;z-index:5;min-width:132px;"></div>`;
+    `<div id="cTip" style="position:absolute;display:none;pointer-events:none;background:#0F2557;color:#fff;font-size:12.5px;line-height:1.6;padding:10px 13px;border-radius:14px;box-shadow:0 10px 30px rgba(18,20,24,.25);white-space:nowrap;z-index:5;min-width:132px;"></div>`;
   attachHover(labels,lastY,t);
 }
 function attachHover(labels,lastY,t){
