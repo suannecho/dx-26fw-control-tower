@@ -111,9 +111,9 @@
   .ms .mh{font-size:11.5px; color:var(--ink-3); margin-top:2px;}
 
   /* ---------- TODAY SUMMARY ---------- */
-  .summary{background:#fff; border-radius:var(--r); box-shadow:var(--shadow); padding:20px 26px; display:grid; grid-template-columns:1.25fr 1fr; gap:24px; align-items:center; margin-bottom:22px;}
+  .summary{background:#fff; border-radius:var(--r); box-shadow:var(--shadow); padding:20px 26px; margin-bottom:22px;}
   .sm-k{font-size:12px; font-weight:800; letter-spacing:.08em; color:var(--ink-3); margin-bottom:6px;}
-  .sm-h{font-size:22px; font-weight:800; letter-spacing:-.03em; line-height:1.3;}
+  .sm-h{font-size:24px; font-weight:800; letter-spacing:-.03em; line-height:1.3;}
   .sm-h em{font-style:normal; color:var(--accent);}
   .sm-b{font-size:14px; color:var(--ink-2); margin-top:6px; line-height:1.55;}
   .sm-list{display:grid; gap:6px;}
@@ -125,6 +125,31 @@
   .sm-row.alert i{background:var(--alert);} .sm-row.alert .st{color:var(--alert-ink);}
   .sm-row.amber i{background:var(--amber);} .sm-row.amber .st{color:var(--amber-ink);}
   .sm-row.wait i{background:var(--wait);} .sm-row.wait .st{color:var(--wait-ink);}
+
+  /* ---------- STRATEGY (AI) ---------- */
+  .ai-badge{display:inline-flex; align-items:center; gap:7px; padding:6px 12px; border-radius:999px; background:var(--accent); color:#fff; font-size:12.5px; font-weight:800; box-shadow:0 4px 14px var(--accent-glow);}
+  .ai-badge i{width:8px; height:8px; border-radius:50%; background:#fff;}
+  .st-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:14px;}
+  .st{background:#fff; border-radius:var(--r); box-shadow:var(--shadow); padding:22px 24px; display:flex; flex-direction:column; gap:14px;}
+  .st-from{display:flex; align-items:center; gap:8px; font-size:12.5px; color:var(--ink-3); font-weight:600;}
+  .st-from .chip{display:inline-flex; align-items:center; gap:6px; padding:4px 10px; border-radius:999px; font-weight:800; font-size:12px;}
+  .st-from .chip i{width:7px; height:7px; border-radius:50%;}
+  .chip.go{background:var(--go-tint); color:var(--go-ink);} .chip.go i{background:var(--go);}
+  .chip.alert{background:var(--alert-tint); color:var(--alert-ink);} .chip.alert i{background:var(--alert);}
+  .chip.amber{background:var(--amber-tint); color:var(--amber-ink);} .chip.amber i{background:var(--amber);}
+  .st-from .arrow{color:var(--ink-4);}
+  .st-from .to{color:var(--ink); font-weight:800;}
+  .st h4{margin:0; font-size:17px; font-weight:800; letter-spacing:-.02em; line-height:1.35;}
+  .st h4 em{font-style:normal; color:var(--accent);}
+  .st ul{margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:10px;}
+  .st li{display:flex; gap:10px; font-size:13.5px; color:var(--ink-2); line-height:1.55;}
+  .st li::before{content:""; width:22px; height:22px; flex:0 0 22px; border-radius:7px; background:var(--brand-tint); margin-top:1px;
+    -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27%3E%3Cpath d=%27M7 12.5l3 3 7-7%27 fill=%27none%27 stroke=%27black%27 stroke-width=%272.4%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27/%3E%3C/svg%3E") center/16px no-repeat, linear-gradient(#000 0 0);
+    -webkit-mask-composite:xor; mask-composite:exclude; background:var(--brand);}
+  .st li b{color:var(--ink);}
+  .st .basis{margin-top:auto; padding-top:12px; border-top:1px dashed var(--line-2); font-size:12px; color:var(--ink-3); line-height:1.6;}
+  .st .basis b{color:var(--ink-2); font-weight:700;}
+  .st-note{margin:12px 4px 0; font-size:12.5px; color:var(--ink-2);}
 
   /* ---------- SECTION HEADS ---------- */
   .sec{display:flex; align-items:baseline; justify-content:space-between; gap:14px; margin:34px 0 14px; flex-wrap:wrap;}
@@ -255,8 +280,8 @@
   .ig:hover{transform:translateY(-2px); box-shadow:var(--shadow-2);}
   .ig .th{position:relative; aspect-ratio:4/5; background:#E3E8F0; overflow:hidden;}
   .ig .th img,.ig .th video{width:100%; height:100%; object-fit:cover; display:block;}
-  .ig .rank{position:absolute; left:10px; top:10px; min-width:36px; height:36px; padding:0 10px; border-radius:999px; background:var(--brand); color:#fff; font-size:16px; font-weight:900; display:grid; place-items:center; box-shadow:0 0 0 3px #fff, 0 4px 12px rgba(27,35,80,.25);}
-  .ig:nth-child(-n+3) .rank{background:var(--accent);}
+  .ig .rank{position:absolute; left:10px; top:10px; min-width:30px; height:30px; padding:0 9px; border-radius:10px; background:rgba(255,255,255,.96); color:var(--ink); font-size:13.5px; font-weight:800; display:grid; place-items:center; box-shadow:0 2px 10px rgba(27,35,80,.18);}
+  .ig:nth-child(-n+3) .rank{background:var(--accent); color:#fff;}
   .ig .tag{position:absolute; right:8px; top:8px; font-size:11px; font-weight:800; background:rgba(255,255,255,.92); color:var(--ink-2); border-radius:999px; padding:3px 8px;}
   .ig .cap{font-size:12.5px; padding:10px 12px 4px; color:var(--ink-2); line-height:1.45; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;}
   .ig .meta{display:flex; justify-content:space-between; align-items:baseline; padding:2px 12px 11px; font-size:12px; color:var(--ink-3); margin-top:auto;}
@@ -279,10 +304,10 @@
   @media (max-width:1040px){
     .ws{grid-template-columns:1fr;}
     .now{grid-template-columns:1fr;} .now-photos{justify-content:flex-start;}
-    .summary{grid-template-columns:1fr;}
     .relay{grid-template-columns:1fr 1fr;}
     .dcols{grid-template-columns:1fr;} .vs{flex-direction:row;} .vs::before,.vs::after{width:auto; height:1px;}
     .ig-grid{grid-template-columns:repeat(3,1fr);}
+    .st-grid{grid-template-columns:1fr;}
   }
   @media (max-width:760px){
     .app{grid-template-columns:1fr;} .rail{display:none;}
@@ -304,6 +329,7 @@
     <a href="#relay-sec" class="on" data-sec="relay-sec" title="카테고리별 현황"><svg viewBox="0 0 24 24" fill="none"><path d="M4 11.5 12 5l8 6.5V19a1 1 0 0 1-1 1h-4.5v-5h-5v5H5a1 1 0 0 1-1-1v-7.5z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></a>
     <a href="#ws-sec" data-sec="ws-sec" title="브랜드 관심도"><svg viewBox="0 0 24 24" fill="none"><path d="M4 18 10 11l4 4 6-8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 21h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></a>
     <a href="#diag-sec" data-sec="diag-sec" title="원인 분석"><svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="6.5" stroke="currentColor" stroke-width="1.8"/><path d="m16 16 4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M8.5 11h5M11 8.5v5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></a>
+    <a href="#strategy-sec" data-sec="strategy-sec" title="전략 제안"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3l1.8 4.6L18.5 9.4l-4.7 1.8L12 16l-1.8-4.8L5.5 9.4l4.7-1.8L12 3z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M18 15l.9 2.1L21 18l-2.1.9L18 21l-.9-2.1L15 18l2.1-.9L18 15z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></a>
     <div class="sp"></div>
     <div class="gate">결과 확인<b class="num">D-12</b></div>
   </nav>
@@ -341,7 +367,6 @@
         <div class="sm-h" id="smHead"></div>
         <div class="sm-b" id="smBody"></div>
       </div>
-      <div class="sm-list" id="smList"></div>
     </section>
 
     <!-- RELAY -->
@@ -446,6 +471,14 @@
       </div>
       <div class="ig-grid" id="igGrid"></div>
     </section>
+
+    <!-- STRATEGY (AI) -->
+    <div class="sec" id="strategy-sec">
+      <h2>다음 카테고리 전략 제안 <span>판정이 끝난 카테고리의 학습을 다음 카테고리에 적용</span></h2>
+      <span class="ai-badge"><i></i>AI 제안 · 예시</span>
+    </div>
+    <div class="st-grid" id="stGrid"></div>
+    <p class="st-note">제안은 판정 데이터(태동·피크 %p, 검색 비중, 콘텐츠 반응)를 바탕으로 자동 생성되며, 최종 결정은 월말 결과 확인에서 합니다.</p>
 
   </div></main>
 </div>
@@ -607,7 +640,6 @@ function renderSummary(){
             : c.verdictKey==="progress"? `태동 통과 · 피크 ${fmtMD(parseD(t.peak.date))} 판정`
             : `${fmtMD(parseD(t.launch))}부터 노출`;
     return `<div class="sm-row ${c.sig}"><i></i><b>${c.name}</b><span class="st">${c.state}</span><span>${d}</span></div>`; }).join("");
-  document.getElementById("smList").innerHTML = rows;
   const warn = ORDER.map(k=>CATS[k]).find(c=>c.verdictKey==="warn"||c.verdictKey==="fail");
   const prog = ORDER.map(k=>CATS[k]).find(c=>c.verdictKey==="progress");
   let head, body;
@@ -617,6 +649,44 @@ function renderSummary(){
   if(warn && prog){ body += ` 지금 진행 중인 <b>${prog.name}</b>은 태동을 통과했고, 피크(${fmtMD(parseD(TIMELINE[ORDER.find(k=>CATS[k]===prog)].peak.date))})에 노출을 집중합니다.`; }
   document.getElementById("smHead").innerHTML = head;
   document.getElementById("smBody").innerHTML = body;
+}
+
+/* ---------------- STRATEGY (AI) ----------------
+   실제 연결 시 판정 데이터(CATS)를 Claude API에 넘겨 같은 구조(JSON)로 받아 채운다. 지금은 예시. */
+const STRATEGY = [
+  { from:"light", to:"롱 다운 · 방한화",
+    title:"경량에서 통한 <em>63일 리드타임</em>을 롱 다운에도 확보",
+    tips:[
+      "롱 다운은 태동 예상(12/22)의 <b>21일 전</b>에야 노출이 시작됩니다. 경량처럼 태동 2개월 전 노출이 어렵다면 <b>첫 2주에 시딩 물량을 몰아</b> 리드타임 부족을 상쇄합니다.",
+      "경량 태그 콘텐츠 1위는 앰버서더 캠페인 컷(반응 1.8만)으로 인플루언서 평균의 <b>4배</b>. 롱 다운 노출 첫 주에 <b>캠페인 컷을 선공개</b>합니다.",
+      "경량은 피크에서도 +14%p를 유지했으므로 노출 배분(초반 60% · 피크 40%)을 <b>롱 다운 기본안</b>으로 둡니다."
+    ],
+    basis:"태동 +21%p · 피크 +14%p · 리드타임 +63일 · 검색 비중 24.1%↑" },
+  { from:"short", to:"미드 다운",
+    title:"숏의 <em>피크 역전</em>을 미드에서 반복하지 않기",
+    tips:[
+      "숏은 태동 땐 +16%p 앞섰지만 피크에서 −5%p로 밀렸습니다. 미드는 <b>피크(12/14) 직전 2주</b>에 노출을 다시 집중합니다.",
+      "피크 주간 해시태그 상위 10 중 <b>7건이 경쟁 브랜드 광고</b>(뉴발란스·노스페이스). 같은 주 맞불보다 <b>피크 1주 전 선점</b>이 유리합니다.",
+      "검색 비중 하락(23.4%→21.4%)은 콘텐츠 반응이 정상인 상태에서 생겼습니다. <b>콘텐츠 교체가 아니라 예산 시점 이동</b>이 답입니다."
+    ],
+    basis:"태동 +16%p · 피크 −5%p · 검색 비중 23.4%→21.4% · 게시 완료 72%" },
+  { from:"mid", to:"롱 다운 · 방한화",
+    title:"미드는 문턱을 <em>겨우 통과</em>, 롱은 여유를 만들 것",
+    tips:[
+      "미드 태동 +9%p는 통과 기준(+8%p)을 1%p 차로 넘었습니다. 롱은 노출 시작 시점의 <b>시딩 계정 수를 1.5배</b>로 늘려 초반 관심도를 더 높입니다.",
+      "미드 검색 비중은 18.7%로 정체(→). 롱 다운은 매출이 가장 큰 구간이므로 <b>피크 4주 전부터 검색 광고를 병행</b>해 비중을 끌어올립니다.",
+      "12/31 결과 확인에서 미드 피크 판정이 나오면, 그 결과로 롱 다운의 <b>1월 피크 노출 비중</b>을 최종 조정합니다."
+    ],
+    basis:"태동 +9%p (기준 +8%p) · 검색 비중 18.7%→ · 피크 12/14 판정 예정" }
+];
+function renderStrategy(){
+  document.getElementById("stGrid").innerHTML = STRATEGY.map(s=>{ const c=CATS[s.from];
+    return `<article class="st">
+      <div class="st-from"><span class="chip ${c.sig}"><i></i>${c.name} · ${c.state}</span><span class="arrow">→</span><span class="to">${s.to}</span></div>
+      <h4>${s.title}</h4>
+      <ul>${s.tips.map(t=>`<li><span>${t}</span></li>`).join("")}</ul>
+      <div class="basis"><b>근거</b> ${s.basis}</div>
+    </article>`; }).join("");
 }
 
 /* ---------------- RELAY CARDS ---------------- */
@@ -715,7 +785,7 @@ function renderDiag(){
   setTxt("mvView",  c.diag.viewTxt||"—",  c.diag.viewCls);
   sparkline("sparkResp", c.diag.resp, C.sparkL);
   sparkline("sparkBrand", c.diag.brand, C.sparkR);
-  sparkline("sparkSos", c.diag.sos||[], C.sparkR, C.accent);
+  sparkline("sparkSos", c.diag.sos||[], C.accent, C.accent);
   sparkline("sparkView", c.diag.view, C.sparkR);
   renderContent();
 }
@@ -877,6 +947,7 @@ railLinks.forEach(a=>{ const s=document.getElementById(a.dataset.sec); if(s) io.
 
 renderNow();
 renderSummary();
+renderStrategy();
 selectCat();
 </script>
 </body>
