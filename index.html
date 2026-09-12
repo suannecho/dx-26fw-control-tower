@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DX 26FW 미리 알리기 현황판</title>
+<title>DX 26FW 선제 마케팅 대시보드</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
 <style>
   :root{
@@ -21,7 +21,7 @@
     --shadow-2:0 8px 28px rgba(18,20,24,.10);
     --hatch:repeating-linear-gradient(135deg, #CBD3E1 0 1.5px, transparent 1.5px 7px);
   }
-  *{box-sizing:border-box;}
+  *{box-sizing:border-box;} [hidden]{display:none!important;}
   html{-webkit-text-size-adjust:100%;}
   body{
     margin:0; background:var(--bg); color:var(--ink);
@@ -34,19 +34,19 @@
   button{font:inherit; color:inherit;}
 
   /* ---------- APP SHELL ---------- */
-  .app{display:grid; grid-template-columns:84px 1fr; min-height:100vh;}
+  .app{display:grid; grid-template-columns:64px 1fr; min-height:100vh;}
   .rail{position:sticky; top:0; height:100vh; padding:22px 0; display:flex; flex-direction:column; align-items:center; gap:10px; background:var(--brand-deep);}
-  .rail .logo{width:44px; height:44px; border-radius:14px; background:#fff; display:grid; place-items:center; margin-bottom:22px; box-shadow:var(--shadow-2);}
+  .rail .logo{width:40px; height:40px; border-radius:12px; background:#fff; display:grid; place-items:center; margin-bottom:22px; box-shadow:var(--shadow-2);}
   .rail .logo svg{width:20px; height:20px;}
-  .rail a{width:46px; height:46px; border-radius:50%; display:grid; place-items:center; color:#A5B4FC; text-decoration:none; transition:background .15s, color .15s;}
+  .rail a{width:42px; height:42px; border-radius:50%; display:grid; place-items:center; color:#A5B4FC; text-decoration:none; transition:background .15s, color .15s;}
   .rail a:hover{background:rgba(255,255,255,.14); color:#fff;}
   .rail a.on{background:#fff; color:var(--brand-deep); box-shadow:var(--shadow-2);}
   .rail a svg{width:20px; height:20px;}
   .rail .sp{flex:1;}
-  .rail .gate{width:52px; text-align:center; font-size:10.5px; font-weight:700; color:#A5B4FC; line-height:1.25;}
+  .rail .gate{width:60px; text-align:center; font-size:10.5px; font-weight:700; color:#A5B4FC; line-height:1.25;}
   .rail .gate b{display:block; font-size:15px; color:#fff; letter-spacing:-.02em;}
 
-  .main{padding:26px 36px 80px 10px; min-width:0;}
+  .main{padding:26px 36px 80px 32px; min-width:0;}
   .inner{max-width:1800px; margin:0 auto;}
 
   /* ---------- TOP ---------- */
@@ -162,8 +162,9 @@
   .seg button.on{background:var(--brand-deep); color:#fff; box-shadow:var(--shadow);}
   .seg button:focus-visible{outline:2px solid var(--brand); outline-offset:1px;}
 
-  .chart-holder{position:relative;}
-  .chart-holder svg{display:block; width:100%; height:auto;}
+  .panel.chart{display:flex; flex-direction:column;}
+  .chart-holder{position:relative; flex:1; min-height:300px;}
+  .chart-holder svg{position:absolute; inset:0; width:100%; height:100%; display:block;}
   .legend{display:flex; gap:18px; flex-wrap:wrap; margin-top:12px; font-size:13px; color:var(--ink-2);}
   .legend span{display:inline-flex; align-items:center; gap:7px;}
   .legend i{width:18px; height:4px; border-radius:99px; display:inline-block; background:var(--brand);}
@@ -173,7 +174,7 @@
   .legend i.mk.dash{background:repeating-linear-gradient(180deg,var(--brand-deep) 0 4px, transparent 4px 7px);}
 
   /* ---------- CROSS JUDGMENT ---------- */
-  .xj{display:grid; grid-template-columns:1fr auto 1fr; gap:10px; align-items:stretch;}
+  .xj{display:grid; grid-template-columns:1fr 1fr; gap:10px; align-items:stretch;}
   .pt{border-radius:var(--r-sm); padding:16px 16px 14px; display:flex; flex-direction:column; gap:4px; background:var(--card-2);}
   .pt.ok{background:var(--go-tint);} .pt.no{background:var(--alert-tint);} .pt.na{background:var(--card-2);}
   .pt .w{font-size:13px; font-weight:700; color:var(--ink-2); display:flex; align-items:center; gap:7px;}
@@ -208,14 +209,14 @@
   .dv.bad{background:var(--alert-tint);}
   .dv b{color:var(--ink);} .dv.bad b{color:var(--alert-ink);}
   .dcols{display:grid; grid-template-columns:1fr auto 1fr; gap:14px; align-items:stretch;}
-  .dcol{border-radius:var(--r-sm); padding:18px 20px; background:var(--card-2);}
+  .dcol{border-radius:var(--r-sm); padding:18px 20px; background:var(--card-2); display:flex; flex-direction:column;}
   .dcol h4{margin:0 0 14px; font-size:15.5px; font-weight:800; letter-spacing:-.02em; display:flex; align-items:center; gap:8px;}
   .dcol h4 .src{font-size:10px; font-weight:800; letter-spacing:.08em; color:var(--ink-3); background:#fff; border-radius:6px; padding:3px 7px;}
   .dcol .dsub{font-size:12.5px; color:var(--ink-3); margin:3px 0 16px;}
   .vs{display:flex; flex-direction:column; align-items:center; gap:8px; color:var(--ink-3); font-size:10.5px; font-weight:800; letter-spacing:.08em;}
   .vs::before,.vs::after{content:""; flex:1; width:1px; background:var(--line-2);}
   .vs span{width:34px; height:34px; border-radius:50%; background:#fff; box-shadow:var(--shadow); display:grid; place-items:center;}
-  .metric{margin-bottom:16px;} .metric:last-child{margin-bottom:0;}
+  .metric{margin-bottom:16px; display:flex; flex-direction:column;} .metric.grow{flex:1;} .metric:last-child{margin-bottom:0;}
   .mt{display:flex; justify-content:space-between; align-items:baseline; font-size:13.5px; margin-bottom:8px;}
   .mt .mk-{color:var(--ink-2); font-weight:500;}
   .mt .mv{font-weight:800; font-size:16px; letter-spacing:-.02em;}
@@ -223,11 +224,26 @@
   .bar{height:16px; border-radius:999px; background:var(--hatch); overflow:hidden; border:1px solid var(--line);}
   .bar > i{display:block; height:100%; border-radius:999px; background:var(--brand);}
   .bar > i.go{background:var(--go);} .bar > i.amber{background:var(--amber);}
-  .spark{display:block; width:100%; height:48px;}
+  .sparkwrap{position:relative; flex:1; min-height:60px;}
+  .spark{position:absolute; inset:0; width:100%; height:100%; display:block;}
   .cap{display:flex; justify-content:space-between; font-size:11px; color:var(--ink-4); margin-top:5px;}
   .note{margin-top:14px; font-size:12.5px; color:var(--ink-3); display:flex; gap:9px; align-items:flex-start; padding:12px 14px; border-radius:var(--r-xs); background:var(--card-2);}
   .note svg{flex:0 0 15px; margin-top:2px;}
   .note b{color:var(--ink-2);}
+  /* ---------- CONTENT GRID ---------- */
+  .ig-head{display:flex; justify-content:space-between; align-items:center; gap:12px; margin:24px 0 12px; flex-wrap:wrap;}
+  .ig-head h4{margin:0; font-size:15.5px; font-weight:800; letter-spacing:-.02em;}
+  .ig-grid{display:grid; grid-template-columns:repeat(5,1fr); gap:12px;}
+  .ig{background:var(--card-2); border-radius:16px; overflow:hidden; display:flex; flex-direction:column; text-decoration:none; color:inherit; transition:transform .15s, box-shadow .15s;}
+  .ig:hover{transform:translateY(-2px); box-shadow:var(--shadow-2);}
+  .ig .th{position:relative; aspect-ratio:4/5; background:#E3E8F0; overflow:hidden;}
+  .ig .th img,.ig .th video{width:100%; height:100%; object-fit:cover; display:block;}
+  .ig .rank{position:absolute; left:8px; top:8px; min-width:26px; height:26px; padding:0 8px; border-radius:999px; background:var(--brand-deep); color:#fff; font-size:12px; font-weight:800; display:grid; place-items:center;}
+  .ig .tag{position:absolute; right:8px; top:8px; font-size:11px; font-weight:800; background:rgba(255,255,255,.92); color:var(--ink-2); border-radius:999px; padding:3px 8px;}
+  .ig .cap{font-size:12.5px; padding:10px 12px 4px; color:var(--ink-2); line-height:1.45; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;}
+  .ig .meta{display:flex; justify-content:space-between; align-items:baseline; padding:2px 12px 11px; font-size:12px; color:var(--ink-3); margin-top:auto;}
+  .ig .meta b{color:var(--ink); font-size:13.5px;}
+  .ig-empty{padding:28px; text-align:center; color:var(--ink-3); background:var(--card-2); border-radius:16px; font-size:13.5px;}
   .mentions{margin-top:22px;}
   .mentions h4{font-size:15.5px; font-weight:800; margin:0 0 8px; letter-spacing:-.02em;}
   table{width:100%; border-collapse:separate; border-spacing:0 6px; font-size:13.5px;}
@@ -247,6 +263,7 @@
     .now{grid-template-columns:1fr;} .now-photos{justify-content:flex-start;}
     .relay{grid-template-columns:1fr 1fr;}
     .dcols{grid-template-columns:1fr;} .vs{flex-direction:row;} .vs::before,.vs::after{width:auto; height:1px;}
+    .ig-grid{grid-template-columns:repeat(3,1fr);}
   }
   @media (max-width:760px){
     .app{grid-template-columns:1fr;} .rail{display:none;}
@@ -254,6 +271,7 @@
     .hero{grid-template-columns:1fr;} .gatecard{min-width:0;}
     .relay{grid-template-columns:1fr;}
     .xj{grid-template-columns:1fr;} .xj .times{display:none;}
+    .ig-grid{grid-template-columns:repeat(2,1fr);}
     .pt .gv{font-size:40px;}
   }
   @media (prefers-reduced-motion:reduce){ *{transition:none !important;} }
@@ -268,13 +286,13 @@
     <a href="#ws-sec" data-sec="ws-sec" title="작년보다 앞서고 있나"><svg viewBox="0 0 24 24" fill="none"><path d="M4 18 10 11l4 4 6-8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 21h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></a>
     <a href="#diag-sec" data-sec="diag-sec" title="왜 그런가"><svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="6.5" stroke="currentColor" stroke-width="1.8"/><path d="m16 16 4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M8.5 11h5M11 8.5v5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></a>
     <div class="sp"></div>
-    <div class="gate">다음 판정<b class="num">D-12</b></div>
+    <div class="gate">결과 확인<b class="num">D-12</b></div>
   </nav>
 
   <!-- ============ MAIN ============ -->
   <main class="main"><div class="inner">
     <div class="top">
-      <div class="crumb"><b>Discovery Expedition</b> · 26FW 미리 알리기 현황판</div>
+      <div class="crumb"><b>Discovery Expedition</b> · 26FW 선제 마케팅 대시보드</div>
       <div class="right">
         <span class="pill warn">예시 데이터 · 실제 수치 미연결</span>
         <span class="pill"><i class="dot"></i>매일 자동 갱신</span>
@@ -292,7 +310,7 @@
         <div class="tl" id="tl"></div>
       </div>
       <div class="gatecard">
-        <div class="gl">다음 판정일</div>
+        <div class="gl">다음 결과 확인</div>
         <div class="gd num" id="gateDay">D-12</div>
         <div class="gn" id="gateName">9월 30일</div>
       </div>
@@ -300,7 +318,7 @@
 
     <!-- RELAY -->
     <div class="sec" id="relay-sec">
-      <h2>카테고리별 현황 <span>경량 → 숏 → 미드 → 롱 순서</span></h2>
+      <h2>카테고리별 현황 <span>경량 → 숏 → 미드 → 롱</span></h2>
     </div>
     <div class="relay" id="relay"></div>
 
@@ -310,7 +328,7 @@
       <span class="sel"><i></i><span id="selName">숏 다운</span></span>
     </div>
     <div class="ws">
-      <section class="panel">
+      <section class="panel chart">
         <div class="p-head">
           <div><h3>브랜드 관심도 · 올해 vs 작년</h3><span class="ps" id="trackerSub">우리 브랜드 검색량 + 자사몰 조회수 + 패딩 검색 중 우리 비중 (0~100 환산)</span></div>
           <div class="seg" role="group" aria-label="비교 기준">
@@ -338,7 +356,6 @@
             <div class="thr" id="onThr">문턱 +8%p</div>
             <div class="mark ok" id="onMark">통과</div>
           </div>
-          <div class="times">×</div>
           <div class="pt no" id="ptPeak">
             <div class="w"><i class="dash"></i>피크 때</div>
             <div class="ws-s">가장 많이 팔릴 때</div>
@@ -366,51 +383,44 @@
             <div class="mt"><span class="mk-">계획 대비 게시 완료</span><span class="mv num" id="mvPost">72%</span></div>
             <div class="bar"><i class="go" id="barPost" style="width:72%"></i></div>
           </div>
-          <div class="metric">
-            <div class="mt"><span class="mk-">제품명이 들어간 게시물 비율</span><span class="mv num" id="mvName">58%</span></div>
-            <div class="bar"><i class="amber" id="barName" style="width:58%"></i></div>
-          </div>
-          <div class="metric">
+          <div class="metric grow">
             <div class="mt"><span class="mk-">좋아요 + 댓글 (주간)</span><span class="mv" id="mvResp">—</span></div>
-            <svg class="spark" id="sparkResp"></svg>
+            <div class="sparkwrap"><svg class="spark" id="sparkResp"></svg></div>
             <div class="cap" id="capResp"><span>노출 시작</span><span>이번 주</span></div>
           </div>
         </div>
         <div class="vs"><span>VS</span></div>
         <div class="dcol">
           <h4>우리 브랜드 검색 · 조회 <span class="src">네이버 · 자사몰</span></h4>
-          <div class="metric">
+          <div class="metric grow">
             <div class="mt"><span class="mk-">우리 브랜드 검색량 (주간)</span><span class="mv" id="mvBrand">—</span></div>
-            <svg class="spark" id="sparkBrand"></svg>
+            <div class="sparkwrap"><svg class="spark" id="sparkBrand"></svg></div>
             <div class="cap"><span>노출 시작</span><span>이번 주</span></div>
           </div>
-          <div class="metric">
-            <div class="mt"><span class="mk-">패딩 검색 중 우리 브랜드 비중</span><span class="mv num" id="mvSos">—</span></div>
-            <div class="bar"><i id="barSos" style="width:0%"></i></div>
+          <div class="metric grow">
+            <div class="mt"><span class="mk-">패딩 검색 중 우리 브랜드 비중 (주간)</span><span class="mv num" id="mvSos">—</span></div>
+            <div class="sparkwrap"><svg class="spark" id="sparkSos"></svg></div>
+            <div class="cap"><span>노출 시작</span><span>이번 주</span></div>
           </div>
-          <div class="metric">
+          <div class="metric grow">
             <div class="mt"><span class="mk-">자사몰 상품 조회수 (주간)</span><span class="mv" id="mvView">—</span></div>
-            <svg class="spark" id="sparkView"></svg>
+            <div class="sparkwrap"><svg class="spark" id="sparkView"></svg></div>
             <div class="cap"><span>노출 시작</span><span>이번 주</span></div>
           </div>
         </div>
       </div>
-      <div class="mentions">
-        <h4>최근 우리 브랜드를 언급한 게시물</h4>
-        <table>
-          <thead><tr><th>게시일</th><th>계정</th><th>카테고리</th><th class="r">반응</th><th class="c">제품명</th><th class="c">장점 언급</th></tr></thead>
-          <tbody>
-            <tr><td class="num">11.09</td><td class="handle">@outdoor_review_k</td><td><span class="catpill">경량</span></td><td class="r num">312</td><td class="c yes">○</td><td class="c yes">○</td></tr>
-            <tr><td class="num">11.07</td><td class="handle">@seoul_gearlab</td><td><span class="catpill">경량</span></td><td class="r num">128</td><td class="c nope">✕</td><td class="c yes">○</td></tr>
-            <tr><td class="num">11.05</td><td class="handle">@daily_padding</td><td><span class="catpill">경량</span></td><td class="r num">95</td><td class="c yes">○</td><td class="c nope">✕</td></tr>
-            <tr><td class="num">11.02</td><td class="handle">@winter_fit_</td><td><span class="catpill">경량</span></td><td class="r num">210</td><td class="c yes">○</td><td class="c yes">○</td></tr>
-          </tbody>
-        </table>
+      <div class="ig-head">
+        <h4 id="igTitle">우리 브랜드가 태그된 콘텐츠 TOP 10</h4>
+        <div class="seg" role="group" aria-label="콘텐츠 종류">
+          <button id="igTagged" class="on" type="button">태그된 콘텐츠</button>
+          <button id="igHash" type="button">#경량패딩 인기 콘텐츠</button>
+        </div>
       </div>
+      <div class="ig-grid" id="igGrid"></div>
     </section>
 
     <footer>
-      <b>DX 26FW 미리 알리기 현황판</b> · 모든 숫자는 예시입니다.
+      <b>DX 26FW 선제 마케팅 대시보드</b> · 모든 숫자는 예시입니다.
     </footer>
   </div></main>
 </div>
@@ -434,7 +444,7 @@ const CATS = {
     },
     verdict:{tag:"태동 전 · 미리 알리는 중", body:"10/6(태동 예상)에 작년보다 앞섰는지 판정하고, 10/20(피크 예상)에 한 번 더 판정합니다.", cls:"na"},
     diag:{ ok:true, text:"게시물과 반응 모두 정상. 브랜드 검색은 완만하게 오르는 중.",
-      postRate:62, nameRate:70, resp:[18,24,31,38,44,49], brand:[9,12,15,18,22,26], view:[10,13,17,20,24,28],
+      postRate:62, nameRate:70, resp:[18,24,31,38,44,49], brand:[9,12,15,18,22,26], sos:[16.2,16.9,17.5,18.3,19.0,19.8], view:[10,13,17,20,24,28],
       respTxt:"상승 ↑", respCls:"go", brandTxt:"완만 상승 ↑", brandCls:"go", sosTxt:"19.8% ↑", sosCls:"go", sosVal:19.8, viewTxt:"상승 ↑", viewCls:"go" }
   },
   short: {
@@ -503,7 +513,7 @@ const OUT_COLOR = { success:"go", warn:"alert", fail:"alert", progress:"amber", 
 /* ---- 캘린더 타임라인 (출시·태동·피크 실제 날짜) · 상단 '지금' 카드용 ----
    est:true = 예측값. photos = 제품 사진(없으면 빈 프레임). 실제 연결 시 이 객체만 갱신. */
 const NOW_CAT = "light";                       // 지금 알리는 중인 카테고리
-const NEXT_GATE = { date:"2026-09-30", name:"9월 30일 · 경량 다운 점검" };
+const NEXT_GATE = { date:"2026-09-30", name:"9월 30일 · 경량 다운" };
 const TIMELINE = {
   light: { launch:"2026-08-04", onset:{date:"2026-10-06", est:true}, peak:{date:"2026-10-20", est:true},
            photos:[{src:"img/light-1.jpg"},{src:"img/light-2.jpg"}] },
@@ -557,7 +567,7 @@ function renderNow(){
   const gTxt = g>0 ? `D-${g}` : g===0 ? "D-DAY" : `D+${-g}`;
   document.getElementById("gateDay").textContent = gTxt;
   document.getElementById("gateName").textContent = NEXT_GATE.name;
-  document.querySelector(".rail .gate").innerHTML = `다음 판정<b class="num">${gTxt}</b>`;
+  document.querySelector(".rail .gate").innerHTML = `결과 확인<b class="num">${gTxt}</b>`;
 }
 
 /* ---------------- RELAY CARDS ---------------- */
@@ -604,6 +614,8 @@ function renderVerdict(){
   om.className="mark "+mkCls(c.onset.mark); om.textContent=markTxt(c.onset.mark);
   pm.className="mark "+mkCls(c.peak.mark);  pm.textContent=markTxt(c.peak.mark);
   const vv=document.getElementById("vpVerdict");
+  const judged = c.verdictKey==="success"||c.verdictKey==="warn"||c.verdictKey==="fail";
+  vv.hidden = !judged;                          // 판정이 난 뒤에만 결론 문장 표시
   vv.className="vv "+c.verdict.cls;
   vv.innerHTML=`<span class="tag"><i></i>${c.verdict.tag}</span>${c.verdict.body}`;
   const mx=document.getElementById("matrix");
@@ -614,11 +626,6 @@ function renderVerdict(){
     d.innerHTML=`<span class="d">${r.on}</span><span class="d">${r.pk}</span><span>${r.txt}</span><span class="o">${r.out}</span>`;
     mx.appendChild(d);
   });
-  if(c.verdictKey==='progress'||c.verdictKey==='wait'){
-    const f=document.createElement("div"); f.className="mfoot";
-    f.textContent=c.verdictKey==="progress"?"태동 예상일 이후 결과 표시":"노출 전";
-    mx.appendChild(f);
-  }
 }
 
 /* ---------------- DIAGNOSIS ---------------- */
@@ -626,7 +633,7 @@ function sparkline(id, arr, color){
   const svg=document.getElementById(id); if(!svg) return;
   const data=arr.filter(v=>v!==null&&v!==undefined);
   // 실제 렌더 폭을 좌표계로 써서 (늘려 그리지 않음) 끝점 원이 찌그러지지 않게 한다
-  const W=Math.max(120, Math.round(svg.getBoundingClientRect().width||300)), H=48, pad=5;
+  const _r=svg.getBoundingClientRect(), W=Math.max(120, Math.round(_r.width||300)), H=Math.max(48, Math.round(_r.height||56)), pad=6;
   svg.setAttribute("viewBox",`0 0 ${W} ${H}`); svg.removeAttribute("preserveAspectRatio");
   if(data.length<2){ svg.innerHTML=`<line x1="0" y1="${H/2}" x2="${W}" y2="${H/2}" stroke="#CBD3E1" stroke-width="1" stroke-dasharray="3 3"/>`; return; }
   const min=Math.min(...data), max=Math.max(...data), rng=(max-min)||1, step=(W-pad*2)/(data.length-1);
@@ -639,7 +646,7 @@ function sparkline(id, arr, color){
     `<path d="${d}" fill="none" stroke="${color}" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>`+
     `<circle cx="${pts[pts.length-1][0].toFixed(1)}" cy="${pts[pts.length-1][1].toFixed(1)}" r="4" fill="${color}" stroke="#fff" stroke-width="2"/>`;
 }
-let _rs; window.addEventListener("resize", ()=>{ clearTimeout(_rs); _rs=setTimeout(renderDiag, 120); });
+let _rs; window.addEventListener("resize", ()=>{ clearTimeout(_rs); _rs=setTimeout(()=>{ renderDiag(); buildChart(); }, 120); });
 const ICON_OK =`<svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#4F46E5"/><path d="M7.5 12.5l3 3 6-7" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 const ICON_BAD=`<svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#E5484D"/><path d="M12 7.5v5.5" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/><circle cx="12" cy="16.5" r="1.3" fill="#fff"/></svg>`;
 function renderDiag(){
@@ -650,22 +657,74 @@ function renderDiag(){
   dv.innerHTML=(c.diag.ok?ICON_OK:ICON_BAD)+`<span>${c.diag.text}</span>`;
   const live = c.diag.resp.length>0;
   const $=id=>document.getElementById(id);
+  dv.hidden = c.diag.ok;                       // 문제 있을 때만 진단 문장 표시
   $("mvPost").textContent = live ? c.diag.postRate+"%" : "—"; $("barPost").style.width=c.diag.postRate+"%";
-  $("mvName").textContent = live ? c.diag.nameRate+"%" : "—"; $("barName").style.width=c.diag.nameRate+"%";
   const setTxt=(id,txt,cls)=>{ const e=$(id); e.textContent=live?txt:"—"; e.className="mv"+(live&&cls?" "+cls:"")+(id==="mvSos"?" num":""); };
   setTxt("mvResp",  c.diag.respTxt||"—",  c.diag.respCls);
   setTxt("mvBrand", c.diag.brandTxt||"—", c.diag.brandCls);
   setTxt("mvSos",   c.diag.sosTxt||"—",   c.diag.sosCls);
   setTxt("mvView",  c.diag.viewTxt||"—",  c.diag.viewCls);
-  $("barSos").style.width = (live && c.diag.sosVal ? c.diag.sosVal : 0)+"%";
   sparkline("sparkResp", c.diag.resp, C.sparkL);
   sparkline("sparkBrand", c.diag.brand, C.sparkR);
+  sparkline("sparkSos", c.diag.sos||[], C.sparkR);
   sparkline("sparkView", c.diag.view, C.sparkR);
+  renderContent();
 }
 
+/* ---------------- INSTAGRAM CONTENT (태그된 콘텐츠 · 해시태그 인기 콘텐츠) ----------------
+   실제 연결 시 Graph API 결과로 교체. 카테고리 키별 배열, 반응(좋아요+댓글) 내림차순. */
+const IG = {
+  light: {
+    tagged: [
+      { src:"img/ig/ig-01.jpg", cap:"#광고 디스커버리, 변우석 & 닝닝과 함께한 가을 캠페인 공개 📸", eng:18420, date:"9/10", ad:true },
+      { src:"img/ig/ig-07.mp4", poster:"img/ig/ig-01.jpg", cap:"변우석과 함께 빈칸 채우기.. 🫶🏻 I LOVE BYEON ______", eng:12960, date:"9/09", video:true },
+      { src:"img/ig/ig-10.jpg", cap:"Discover My Active Wellness with @ynxx.k 가볍게 걸치고, 자유롭게 움직이는 일상", eng:9310, date:"9/08" },
+      { src:"img/ig/ig-08.jpg", cap:"#광고 벌써 경량패딩이라니 더위가 가긴 했나봅니다..!💨 올버트 후드 경량 패딩", eng:4120, date:"9/07", ad:true },
+      { src:"img/ig/ig-03.jpg", cap:"#광고 슬슬 아침저녁으로 선선해지는 요즘, 에어웰 경량패딩!", eng:3870, date:"9/06", ad:true },
+      { src:"img/ig/ig-04.jpg", cap:"#광고 이번 중국 리장 여행에서 함께한 디스커버리 에어웰 경량 패딩", eng:3540, date:"9/05", ad:true },
+      { src:"img/ig/ig-02.jpg", cap:"#광고 아침저녁으로 선선해진 요즘 가볍게 걸치기 좋은 올버트 후드 경량 패딩", eng:2980, date:"9/04", ad:true },
+      { src:"img/ig/ig-09.jpg", cap:"#광고 🍁몰라 그냥 10장 꽉꽉 채워버려.. #경량패딩 장만하기 딱 좋은 타이밍", eng:2610, date:"9/03", ad:true },
+      { src:"img/ig/ig-06.jpg", cap:"#광고 살짝 서늘해지자마자 바로 꺼내 입은 디스커버리 에어플 경량패딩!", eng:2140, date:"9/02", ad:true },
+      { src:"img/ig/ig-05.jpg", cap:"#디스커버리 #DISCOVERY 🍃🍃", eng:1730, date:"9/01" }
+    ],
+    hashtag: [
+      { src:"img/ig/ig-09.jpg", cap:"#경량패딩 장만하기 딱 좋은 타이밍 🍁", eng:7420, date:"9/11", ours:true },
+      { src:"img/ig/ig-05.jpg", cap:"#경량패딩 #가을코디 🍃", eng:6880, date:"9/10", ours:true },
+      { src:"img/ig/ig-06.jpg", cap:"#경량패딩 #데일리룩 살짝 서늘해지자마자", eng:5210, date:"9/09", ours:true },
+      { src:"img/ig/ig-03.jpg", cap:"#경량패딩 초경량이라 몸에 감기는 느낌", eng:4930, date:"9/08", ours:true },
+      { src:"img/ig/ig-02.jpg", cap:"#경량패딩 #후드패딩 가볍게 걸치기 좋은", eng:4360, date:"9/07", ours:true },
+      { src:"img/ig/ig-04.jpg", cap:"#경량패딩 #여행룩 산 위로 올라가니 살짝 쌀쌀", eng:3970, date:"9/06", ours:true },
+      { src:"img/ig/ig-08.jpg", cap:"#경량패딩 스포티하게 툭 걸쳐도 실루엣이 예뻤던", eng:3150, date:"9/05", ours:true },
+      { src:"img/ig/ig-10.jpg", cap:"#경량패딩 #액티브웰니스", eng:2840, date:"9/04", ours:true },
+      { src:"img/ig/ig-01.jpg", cap:"#경량패딩 #가을캠페인", eng:2610, date:"9/03", ours:true },
+      { src:"img/ig/ig-07.mp4", poster:"img/ig/ig-01.jpg", cap:"#경량패딩 빈칸 채우기 챌린지", eng:2280, date:"9/02", ours:true, video:true }
+    ]
+  }
+};
+let igTab = "tagged";
+const fmtN = n => n>=10000 ? (n/10000).toFixed(1).replace(/\.0$/,"")+"만" : n.toLocaleString("ko-KR");
+function renderContent(){
+  const c=CATS[current], data=(IG[current]||{})[igTab]||[];
+  document.getElementById("igTitle").textContent = igTab==="tagged" ? "우리 브랜드가 태그된 콘텐츠 TOP 10" : "#경량패딩 인기 콘텐츠 TOP 10";
+  const g=document.getElementById("igGrid");
+  if(!data.length){ g.innerHTML=`<div class="ig-empty" style="grid-column:1/-1">${c.name}은 아직 노출 전입니다.</div>`; return; }
+  g.innerHTML = data.slice(0,10).map((p,i)=>`
+    <a class="ig" href="#" onclick="return false" title="${p.cap.replace(/"/g,"&quot;")}">
+      <div class="th">
+        ${p.video ? `<video src="${p.src}" ${p.poster?`poster="${p.poster}"`:""} muted loop playsinline preload="metadata" onmouseenter="this.play()" onmouseleave="this.pause()"></video>` : `<img src="${p.src}" alt="" loading="lazy">`}
+        <span class="rank">${i+1}</span>
+        ${p.video ? `<span class="tag">영상</span>` : p.ad ? `<span class="tag">광고</span>` : ``}
+      </div>
+      <div class="cap">${p.cap}</div>
+      <div class="meta"><span><b class="num">${fmtN(p.eng)}</b> 반응</span><span class="num">${p.date}</span></div>
+    </a>`).join("");
+}
+document.getElementById("igTagged").addEventListener("click",()=>{ igTab="tagged"; igTagged.classList.add("on"); igHash.classList.remove("on"); renderContent(); });
+document.getElementById("igHash").addEventListener("click",()=>{ igTab="hashtag"; igHash.classList.add("on"); igTagged.classList.remove("on"); renderContent(); });
+
 /* ---------------- CHART (inline SVG, no CDN) ---------------- */
-const VB_W=680, VB_H=300, PL=36, PR=16, PT=36, PB=30;
-const plotL=PL, plotR=VB_W-PR, plotT=PT, plotB=VB_H-PB, Y_MAX=110;
+let VB_W=680, VB_H=300; const PL=36, PR=16, PT=36, PB=30;
+let plotL=PL, plotR=VB_W-PR, plotT=PT, plotB=VB_H-PB; const Y_MAX=110;
 const xAt=(i,n)=>plotL+(n<=1?0:(i/(n-1))*(plotR-plotL));
 const yAt=v=>plotB-(Math.max(0,Math.min(Y_MAX,v))/Y_MAX)*(plotB-plotT);
 function smoothRun(pts){
@@ -684,6 +743,10 @@ const areaSVG=(data,n,fill)=>runs(data,n).map(r=>r.length<2?"":`<path d="${smoot
 
 function buildChart(){
   const c=CATS[current], t=c.tracker;
+  // 차트 영역의 실제 크기를 좌표계로 사용 (여백 없이 꽉 채움, 1:1이라 글자·원이 안 찌그러짐)
+  const hr=document.getElementById("chartHolder").getBoundingClientRect();
+  VB_W=Math.max(480, Math.round(hr.width||680)); VB_H=Math.max(260, Math.round(hr.height||300));
+  plotR=VB_W-PR; plotB=VB_H-PB;
   const labels=alignMode?t.alignLbl:t.cal, lastY=alignMode?t.lastYAlign:t.lastY, n=labels.length;
   let marks=[];
   if(alignMode){ const oi=t.alignLbl.indexOf("태동");
