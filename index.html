@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DX 26FW 선제 커뮤니케이션 관제탑</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+  :root{
+    /* surfaces & ink — cool, high-contrast instrument panel */
+    --bg:#EEF1F5; --card:#FFFFFF; --card-2:#F6F8FB;
+    --ink:#0E1420; --ink-soft:#3F4756; --ink-faint:#6B7484;
+    --line:#DCE2EA; --line-strong:#C3CCD8;
+    --navy:#0B1626; --navy-2:#132441;
+    --brand:#2457D6; --brand-bg:#E3EBFB;
+    /* signal system = information, not decoration */
+    --go:#15803D; --amber:#B45309; --alert:#DC2626; --wait:#6B7280; --disrupt:#0E7490;
+    --go-bg:#DCFCE7; --amber-bg:#FEF3C7; --alert-bg:#FEE2E2; --wait-bg:#E5E7EB; --disrupt-bg:#CFFAFE;
+    --go-ink:#166534; --amber-ink:#92400E; --alert-ink:#B91C1C; --wait-ink:#4B5563;
+    /* chart series */
+    --s-this:#2457D6; --s-last:#64748B; --s-demand:#B8C2CE; --m-onset:#6D28D9; --m-peak:#0E1420;
+    --radius:12px; --radius-sm:8px; --radius-lg:16px;
+    --shadow:0 1px 2px rgba(14,20,32,.05), 0 6px 20px rgba(14,20,32,.06);
+    --shadow-lift:0 2px 4px rgba(14,20,32,.06), 0 14px 34px rgba(14,20,32,.10);
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:"Pretendard Variable","Pretendard","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+    font-size:14px; line-height:1.5; font-variant-numeric:tabular-nums;
+    -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+  }
+  .wrap{max-width:1200px; margin:0 auto; padding:0 24px 80px;}
+  .num{font-variant-numeric:tabular-nums; font-feature-settings:"tnum" 1;}
+  b,strong{font-weight:700;}
+
+  /* ---------- HERO / TOWER ---------- */
+  .tower{
+    background:linear-gradient(135deg,var(--navy) 0%, var(--navy-2) 100%);
+    color:#F3F6FA; border-radius:0 0 var(--radius-lg) var(--radius-lg);
+    padding:22px 28px 26px; margin-bottom:28px;
+    box-shadow:0 16px 40px rgba(11,22,38,.22);
+    position:relative; overflow:hidden;
+  }
+  .tower::before{
+    content:""; position:absolute; inset:0; pointer-events:none;
+    background:
+      radial-gradient(60% 80% at 100% 0%, rgba(36,87,214,.28), transparent 60%),
+      repeating-linear-gradient(90deg, rgba(255,255,255,.035) 0 1px, transparent 1px 48px);
+  }
+  .tower > *{position:relative;}
+  .tower-top{display:flex; justify-content:space-between; align-items:flex-start; gap:20px; flex-wrap:wrap;}
+  .kicker{display:inline-flex; align-items:center; gap:8px; font-size:12px; letter-spacing:.06em; text-transform:uppercase; color:#93A2BB; font-weight:600;}
+  .kicker b{color:#FFFFFF; font-weight:700;}
+  .kicker .dot{width:8px; height:8px; border-radius:50%; background:#4ADE80; box-shadow:0 0 0 3px rgba(74,222,128,.22);}
+  h1{font-size:24px; line-height:1.25; margin:10px 0 0; font-weight:700; letter-spacing:-.02em; color:#FFFFFF;}
+  .tower-sub{margin:6px 0 0; color:#B6C1D4; font-size:13.5px; max-width:60ch;}
+  .demo-badge{display:inline-block; margin-top:10px; font-size:11px; font-weight:600; color:#FCD34D;
+    border:1px solid rgba(252,211,77,.45); border-radius:6px; padding:2px 8px; letter-spacing:.02em;}
+
+  .gatebox{
+    text-align:right; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12);
+    border-radius:var(--radius); padding:12px 16px 13px; min-width:170px;
+  }
+  .gatebox .g-lbl{font-size:11px; color:#93A2BB; font-weight:600; letter-spacing:.04em;}
+  .gatebox .g-day{font-size:34px; line-height:1; font-weight:800; color:#FFFFFF; margin-top:6px; letter-spacing:-.02em;}
+  .gatebox .g-name{font-size:12.5px; color:#C9D3E3; margin-top:5px; font-weight:500;}
+
+  /* the 3-second read: one row of status chips */
+  .verdict-line{
+    margin-top:22px; padding-top:18px; border-top:1px solid rgba(255,255,255,.12);
+    display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+  }
+  .verdict-line .vl-lbl{font-size:12px; color:#93A2BB; font-weight:700; letter-spacing:.04em; white-space:nowrap;}
+  .chips{display:flex; gap:8px; flex-wrap:wrap; align-items:center;}
+  .chip{
+    display:inline-flex; align-items:center; gap:9px; padding:8px 14px 8px 12px; border-radius:10px;
+    background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.12); font-size:14px; color:#E5EBF5;
+  }
+  .chip .c-led{width:11px; height:11px; border-radius:50%; flex:0 0 11px; box-shadow:0 0 0 3px var(--_ring);}
+  .chip .c-name{font-weight:600;}
+  .chip .c-state{font-weight:800; letter-spacing:-.01em;}
+  .chip .c-note{font-size:12.5px; color:#B6C1D4; font-weight:500; padding-left:9px; border-left:1px solid rgba(255,255,255,.18);}
+  .chip .sep{color:#5B6B85;}
+  .chip.go .c-state{color:#4ADE80;} .chip.go .c-led{background:#4ADE80; --_ring:rgba(74,222,128,.25);}
+  .chip.alert .c-state{color:#FB7185;} .chip.alert .c-led{background:#FB7185; --_ring:rgba(251,113,133,.25);}
+  .chip.amber .c-state{color:#FBBF24;} .chip.amber .c-led{background:#FBBF24; --_ring:rgba(251,191,36,.25);}
+  .chip.wait .c-state{color:#CBD5E1;} .chip.wait .c-led{background:#94A3B8; --_ring:rgba(148,163,184,.25);}
+  .chip.alert{background:rgba(251,113,133,.10); border-color:rgba(251,113,133,.35);}
+  .chip-arrow{color:#5B6B85; display:flex;}
+  .chip-arrow svg{width:16px; height:16px;}
+
+  /* ---------- SECTION HEADS ---------- */
+  .sec-head{display:flex; align-items:baseline; gap:12px; margin:34px 2px 14px;}
+  .sec-head h2{font-size:17px; font-weight:700; margin:0; letter-spacing:-.015em;}
+  .sec-head .sh-note{font-size:13px; color:var(--ink-faint);}
+  .sel-chip{margin-left:auto; font-size:12px; color:var(--brand); background:var(--brand-bg);
+    border-radius:999px; padding:3px 11px; font-weight:700;}
+
+  /* ---------- RELAY STATUS BOARD ---------- */
+  .relay{display:grid; grid-template-columns:1fr auto 1fr auto 1fr auto 1fr; gap:0; align-items:stretch;}
+  .relay .cell{display:flex; align-items:stretch;}
+  .arrow{flex:0 0 28px; display:flex; align-items:center; justify-content:center; color:var(--line-strong);}
+  .arrow svg{width:20px; height:20px;}
+  .card{
+    flex:1; background:var(--card); border:1.5px solid var(--line); border-radius:var(--radius);
+    padding:0; overflow:hidden; cursor:pointer; transition:border-color .15s, box-shadow .15s, transform .15s;
+    display:flex; flex-direction:column; text-align:left; width:100%; font:inherit; color:inherit;
+    box-shadow:var(--shadow);
+  }
+  .card:hover{border-color:var(--line-strong); transform:translateY(-1px);}
+  .card:focus-visible{outline:2px solid var(--brand); outline-offset:2px;}
+  .card.active{border-color:var(--ink); box-shadow:var(--shadow-lift);}
+  .card.active .card-body::before{
+    content:"선택됨"; position:absolute; top:10px; right:12px; font-size:10.5px; font-weight:700;
+    color:var(--brand); background:var(--brand-bg); border-radius:999px; padding:1px 7px;
+  }
+  /* signal header band — the state IS the header */
+  .sighead{
+    display:flex; align-items:center; justify-content:space-between; gap:8px;
+    padding:9px 14px; color:#fff; font-weight:800; font-size:13.5px; letter-spacing:-.01em;
+  }
+  .sighead .s-idx{font-size:11px; font-weight:700; opacity:.85; letter-spacing:.06em;}
+  .sighead .s-state{display:inline-flex; align-items:center; gap:7px;}
+  .sighead .s-state i{width:8px; height:8px; border-radius:50%; background:#fff; opacity:.95;}
+  .sighead.go{background:var(--go);} .sighead.alert{background:var(--alert);}
+  .sighead.amber{background:var(--amber);} .sighead.wait{background:var(--wait);}
+
+  .card-body{position:relative; padding:14px 14px 14px; display:flex; flex-direction:column; gap:12px; flex:1;}
+  .cat-name{font-size:17px; font-weight:800; line-height:1.15; letter-spacing:-.02em; display:block;}
+  .cat-range{font-size:12px; color:var(--ink-faint); margin-top:3px; display:block;}
+
+  /* two-point cross judgment — mini */
+  .cross{display:grid; grid-template-columns:1fr 1fr; gap:6px;}
+  .cross .leg{
+    border-radius:var(--radius-sm); padding:8px 10px; background:var(--card-2); border:1px solid var(--line);
+    display:flex; flex-direction:column; gap:2px;
+  }
+  .leg.ok{background:var(--go-bg); border-color:#BBF7D0;}
+  .leg.no{background:var(--alert-bg); border-color:#FECACA;}
+  .leg .leg-lbl{font-size:11px; color:var(--ink-soft); font-weight:600; display:flex; align-items:center; gap:5px;}
+  .leg .leg-lbl .mk{font-weight:800; font-size:12px;}
+  .leg .leg-val{font-size:17px; font-weight:800; letter-spacing:-.02em; line-height:1.1;}
+  .mk.ok, .val-ok{color:var(--go-ink);} .mk.no, .val-no{color:var(--alert-ink);} .mk.na, .val-na{color:var(--ink-faint);}
+
+  .kpis{display:grid; grid-template-columns:1fr 1fr 1fr; gap:0; border-top:1px solid var(--line); padding-top:10px;}
+  .kpis .k{text-align:left;}
+  .kpis .k + .k{border-left:1px solid var(--line); padding-left:9px;}
+  .kpis .k-lbl{font-size:10.5px; color:var(--ink-faint); font-weight:600; display:block;}
+  .kpis .k-val{font-size:13.5px; font-weight:700; margin-top:2px; display:block;}
+  .trend-up::after{content:"▲"; font-size:8px; color:var(--go); margin-left:3px; vertical-align:1px;}
+  .trend-dn::after{content:"▼"; font-size:8px; color:var(--alert); margin-left:3px; vertical-align:1px;}
+  .trend-fl::after{content:"▬"; font-size:7px; color:var(--wait); margin-left:3px; vertical-align:1px;}
+
+  /* ---------- WORKSPACE ---------- */
+  .workspace{display:grid; grid-template-columns:1.5fr 1fr; gap:18px; align-items:stretch;}
+  .panel{background:var(--card); border:1px solid var(--line); border-radius:var(--radius-lg); padding:20px 22px; box-shadow:var(--shadow);}
+  .panel-head{display:flex; justify-content:space-between; align-items:flex-start; gap:10px; margin-bottom:14px;}
+  .panel-head h3{margin:0; font-size:15.5px; font-weight:700; letter-spacing:-.01em;}
+  .panel-head .ph-sub{font-size:12.5px; color:var(--ink-faint); display:block; margin-top:2px;}
+
+  .toggle{display:inline-flex; background:var(--card-2); border:1px solid var(--line); border-radius:9px; padding:3px; gap:2px;}
+  .toggle button{
+    font:inherit; font-size:12.5px; font-weight:600; padding:5px 12px; border:0; cursor:pointer; border-radius:7px; white-space:nowrap;
+    background:transparent; color:var(--ink-soft);
+  }
+  .toggle button.on{background:var(--ink); color:#fff;}
+  .toggle button:focus-visible{outline:2px solid var(--brand); outline-offset:1px;}
+
+  .chart-holder{position:relative;}
+  .chart-holder svg{display:block; width:100%; height:auto;}
+  .legend{display:flex; gap:18px; flex-wrap:wrap; margin-top:12px; font-size:12.5px; color:var(--ink-soft);}
+  .legend span{display:inline-flex; align-items:center; gap:7px;}
+  .legend i{width:18px; height:0; border-top-width:3px; border-top-style:solid; display:inline-block; border-radius:2px;}
+  .legend i.dash{border-top-style:dashed;}
+  .legend i.mkr{border:0; width:0; height:14px; border-left-width:2px; border-left-style:solid;}
+  .legend i.mkr.dash{border-left-style:dashed;}
+
+  /* ---------- CROSS-JUDGMENT PANEL (the heart) ---------- */
+  .xj{display:grid; grid-template-columns:1fr auto 1fr; gap:8px; align-items:stretch;}
+  .xj .pt{
+    border-radius:var(--radius); padding:14px 14px 13px; border:1.5px solid var(--line); background:var(--card-2);
+    display:flex; flex-direction:column; gap:6px;
+  }
+  .xj .pt.ok{background:var(--go-bg); border-color:#86EFAC;}
+  .xj .pt.no{background:var(--alert-bg); border-color:#FCA5A5;}
+  .xj .pt.na{background:var(--card-2); border-style:dashed; border-color:var(--line-strong);}
+  .pt .w-t{font-size:12.5px; font-weight:700; color:var(--ink-soft); display:flex; align-items:center; gap:6px;}
+  .pt .w-t i{width:10px; height:10px; border-radius:2px; display:inline-block;}
+  .pt .w-s{font-size:11px; color:var(--ink-faint); margin-top:-4px;}
+  .pt .g-v{font-size:32px; line-height:1; font-weight:800; letter-spacing:-.03em; margin-top:4px;}
+  .pt.ok .g-v{color:var(--go-ink);} .pt.no .g-v{color:var(--alert-ink);} .pt.na .g-v{color:var(--ink-faint);}
+  .pt .g-thr{font-size:11.5px; color:var(--ink-soft);}
+  .pt .vp-mark{align-self:flex-start; font-size:12px; font-weight:800; padding:4px 10px; border-radius:999px; margin-top:2px; display:inline-flex; align-items:center; gap:5px;}
+  .vp-mark.ok{color:#fff; background:var(--go);}
+  .vp-mark.no{color:#fff; background:var(--alert);}
+  .vp-mark.na{color:var(--ink-soft); background:var(--wait-bg);}
+  .xj .times{display:flex; align-items:center; justify-content:center; font-size:22px; font-weight:800; color:var(--ink-faint); padding:0 2px;}
+
+  .vp-verdict{margin-top:12px; padding:14px 16px; border-radius:var(--radius); font-size:13.5px; line-height:1.55; border:1px solid transparent;}
+  .vp-verdict .vv-tag{font-weight:800; display:flex; align-items:center; gap:8px; margin-bottom:4px; font-size:14px; letter-spacing:-.01em;}
+  .vp-verdict .vv-tag i{width:10px; height:10px; border-radius:50%; flex:0 0 10px; background:currentColor;}
+  .vp-verdict.go{background:var(--go-bg); border-color:#BBF7D0;} .vp-verdict.go .vv-tag{color:var(--go-ink);}
+  .vp-verdict.no{background:var(--alert-bg); border-color:#FECACA;} .vp-verdict.no .vv-tag{color:var(--alert-ink);}
+  .vp-verdict.na{background:var(--card-2); border-color:var(--line);} .vp-verdict.na .vv-tag{color:var(--ink-soft);}
+
+  .matrix{margin-top:14px; border:1px solid var(--line); border-radius:var(--radius); overflow:hidden;}
+  .matrix .m-head{display:grid; grid-template-columns:44px 44px 1fr auto; gap:10px; padding:7px 12px; background:var(--card-2);
+    font-size:10.5px; font-weight:700; color:var(--ink-faint); letter-spacing:.04em; border-bottom:1px solid var(--line);}
+  .matrix .m-cell{
+    display:grid; grid-template-columns:44px 44px 1fr auto; gap:10px; align-items:center; padding:9px 12px;
+    font-size:12.5px; color:var(--ink-faint); background:#fff; border-bottom:1px solid var(--line);
+  }
+  .matrix .m-cell:last-child{border-bottom:0;}
+  .m-cell .m-d{font-weight:800; font-size:14px; text-align:center;}
+  .m-cell .m-out{font-weight:800; padding:2px 9px; border-radius:6px; font-size:12px;}
+  .matrix .m-cell.lit{color:var(--ink); font-weight:600;}
+  .m-cell.lit.go{background:var(--go-bg);} .m-cell.lit.go .m-d,.m-cell.lit.go .m-out{color:#fff;} .m-cell.lit.go .m-out{background:var(--go);} .m-cell.lit.go .m-d{color:var(--go-ink);}
+  .m-cell.lit.alert{background:var(--alert-bg);} .m-cell.lit.alert .m-out{color:#fff; background:var(--alert);} .m-cell.lit.alert .m-d{color:var(--alert-ink);}
+  .m-cell.lit .m-arrow{color:var(--ink);}
+  .matrix .m-foot{padding:8px 12px; font-size:11.5px; color:var(--ink-faint); background:var(--card-2); border-top:1px solid var(--line);}
+
+  /* ---------- DIAGNOSIS ---------- */
+  .diag-verdict{
+    border-radius:var(--radius); padding:13px 16px; font-size:13.5px; margin-bottom:16px; line-height:1.55;
+    display:flex; gap:10px; align-items:flex-start; border:1px solid var(--line); background:var(--card-2);
+  }
+  .diag-verdict .dv-ic{flex:0 0 18px; width:18px; height:18px; margin-top:2px;}
+  .diag-verdict.bad{background:var(--alert-bg); border-color:#FECACA;}
+  .diag-verdict.bad b{color:var(--alert-ink);}
+  .diag-cols{display:grid; grid-template-columns:1fr auto 1fr; gap:14px; align-items:stretch;}
+  .dcol{border:1px solid var(--line); border-radius:var(--radius); padding:15px 16px; background:#fff;}
+  .dcol h4{margin:0 0 3px; font-size:14px; font-weight:800; letter-spacing:-.01em; display:flex; align-items:center; gap:8px;}
+  .dcol h4 .tagn{font-size:10.5px; font-weight:700; color:var(--ink-faint); background:var(--card-2); border:1px solid var(--line); border-radius:5px; padding:1px 6px; letter-spacing:.04em;}
+  .dcol .dc-src{font-size:11.5px; color:var(--ink-faint); margin-bottom:14px;}
+  .dvs{display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; color:var(--ink-faint); font-size:11px; font-weight:800; letter-spacing:.06em;}
+  .dvs::before,.dvs::after{content:""; flex:1; width:1px; background:var(--line-strong);}
+  .dvs span{border:1px solid var(--line-strong); border-radius:999px; padding:3px 8px; background:#fff; white-space:nowrap;}
+  .metric{margin-bottom:14px;}
+  .metric:last-child{margin-bottom:0;}
+  .metric .m-top{display:flex; justify-content:space-between; align-items:baseline; font-size:12.5px; margin-bottom:6px;}
+  .metric .m-top .m-k{color:var(--ink-soft); font-weight:500;}
+  .metric .m-top .m-v{font-weight:800; font-size:13.5px;}
+  .bar{height:8px; background:var(--line); border-radius:99px; overflow:hidden;}
+  .bar > i{display:block; height:100%; border-radius:99px;}
+  .spark{display:block; width:100%; height:40px;}
+  .spark-cap{display:flex; justify-content:space-between; font-size:11px; color:var(--ink-faint); margin-top:4px;}
+
+  .mentions{margin-top:20px;}
+  .mentions h4{font-size:13.5px; font-weight:800; margin:0 0 10px;}
+  table{width:100%; border-collapse:collapse; font-size:13px;}
+  thead th{text-align:left; font-weight:700; color:var(--ink-faint); font-size:11px; letter-spacing:.03em;
+    border-bottom:1px solid var(--line-strong); padding:0 10px 8px;}
+  thead th.r, tbody td.r{text-align:right;}
+  thead th.c, tbody td.c{text-align:center;}
+  tbody td{padding:10px 10px; border-bottom:1px solid var(--line);}
+  tbody tr:last-child td{border-bottom:0;}
+  .handle{color:var(--brand); font-weight:600;}
+  .yes{color:var(--go); font-weight:800;} .nope{color:var(--ink-faint); font-weight:700;}
+  .catpill{font-size:11px; color:var(--ink-soft); background:var(--card-2); border:1px solid var(--line);
+    border-radius:6px; padding:1px 7px; font-weight:600;}
+
+  .note-strip{margin-top:14px; font-size:12px; color:var(--ink-soft); display:flex; gap:8px; align-items:flex-start;
+    background:var(--card-2); border:1px solid var(--line); border-radius:var(--radius-sm); padding:10px 12px;}
+  .note-strip svg{flex:0 0 15px; margin-top:2px;}
+
+  footer{margin-top:44px; padding-top:18px; border-top:1px solid var(--line); font-size:12px; color:var(--ink-faint); line-height:1.65;}
+  footer b{color:var(--ink-soft); font-weight:700;}
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width:960px){
+    .workspace{grid-template-columns:1fr;}
+    .relay{grid-template-columns:1fr 1fr; gap:12px;}
+    .arrow{display:none;}
+    .relay .cell{display:block;}
+    .diag-cols{grid-template-columns:1fr;}
+    .dvs{flex-direction:row;} .dvs::before,.dvs::after{width:auto; height:1px;}
+  }
+  @media (max-width:560px){
+    .relay{grid-template-columns:1fr;}
+    h1{font-size:21px;}
+    .tower{padding:20px 18px 22px;}
+    .wrap{padding:0 14px 56px;}
+    .xj{grid-template-columns:1fr;} .xj .times{display:none;}
+  }
+  @media (prefers-reduced-motion:reduce){ *{transition:none !important;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ============ TOWER / HERO ============ -->
+  <header class="tower">
+    <div class="tower-top">
+      <div>
+        <span class="kicker"><span class="dot"></span><b>Discovery Expedition</b> 26FW · Control Tower</span>
+        <h1>선제 커뮤니케이션이 궤도 위에 있는가</h1>
+        <p class="tower-sub">수요가 깨어나기 전에 브랜드 선호가 쌓였는지, 그 우위가 성수기까지 살아남는지를 시즌 중에 판정합니다.</p>
+        <span class="demo-badge">예시 데이터 · 실제 수치 미연결</span>
+      </div>
+      <div class="gatebox">
+        <div class="g-lbl">다음 판정 게이트</div>
+        <div class="g-day num">D-12</div>
+        <div class="g-name">GATE 3 · 11월 말</div>
+      </div>
+    </div>
+    <div class="verdict-line">
+      <span class="vl-lbl">이번 주 판정</span>
+      <div class="chips" id="heroChips"><!-- injected --></div>
+    </div>
+  </header>
+
+  <!-- ============ RELAY STATUS BOARD ============ -->
+  <div class="sec-head">
+    <h2>릴레이 상태보드</h2>
+    <span class="sh-note">경량 → 숏 → 미드 → 롱 · 카드를 누르면 아래 화면이 해당 카테고리로 바뀝니다</span>
+  </div>
+  <div class="relay" id="relay"><!-- cards injected --></div>
+
+  <!-- ============ WORKSPACE ============ -->
+  <div class="workspace">
+
+    <!-- timing tracker -->
+    <section class="panel">
+      <div class="panel-head">
+        <div>
+          <h3>타이밍 트래커</h3>
+          <span class="ph-sub" id="trackerSub">브랜드 선호 지수 · 올해 vs 작년</span>
+        </div>
+        <div class="toggle" role="group" aria-label="비교 정렬 방식">
+          <button id="btnCal" class="on" type="button">달력</button>
+          <button id="btnAlign" type="button">태동일 정렬</button>
+        </div>
+      </div>
+      <div class="chart-holder" id="chartHolder"></div>
+      <div class="legend">
+        <span><i style="border-color:var(--s-this)"></i>올해 브랜드 선호</span>
+        <span><i class="dash" style="border-color:var(--s-last)"></i>작년 브랜드 선호</span>
+        <span><i style="border-color:var(--s-demand)"></i>카테고리 전체 수요</span>
+        <span><i class="mkr" style="border-color:var(--m-onset)"></i>태동</span>
+        <span><i class="mkr dash" style="border-color:var(--m-peak)"></i>피크</span>
+      </div>
+    </section>
+
+    <!-- cross judgment verdict -->
+    <section class="panel">
+      <div class="panel-head">
+        <div>
+          <h3>두 시점 교차 판정</h3>
+          <span class="ph-sub">작년 대비 브랜드 선호 우위 · <span id="verdictCat">숏 다운</span></span>
+        </div>
+      </div>
+
+      <div class="xj">
+        <div class="pt ok" id="ptOnset">
+          <div class="w-t"><i style="background:var(--m-onset)"></i>태동 시점</div>
+          <div class="w-s">수요가 깨어나는 주간</div>
+          <div class="g-v num" id="onGap">+16%p</div>
+          <div class="g-thr" id="onThr">문턱 +8%p</div>
+          <div class="vp-mark ok" id="onMark">통과</div>
+        </div>
+        <div class="times">×</div>
+        <div class="pt no" id="ptPeak">
+          <div class="w-t"><i style="background:var(--m-peak)"></i>피크 시점</div>
+          <div class="w-s">성수기 정점</div>
+          <div class="g-v num" id="pkGap">−5%p</div>
+          <div class="g-thr" id="pkThr">문턱 +6%p</div>
+          <div class="vp-mark no" id="pkMark">미달</div>
+        </div>
+      </div>
+
+      <div class="vp-verdict no" id="vpVerdict"></div>
+
+      <div class="matrix" id="matrix"><!-- rows injected --></div>
+    </section>
+  </div>
+
+  <!-- ============ DIAGNOSIS ============ -->
+  <div class="sec-head">
+    <h2>진단</h2>
+    <span class="sh-note">부진 원인 — 콘텐츠가 문제인가, 실행이 문제인가</span>
+    <span class="sel-chip" id="diagCat">숏 다운</span>
+  </div>
+
+  <section class="panel">
+    <div class="diag-verdict" id="diagVerdict"></div>
+
+    <div class="diag-cols">
+      <!-- content response (instagram) -->
+      <div class="dcol">
+        <h4>콘텐츠 반응 <span class="tagn">INSTAGRAM</span></h4>
+        <div class="dc-src">게시물이 잘 나갔고, 반응이 있었나</div>
+
+        <div class="metric">
+          <div class="m-top"><span class="m-k">게시율 (집행/계획)</span><span class="m-v num">72%</span></div>
+          <div class="bar"><i style="width:72%; background:var(--go)"></i></div>
+        </div>
+        <div class="metric">
+          <div class="m-top"><span class="m-k">제품명 표기율</span><span class="m-v num">58%</span></div>
+          <div class="bar"><i style="width:58%; background:var(--amber)"></i></div>
+        </div>
+        <div class="metric">
+          <div class="m-top"><span class="m-k">게시물 반응 (좋아요+댓글, 주간)</span><span class="m-v" style="color:var(--go-ink)">상승 ▲</span></div>
+          <svg class="spark" id="sparkResp"></svg>
+          <div class="spark-cap"><span>9월 4주</span><span>11월 2주</span></div>
+        </div>
+      </div>
+
+      <div class="dvs"><span>vs</span></div>
+
+      <!-- brand demand (search / internal) -->
+      <div class="dcol">
+        <h4>브랜드 검색 · 조회 <span class="tagn">NAVER · 내부</span></h4>
+        <div class="dc-src">반응이 브랜드로 이어졌나</div>
+
+        <div class="metric">
+          <div class="m-top"><span class="m-k">브랜드 검색 (주간)</span><span class="m-v" style="color:var(--amber-ink)">태동↑ 피크→</span></div>
+          <svg class="spark" id="sparkBrand"></svg>
+          <div class="spark-cap"><span>태동 전</span><span>피크</span></div>
+        </div>
+        <div class="metric">
+          <div class="m-top"><span class="m-k">검색 점유율 (SoS)</span><span class="m-v num" style="color:var(--alert-ink)">21.4% ▼</span></div>
+          <div class="bar"><i style="width:21.4%; background:var(--brand)"></i></div>
+        </div>
+        <div class="metric">
+          <div class="m-top"><span class="m-k">내부 상품 조회수 (주간)</span><span class="m-v" style="color:var(--amber-ink)">둔화</span></div>
+          <svg class="spark" id="sparkView"></svg>
+          <div class="spark-cap"><span>9월 4주</span><span>11월 2주</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="note-strip">
+      <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#6B7484" stroke-width="1.8"/><path d="M12 8v5" stroke="#6B7484" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="16" r="1.1" fill="#6B7484"/></svg>
+      <span>인스타그램은 외부 게시물의 조회·전환을 추적할 수 없어, 반응(좋아요+댓글)과 브랜드 검색을 <b>곱하지 않고 나란히</b> 대조합니다. 두 곡선이 함께 움직이면 정상, 반응만 오르고 검색이 멈추면 브랜드 각인 점검 대상입니다.</span>
+    </div>
+
+    <div class="mentions">
+      <h4>최근 멘션 게시물</h4>
+      <table>
+        <thead>
+          <tr>
+            <th>게시일</th><th>계정</th><th>카테고리</th>
+            <th class="r">반응</th><th class="c">제품명</th><th class="c">USP</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="num">11.09</td><td class="handle">@outdoor_review_k</td><td><span class="catpill">숏</span></td><td class="r num">312</td><td class="c yes">○</td><td class="c yes">○</td></tr>
+          <tr><td class="num">11.07</td><td class="handle">@seoul_gearlab</td><td><span class="catpill">숏</span></td><td class="r num">128</td><td class="c nope">✕</td><td class="c yes">○</td></tr>
+          <tr><td class="num">11.05</td><td class="handle">@daily_padding</td><td><span class="catpill">숏</span></td><td class="r num">95</td><td class="c yes">○</td><td class="c nope">✕</td></tr>
+          <tr><td class="num">11.02</td><td class="handle">@winter_fit_</td><td><span class="catpill">숏</span></td><td class="r num">210</td><td class="c yes">○</td><td class="c yes">○</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <footer>
+    <b>DX 26FW 선제 커뮤니케이션 관제탑</b> · 레이아웃 프로토타입<br>
+    표시된 모든 수치는 레이아웃 확인용 예시입니다. 판정축은 브랜드 선호(브랜드 검색·내부 조회·검색 점유율), 성패는 태동·피크 두 시점의 작년 대비 우위로 판정하며, 문턱값은 Phase 0에서 작년 데이터의 노이즈 폭에서 역산합니다. 내부 조회·판매는 지식그래프에서 연결.
+  </footer>
+
+</div>
+
+<script>
+/* ---------------- MOCK DATA (예시) — 스키마 유지 ---------------- */
+const CATS = {
+  light: {
+    idx:1, name:"경량 다운", range:"활성 8/04 – 10/05", state:"성공", sig:"go",
+    onset:{v:"+21%p", thr:"+8%p", mark:"ok"}, peak:{v:"+14%p", thr:"+6%p", mark:"ok"},
+    kpi:{ bs:"×1.24", bsT:"up", sos:"24.1%", sosT:"up", lead:"+31일" },
+    verdictKey:"success",
+    tracker:{
+      cal:["9/15","9/22","9/29","10/6","10/13","10/20","10/27","11/3"],
+      thisY:[24,34,49,63,70,68,65,62], lastY:[16,20,29,40,52,60,58,55], demand:[22,31,45,60,74,86,92,88],
+      alignLbl:["-3주","-2주","-1주","태동","+1주","+2주","+3주","+4주"], lastYAlign:[20,29,40,52,60,58,55,50],
+      onsetIdx:3, peakIdx:5
+    },
+    verdict:{tag:"태동·피크 모두 우위 · 성공", body:"미리 심은 인지가 성수기까지 살아남아 우위로 이어졌습니다. 이 리드타임과 화력 배분을 다음 카테고리 기준선으로 삼습니다.", cls:"go"},
+    diag:{ ok:true, text:"태동·피크 모두 작년 대비 우위. 부진 원인 진단이 필요 없는 정상 구간입니다.",
+      postRate:88, nameRate:74, resp:[40,52,66,74,80,78,76], brand:[28,40,55,66,72,70,68], view:[30,43,58,70,76,74,72] }
+  },
+  short: {
+    idx:2, name:"숏 다운", range:"활성 9/08 – 11/09", state:"경고", sig:"alert",
+    onset:{v:"+16%p", thr:"+8%p", mark:"ok"}, peak:{v:"−5%p", thr:"+6%p", mark:"no"},
+    kpi:{ bs:"×1.16", bsT:"up", sos:"21.4%", sosT:"dn", lead:"+22일" },
+    verdictKey:"warn",
+    tracker:{
+      cal:["9/29","10/6","10/13","10/20","10/27","11/3","11/10","11/17"],
+      thisY:[22,31,44,58,64,61,59,57], lastY:[14,17,24,33,48,63,71,68], demand:[20,28,40,55,72,88,100,96],
+      alignLbl:["-3주","-2주","-1주","태동","+1주","+2주","+3주","+4주"], lastYAlign:[24,33,48,63,71,68,60,55],
+      onsetIdx:3, peakIdx:6
+    },
+    verdict:{tag:"초반 우위 소멸 · 선제 효과 의심", body:"태동 시점엔 앞섰지만 구매가 몰리는 피크에서 뒤집혔습니다. 다음 카테고리는 선제 폭을 줄이고 화력을 태동일에 집중하는 편이 낫습니다.", cls:"no"},
+    diag:{ ok:false, text:"실행량·콘텐츠 반응은 정상. 태동 구간엔 브랜드 검색이 올랐지만 <b>피크 구간에서 경쟁사에 점유가 역전</b>됐습니다 — 콘텐츠 개선이 아니라 <b>피크 시점 화력 집중</b>이 필요한 상대 열세형입니다.",
+      postRate:72, nameRate:58, resp:[30,42,55,68,72,70,66], brand:[22,31,44,58,64,61,59], view:[25,34,47,60,66,62,58] }
+  },
+  mid: {
+    idx:3, name:"미드", range:"활성 10/13 – 11/30", state:"진행 중", sig:"amber",
+    onset:{v:"+9%p", thr:"+8%p", mark:"ok"}, peak:{v:"—", thr:"+6%p", mark:"na"},
+    kpi:{ bs:"×1.09", bsT:"fl", sos:"18.7%", sosT:"fl", lead:"+14일" },
+    verdictKey:"progress",
+    tracker:{
+      cal:["10/13","10/20","10/27","11/3","11/10","11/17","11/24","12/1"],
+      thisY:[18,26,37,46,52,55,null,null], lastY:[15,20,28,37,44,50,55,58], demand:[16,24,34,46,58,70,82,90],
+      alignLbl:["-3주","-2주","-1주","태동","+1주","+2주","+3주","+4주"], lastYAlign:[20,28,37,44,50,55,58,60],
+      onsetIdx:4, peakIdx:null
+    },
+    verdict:{tag:"태동 통과 · 피크 판정 대기", body:"태동 시점 우위는 문턱을 갓 넘었습니다. 피크 판정은 데이터가 쌓이는 대로 GATE 3에서 확정합니다.", cls:"na"},
+    diag:{ ok:true, text:"태동 통과, 피크 판정 대기 중. 게시율은 계획대로 진행되고 있어 현재까지 특이 원인 없음.",
+      postRate:66, nameRate:61, resp:[24,33,44,52,58,62,64], brand:[20,29,38,46,52,55,57], view:[22,31,42,50,55,58,60] }
+  },
+  long: {
+    idx:4, name:"롱 · 방한화", range:"노출 준비 11/10 –", state:"대기", sig:"wait",
+    onset:{v:"—", thr:"+8%p", mark:"na"}, peak:{v:"—", thr:"+6%p", mark:"na"},
+    kpi:{ bs:"—", bsT:"fl", sos:"—", sosT:"fl", lead:"예측 12월" },
+    verdictKey:"wait",
+    tracker:{
+      cal:["10/27","11/3","11/10","11/17","11/24","12/1","12/8","12/15"],
+      thisY:[null,null,12,18,26,null,null,null], lastY:[8,12,18,27,38,52,66,72], demand:[10,16,25,38,55,74,90,100],
+      alignLbl:["-3주","-2주","-1주","태동","+1주","+2주","+3주","+4주"], lastYAlign:[12,18,27,38,52,66,72,74],
+      onsetIdx:null, peakIdx:null
+    },
+    verdict:{tag:"노출 대기 · 아직 판정 구간 아님", body:"매출이 가장 큰 구간입니다. 앞선 세 카테고리에서 다듬은 리드타임을 적용해 12월 태동일에 정조준합니다.", cls:"na"},
+    diag:{ ok:true, text:"아직 노출 대기 구간. 앞 카테고리 학습을 반영해 노출 시점·시딩 명단을 확정하는 단계입니다.",
+      postRate:0, nameRate:0, resp:[], brand:[], view:[] }
+  }
+};
+
+const MATRIX_ROWS = [
+  { dots:"✕ ·", on:"✕", pk:"·", key:"fail",     txt:"태동 실패",              out:"선제 실패" },
+  { dots:"○ ✕", on:"○", pk:"✕", key:"warn",     txt:"태동 우위, 피크 소멸",    out:"경고" },
+  { dots:"○ ○", on:"○", pk:"○", key:"success",  txt:"태동·피크 우위",         out:"성공" }
+];
+const OUT_COLOR = { success:"go", warn:"alert", fail:"alert", progress:"amber", wait:"wait" };
+
+/* chart / spark colors (kept in one place) */
+const C = {
+  thisY:"#2457D6", thisYArea:"rgba(36,87,214,0.10)", lastY:"#64748B", demand:"#B8C2CE",
+  onset:"#6D28D9", peak:"#0E1420", grid:"#E7ECF2", axis:"#C3CCD8", tickInk:"#6B7484",
+  sparkL:"#2457D6", sparkR:"#0E7490"
+};
+
+let current = "short";
+let alignMode = false;
+
+/* ---------------- RENDER: hero chips (3-second read) ---------------- */
+function renderHero(){
+  const order = ["light","short","mid","long"];
+  const el = document.getElementById("heroChips");
+  el.innerHTML = "";
+  order.forEach((key,i)=>{
+    const c = CATS[key];
+    const chip = document.createElement("span");
+    chip.className = "chip "+c.sig;
+    let note = "";
+    if (c.verdictKey==="warn") note = `<span class="c-note">태동 우위가 피크에서 소멸</span>`;
+    chip.innerHTML = `<span class="c-led"></span><span class="c-name">${c.name.replace(" 다운","")}</span><span class="sep">·</span><span class="c-state">${c.state}</span>${note}`;
+    el.appendChild(chip);
+    if (i<order.length-1){
+      const a=document.createElement("span"); a.className="chip-arrow";
+      a.innerHTML=`<svg viewBox="0 0 24 24" fill="none"><path d="M5 12h13M13 7l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+      el.appendChild(a);
+    }
+  });
+}
+
+/* ---------------- RENDER: status cards ---------------- */
+function trend(t){ return t==="up"?"trend-up":t==="dn"?"trend-dn":"trend-fl"; }
+const mkSym = m => m==='ok'?'○':m==='no'?'✕':'—';
+const mkCls = m => m==='ok'?'ok':m==='no'?'no':'na';
+
+function renderRelay(){
+  const order = ["light","short","mid","long"];
+  const el = document.getElementById("relay");
+  el.innerHTML = "";
+  order.forEach((key, i) => {
+    const c = CATS[key];
+    const cell = document.createElement("div");
+    cell.className = "cell";
+    const active = key===current ? " active" : "";
+    cell.innerHTML = `
+      <button class="card${active}" data-key="${key}" aria-pressed="${key===current}">
+        <span class="sighead ${c.sig}">
+          <span class="s-state"><i></i>${c.state}</span>
+          <span class="s-idx num">${c.idx} / 4</span>
+        </span>
+        <span class="card-body">
+          <span>
+            <span class="cat-name">${c.name}</span>
+            <span class="cat-range">${c.range}</span>
+          </span>
+          <span class="cross">
+            <span class="leg ${mkCls(c.onset.mark)}">
+              <span class="leg-lbl">태동 <span class="mk ${mkCls(c.onset.mark)}">${mkSym(c.onset.mark)}</span></span>
+              <span class="leg-val val-${mkCls(c.onset.mark)} num">${c.onset.v}</span>
+            </span>
+            <span class="leg ${mkCls(c.peak.mark)}">
+              <span class="leg-lbl">피크 <span class="mk ${mkCls(c.peak.mark)}">${mkSym(c.peak.mark)}</span></span>
+              <span class="leg-val val-${mkCls(c.peak.mark)} num">${c.peak.v}</span>
+            </span>
+          </span>
+          <span class="kpis">
+            <span class="k"><span class="k-lbl">브랜드검색 YoY</span><span class="k-val ${trend(c.kpi.bsT)} num">${c.kpi.bs}</span></span>
+            <span class="k"><span class="k-lbl">SoS</span><span class="k-val ${trend(c.kpi.sosT)} num">${c.kpi.sos}</span></span>
+            <span class="k"><span class="k-lbl">리드타임</span><span class="k-val num">${c.kpi.lead}</span></span>
+          </span>
+        </span>
+      </button>`;
+    el.appendChild(cell);
+    if (i < order.length-1){
+      const ar = document.createElement("div");
+      ar.className = "arrow";
+      ar.innerHTML = `<svg viewBox="0 0 24 24" fill="none"><path d="M4 12h15M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+      el.appendChild(ar);
+    }
+  });
+  el.querySelectorAll(".card").forEach(b=>{
+    b.addEventListener("click", ()=>{ current = b.dataset.key; selectCat(); });
+  });
+}
+
+/* ---------------- RENDER: verdict panel ---------------- */
+function renderVerdict(){
+  const c = CATS[current];
+  document.getElementById("verdictCat").textContent = c.name;
+  const set = (id, v)=> document.getElementById(id).textContent = v;
+  set("onGap", c.onset.v); set("pkGap", c.peak.v);
+  set("onThr", "문턱 "+c.onset.thr + (current==='light'||current==='short'?" · 작년 노이즈서 역산":""));
+  set("pkThr", "문턱 "+c.peak.thr);
+
+  const markTxt = m => m==='ok'?'✓ 통과':m==='no'?'✕ 미달':'대기';
+  document.getElementById("ptOnset").className = "pt "+mkCls(c.onset.mark);
+  document.getElementById("ptPeak").className  = "pt "+mkCls(c.peak.mark);
+  const om = document.getElementById("onMark"), pm = document.getElementById("pkMark");
+  om.className = "vp-mark "+mkCls(c.onset.mark); om.textContent = markTxt(c.onset.mark);
+  pm.className = "vp-mark "+mkCls(c.peak.mark);  pm.textContent = markTxt(c.peak.mark);
+
+  const vv = document.getElementById("vpVerdict");
+  vv.className = "vp-verdict "+c.verdict.cls;
+  vv.innerHTML = `<span class="vv-tag"><i></i>${c.verdict.tag}</span>${c.verdict.body}`;
+
+  const mx = document.getElementById("matrix");
+  mx.innerHTML = `<div class="m-head"><span style="text-align:center">태동</span><span style="text-align:center">피크</span><span>조합</span><span>판정</span></div>`;
+  MATRIX_ROWS.forEach(r=>{
+    const lit = r.key === c.verdictKey;
+    const col = r.key==='success'?'go':'alert';
+    const div = document.createElement("div");
+    div.className = "m-cell" + (lit?" lit "+col:"");
+    div.innerHTML = `<span class="m-d">${r.on}</span><span class="m-d">${r.pk}</span>
+      <span>${r.txt}</span>
+      <span class="m-out">${r.out}</span>`;
+    mx.appendChild(div);
+  });
+  // progress / wait states: no matrix row lit — show a hint row instead
+  if (c.verdictKey==='progress' || c.verdictKey==='wait'){
+    mx.querySelectorAll(".m-cell").forEach(el=>{ el.classList.remove("lit","go","alert"); });
+    const f=document.createElement("div"); f.className="m-foot";
+    f.textContent = c.verdictKey==='progress' ? "피크 데이터가 쌓이면 자동으로 해당 칸이 점등됩니다." : "노출 전 구간 — 판정 대상 아님.";
+    mx.appendChild(f);
+  }
+}
+
+/* ---------------- RENDER: diagnosis ---------------- */
+function sparkline(id, arr, color){
+  const svg = document.getElementById(id);
+  if(!svg) return;
+  svg.innerHTML = "";
+  const data = arr.filter(v=>v!==null && v!==undefined);
+  if(data.length < 2){
+    svg.setAttribute("viewBox","0 0 100 40"); svg.setAttribute("preserveAspectRatio","none");
+    svg.innerHTML = `<line x1="0" y1="20" x2="100" y2="20" stroke="#DCE2EA" stroke-width="1" stroke-dasharray="2 2"/>`;
+    return;
+  }
+  const W=100, H=40, pad=3;
+  const min=Math.min(...data), max=Math.max(...data), rng=(max-min)||1;
+  const step=(W-pad*2)/(data.length-1);
+  const pts=data.map((v,i)=>[pad+i*step, H-pad-((v-min)/rng)*(H-pad*2)]);
+  const d=pts.map((p,i)=>(i?"L":"M")+p[0].toFixed(1)+" "+p[1].toFixed(1)).join(" ");
+  const area=d+` L${pts[pts.length-1][0].toFixed(1)} ${H} L${pts[0][0].toFixed(1)} ${H} Z`;
+  svg.setAttribute("viewBox",`0 0 ${W} ${H}`); svg.setAttribute("preserveAspectRatio","none");
+  svg.innerHTML =
+    `<path d="${area}" fill="${color}" opacity="0.10"/>`+
+    `<path d="${d}" fill="none" stroke="${color}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke"/>`+
+    `<circle cx="${pts[pts.length-1][0].toFixed(1)}" cy="${pts[pts.length-1][1].toFixed(1)}" r="2.6" fill="${color}"/>`;
+}
+
+const ICON_OK  = `<svg class="dv-ic" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#15803D"/><path d="M7.5 12.5l3 3 6-7" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+const ICON_BAD = `<svg class="dv-ic" viewBox="0 0 24 24" fill="none"><path d="M12 3l10 18H2L12 3z" fill="#DC2626"/><path d="M12 10v5" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/><circle cx="12" cy="18" r="1.2" fill="#fff"/></svg>`;
+
+function renderDiag(){
+  const c = CATS[current];
+  document.getElementById("diagCat").textContent = c.name;
+  const dv = document.getElementById("diagVerdict");
+  dv.className = "diag-verdict" + (c.diag.ok?"":" bad");
+  dv.innerHTML = (c.diag.ok?ICON_OK:ICON_BAD) + `<span>${c.diag.text}</span>`;
+
+  const col1 = document.querySelectorAll(".diag-cols .dcol")[0];
+  const col1bars = col1.querySelectorAll(".metric");
+  col1bars[0].querySelector(".m-v").textContent = c.diag.postRate+"%";
+  col1bars[0].querySelector(".bar > i").style.width = c.diag.postRate+"%";
+  col1bars[1].querySelector(".m-v").textContent = c.diag.nameRate+"%";
+  col1bars[1].querySelector(".bar > i").style.width = c.diag.nameRate+"%";
+
+  sparkline("sparkResp", c.diag.resp, C.sparkL);
+  sparkline("sparkBrand", c.diag.brand, C.sparkR);
+  sparkline("sparkView", c.diag.view, C.sparkR);
+}
+
+/* ---------------- CHART (self-contained inline SVG, no CDN) ---------------- */
+const VB_W=640, VB_H=260, PL=34, PR=14, PT=28, PB=26;
+const plotL=PL, plotR=VB_W-PR, plotT=PT, plotB=VB_H-PB;
+const Y_MAX=110;
+const xAt=(i,n)=> plotL + (n<=1?0:(i/(n-1))*(plotR-plotL));
+const yAt=v=> plotB - (Math.max(0,Math.min(Y_MAX,v))/Y_MAX)*(plotB-plotT);
+
+function smoothRun(pts){
+  if(pts.length<2) return "";
+  if(pts.length===2) return `M ${pts[0][0]} ${pts[0][1]} L ${pts[1][0]} ${pts[1][1]}`;
+  let d=`M ${pts[0][0]} ${pts[0][1]}`;
+  for(let i=0;i<pts.length-1;i++){
+    const p0=pts[i-1]||pts[i], p1=pts[i], p2=pts[i+1], p3=pts[i+2]||p2;
+    const c1x=p1[0]+(p2[0]-p0[0])/6, c1y=p1[1]+(p2[1]-p0[1])/6;
+    const c2x=p2[0]-(p3[0]-p1[0])/6, c2y=p2[1]-(p3[1]-p1[1])/6;
+    d+=` C ${c1x.toFixed(1)} ${c1y.toFixed(1)}, ${c2x.toFixed(1)} ${c2y.toFixed(1)}, ${p2[0]} ${p2[1]}`;
+  }
+  return d;
+}
+function runs(data,n){
+  const out=[]; let cur=[];
+  data.forEach((v,i)=>{
+    if(v===null||v===undefined){ if(cur.length){out.push(cur); cur=[];} }
+    else cur.push([+xAt(i,n).toFixed(1), +yAt(v).toFixed(1)]);
+  });
+  if(cur.length) out.push(cur);
+  return out;
+}
+function lineSVG(data,n,color,width,dash){
+  return runs(data,n).map(r=>`<path d="${smoothRun(r)}" fill="none" stroke="${color}" stroke-width="${width}" ${dash?`stroke-dasharray="${dash}"`:''} stroke-linejoin="round" stroke-linecap="round"/>`).join("");
+}
+function areaSVG(data,n,fill){
+  return runs(data,n).map(r=>{
+    if(r.length<2) return "";
+    return `<path d="${smoothRun(r)} L ${r[r.length-1][0]} ${plotB} L ${r[0][0]} ${plotB} Z" fill="${fill}" stroke="none"/>`;
+  }).join("");
+}
+
+function buildChart(){
+  const c=CATS[current], t=c.tracker;
+  const labels = alignMode ? t.alignLbl : t.cal;
+  const lastY  = alignMode ? t.lastYAlign : t.lastY;
+  const n=labels.length;
+
+  let marks=[];
+  if(alignMode){
+    const oi=t.alignLbl.indexOf("태동");
+    marks.push({i:oi,color:C.onset,label:"태동",dash:false});
+    if(t.peakIdx!==null){ const pi=Math.min(oi+(t.peakIdx-t.onsetIdx), n-1); marks.push({i:pi,color:C.peak,label:"피크",dash:true}); }
+  } else {
+    if(t.onsetIdx!==null) marks.push({i:t.onsetIdx,color:C.onset,label:"태동",dash:false});
+    if(t.peakIdx!==null)  marks.push({i:t.peakIdx,color:C.peak,label:"피크",dash:true});
+  }
+
+  let grid="", yl="";
+  [0,25,50,75,100].forEach(v=>{
+    const y=yAt(v);
+    grid+=`<line x1="${plotL}" y1="${y}" x2="${plotR}" y2="${y}" stroke="${C.grid}" stroke-width="1"/>`;
+    yl+=`<text x="${plotL-8}" y="${y+3.5}" text-anchor="end" font-size="10" fill="${C.tickInk}">${v}</text>`;
+  });
+  let xl="";
+  labels.forEach((lb,i)=>{
+    const isOn = alignMode && lb==="태동";
+    xl+=`<text x="${xAt(i,n)}" y="${plotB+17}" text-anchor="middle" font-size="10.5" font-weight="${isOn?700:500}" fill="${isOn?C.onset:C.tickInk}">${lb}</text>`;
+  });
+
+  let mk="";
+  marks.forEach(m=>{
+    const x=xAt(m.i,n);
+    mk+=`<line x1="${x}" y1="${plotT}" x2="${x}" y2="${plotB}" stroke="${m.color}" stroke-width="1.6" ${m.dash?'stroke-dasharray="5 4"':''}/>`;
+    const w=m.label.length*13+14;
+    const cx=Math.max(plotL+w/2, Math.min(x, plotR-w/2));
+    mk+=`<rect x="${(cx-w/2).toFixed(1)}" y="${plotT-20}" width="${w}" height="17" rx="4" fill="${m.color}"/>`;
+    mk+=`<text x="${cx.toFixed(1)}" y="${plotT-8}" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">${m.label}</text>`;
+  });
+
+  let endDot="";
+  for(let i=n-1;i>=0;i--){ if(t.thisY[i]!==null&&t.thisY[i]!==undefined){ endDot=`<circle cx="${xAt(i,n).toFixed(1)}" cy="${yAt(t.thisY[i]).toFixed(1)}" r="4" fill="${C.thisY}" stroke="#fff" stroke-width="2"/>`; break; } }
+
+  const svg=`<svg viewBox="0 0 ${VB_W} ${VB_H}" role="img" aria-label="${c.name} 브랜드 선호 추이">
+    ${grid}${yl}${xl}
+    ${areaSVG(t.thisY,n,C.thisYArea)}
+    ${lineSVG(t.demand,n,C.demand,2,false)}
+    ${lineSVG(lastY,n,C.lastY,2,"6 4")}
+    ${lineSVG(t.thisY,n,C.thisY,3,false)}
+    ${endDot}${mk}
+    <line x1="${plotL}" y1="${plotB}" x2="${plotR}" y2="${plotB}" stroke="${C.axis}" stroke-width="1"/>
+  </svg>`;
+
+  const holder=document.getElementById("chartHolder");
+  const gTop=(PT/VB_H*100).toFixed(2), gBot=(PB/VB_H*100).toFixed(2);
+  holder.innerHTML = svg +
+    `<div id="cGuide" style="position:absolute;top:${gTop}%;bottom:${gBot}%;width:0;border-left:1px dashed #8A94A6;display:none;pointer-events:none;"></div>`+
+    `<div id="cTip" style="position:absolute;display:none;pointer-events:none;background:#0E1420;color:#E5EBF5;font-size:12px;line-height:1.55;padding:9px 11px;border-radius:9px;box-shadow:0 8px 22px rgba(14,20,32,.28);white-space:nowrap;z-index:5;min-width:128px;"></div>`;
+
+  attachHover(labels, lastY, t);
+}
+
+function attachHover(labels, lastY, t){
+  const holder=document.getElementById("chartHolder");
+  const guide=document.getElementById("cGuide");
+  const tip=document.getElementById("cTip");
+  const n=labels.length;
+  function onMove(e){
+    const rect=holder.getBoundingClientRect();
+    const fx=(e.clientX-rect.left)/rect.width*VB_W;
+    if(fx<plotL-8||fx>plotR+8){ guide.style.display="none"; tip.style.display="none"; return; }
+    let idx=Math.round((fx-plotL)/(plotR-plotL)*(n-1));
+    idx=Math.max(0,Math.min(n-1,idx));
+    const xPct=(xAt(idx,n)/VB_W*100);
+    guide.style.left=xPct+"%"; guide.style.display="block";
+    const rows=[["올해",t.thisY[idx],C.thisY],["작년",lastY[idx],C.lastY],["전체수요",t.demand[idx],C.demand]]
+      .filter(r=>r[1]!==null&&r[1]!==undefined)
+      .map(r=>`<div style="display:flex;gap:10px;align-items:center"><span style="width:8px;height:8px;border-radius:50%;background:${r[2]};flex:0 0 8px"></span><span style="color:#A9B4C6">${r[0]}</span><b style="margin-left:auto;color:#fff" class="num">${r[1]}</b></div>`).join("");
+    tip.innerHTML=`<div style="color:#C9D3E3;margin-bottom:5px;font-weight:700">${labels[idx]}</div>${rows}`;
+    tip.style.display="block";
+    tip.style.left=xPct+"%"; tip.style.top="2px";
+    const tr=tip.getBoundingClientRect();
+    if(tr.width/2 > (rect.right-e.clientX) && (rect.left+ (xPct/100)*rect.width) + tr.width/2 > rect.right){
+      tip.style.transform="translateX(-100%)";
+    } else if((xPct/100)*rect.width - tr.width/2 < 0){
+      tip.style.transform="translateX(0)";
+    } else {
+      tip.style.transform="translateX(-50%)";
+    }
+  }
+  holder.onmousemove=onMove;
+  holder.onmouseleave=()=>{ if(guide)guide.style.display="none"; if(tip)tip.style.display="none"; };
+}
+
+/* ---------------- ORCHESTRATION ---------------- */
+function selectCat(){
+  renderRelay();
+  renderVerdict();
+  renderDiag();
+  buildChart();
+  document.getElementById("trackerSub").textContent = CATS[current].name + " · 브랜드 선호 지수 · 올해 vs 작년";
+}
+
+document.getElementById("btnCal").addEventListener("click", ()=>{
+  alignMode=false;
+  document.getElementById("btnCal").classList.add("on");
+  document.getElementById("btnAlign").classList.remove("on");
+  buildChart();
+});
+document.getElementById("btnAlign").addEventListener("click", ()=>{
+  alignMode=true;
+  document.getElementById("btnAlign").classList.add("on");
+  document.getElementById("btnCal").classList.remove("on");
+  buildChart();
+});
+
+renderHero();
+selectCat();
+</script>
+</body>
+</html>
