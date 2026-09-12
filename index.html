@@ -220,7 +220,7 @@
   .seg button:focus-visible{outline:2px solid var(--brand); outline-offset:1px;}
 
   .panel.chart{display:flex; flex-direction:column;}
-  .chart-holder{position:relative; flex:1; min-height:300px;}
+  .chart-holder{position:relative; flex:1; min-height:260px;}
   .chart-holder svg{position:absolute; inset:0; width:100%; height:100%; display:block;}
   .legend{display:flex; gap:18px; flex-wrap:wrap; margin-top:12px; font-size:13px; color:var(--ink-2);}
   .legend span{display:inline-flex; align-items:center; gap:7px;}
@@ -232,6 +232,7 @@
   .legend i.band{width:18px; height:12px; border-radius:3px;}
   .legend i.band.win{background:rgba(80,88,217,.14);} .legend i.band.ad{background:rgba(242,129,74,.16);} .legend i.band.est{background:rgba(242,129,74,.28);}
   .legend i.flg{width:auto; height:auto; background:none; color:var(--ink); font-size:14px; line-height:1;}
+  .acts{margin-top:6px;} .acts svg{display:block; width:100%; height:auto;}
   .flags{display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; align-items:center;}
   .flags .fchip{display:inline-flex; align-items:center; gap:7px; padding:6px 11px; border-radius:999px; background:var(--card-2); font-size:12.5px; color:var(--ink-2);}
   .flags .fchip b{color:var(--ink);}
@@ -421,6 +422,7 @@
           </div>
         </div>
         <div class="chart-holder" id="chartHolder"></div>
+        <div class="acts" id="acts"></div>
         <div class="legend">
           <span><i></i>올해</span>
           <span><i class="dash"></i>작년</span>
@@ -720,6 +722,47 @@ function renderSummary(){
   const gd=parseD(NEXT_GATE.date);
   document.getElementById("decTitle").textContent = `${gd.getMonth()+1}월 ${gd.getDate()}일 결과 확인에서 정할 것`;
   document.getElementById("decList").innerHTML = (NEXT_GATE.decisions||[]).map(d=>`<li><span>${d}</span></li>`).join("");
+}
+
+/* ---------------- ACTIVITY SCHEDULE (우리가 언제 뭘 했나) ----------------
+   row: 0 시딩 · 1 공항패션 · 2 PPL · 3 매체 콘텐츠. i = 주 인덱스(cal 기준), span = 주 수, done = 집행 완료.
+   실제 연결 시 캠페인 일정표(시트)에서 생성. */
+const ACT_ROWS = ["인플루언서 시딩","앰버서더 공항패션","앰버서더 인스타 PPL","인스타 매체 콘텐츠"];
+const ACTS = {
+  light: [ {row:0,i:0,label:"1차 · 12명",done:true},{row:0,i:4,label:"2차 · 15명",done:true},{row:0,i:8,label:"3차 · 10명",done:true},
+           {row:1,i:2,label:"공항패션",done:true},
+           {row:2,i:6,label:"PPL 1",done:true},{row:2,i:9,label:"PPL 2",done:true},
+           {row:3,i:1,span:3,label:"매체 콘텐츠 1차",done:true},{row:3,i:7,span:3,label:"매체 콘텐츠 2차",done:true} ],
+  short: [ {row:0,i:0,label:"1차 · 14명",done:true},{row:0,i:3,label:"2차 · 16명",done:true},{row:0,i:5,label:"3차 · 8명",done:true},
+           {row:1,i:2,label:"공항패션",done:true},
+           {row:2,i:1,label:"PPL 1",done:true},{row:2,i:4,label:"PPL 2",done:true},
+           {row:3,i:0,span:3,label:"매체 콘텐츠 1차",done:true},{row:3,i:3,span:3,label:"매체 콘텐츠 2차",done:true} ],
+  mid:   [ {row:0,i:0,label:"1차 · 12명",done:true},{row:0,i:2,label:"2차 · 14명",done:true},{row:0,i:6,label:"3차 · 20명 (피크 집중)",done:false},{row:0,i:7,label:"4차 · 20명",done:false},
+           {row:1,i:1,label:"공항패션",done:true},
+           {row:2,i:3,label:"PPL 1",done:true},{row:2,i:6,label:"PPL 2",done:false},
+           {row:3,i:1,span:3,label:"매체 콘텐츠 1차",done:true},{row:3,i:6,span:2,label:"매체 콘텐츠 2차 (피크)",done:false} ],
+  long:  [ {row:0,i:0,label:"1차 · 15명",done:false},{row:0,i:2,label:"2차 · 15명",done:false},{row:0,i:5,label:"3차 · 25명 (피크 집중)",done:false},{row:0,i:6,label:"4차 · 25명",done:false},
+           {row:1,i:1,label:"공항패션",done:false},
+           {row:2,i:2,label:"PPL 1",done:false},{row:2,i:5,label:"PPL 2",done:false},
+           {row:3,i:0,span:3,label:"매체 콘텐츠 1차",done:false},{row:3,i:5,span:2,label:"매체 콘텐츠 2차 (피크)",done:false} ]
+};
+function buildActs(n, shift, labels, marks){
+  const items=ACTS[current]||[], rowH=34, top=14, H=top+rowH*ACT_ROWS.length+4, half=(plotR-plotL)/Math.max(1,n-1)/2;
+  let s=`<text x="${plotR}" y="${top-3}" text-anchor="end" font-size="10.5" fill="${C.tick}">● 집행 완료 · ○ 계획</text>`;
+  marks.forEach(m=>{ const x=xAt(m.i,n); s+=`<line x1="${x}" y1="${top}" x2="${x}" y2="${H}" stroke="${C.accent}" stroke-width="1.5" ${m.dash?'stroke-dasharray="4 4"':''} opacity=".6"/>`; });
+  ACT_ROWS.forEach((r,k)=>{ const y=top+k*rowH;
+    s+=`<text x="${plotL}" y="${y+11}" font-size="11" font-weight="700" fill="${C.tick}">${r}</text><line x1="${plotL}" y1="${y+rowH-3}" x2="${plotR}" y2="${y+rowH-3}" stroke="${C.grid}"/>`; });
+  items.forEach(a=>{ const i0=a.i+shift, i1=i0+(a.span||1)-1; if(i1<0||i0>n-1) return;
+    const x0=xAt(Math.max(0,i0),n)-half+2, x1=xAt(Math.min(n-1,i1),n)+half-2, y=top+a.row*rowH+15, w=Math.max(12,x1-x0);
+    const tip=`${a.label} · ${labels[Math.max(0,i0)]}${(a.span||1)>1?`–${labels[Math.min(n-1,i1)]}`:""} · ${a.done?"집행 완료":"계획"}`;
+    s+= a.done
+      ? `<rect x="${x0.toFixed(1)}" y="${y}" width="${w.toFixed(1)}" height="13" rx="6.5" fill="${C.brand}"><title>${tip}</title></rect>`
+      : `<rect x="${x0.toFixed(1)}" y="${y}" width="${w.toFixed(1)}" height="13" rx="6.5" fill="#fff" stroke="${C.brand2}" stroke-width="1.6" stroke-dasharray="4 3"><title>${tip}</title></rect>`;
+    const short=a.label.replace(/ \(.*\)/,""), tx=x0+w+6;
+    if((a.span||1)>1) s+=`<text x="${(x0+w/2).toFixed(1)}" y="${y+10}" text-anchor="middle" font-size="9.5" font-weight="700" fill="${a.done?"#fff":C.brand}">${short}</text>`;
+    else if(tx+short.length*6.5<plotR) s+=`<text x="${tx.toFixed(1)}" y="${y+10}" font-size="10" fill="${C.ink2||"#3E4776"}">${short}</text>`;
+  });
+  return `<svg viewBox="0 0 ${VB_W} ${H}" role="img" aria-label="활동 일정">${s}</svg>`;
 }
 
 /* ---------------- EXTERNAL FLAGS (수동 표시) ----------------
@@ -1049,6 +1092,7 @@ function buildChart(){
   holder.innerHTML=svg+
     `<div id="cGuide" style="position:absolute;top:${gTop}%;bottom:${gBot}%;width:0;border-left:1.5px dashed #F2814A;display:none;pointer-events:none;"></div>`+
     `<div id="cTip" style="position:absolute;display:none;pointer-events:none;background:#343CB0;color:#fff;font-size:12.5px;line-height:1.6;padding:10px 13px;border-radius:14px;box-shadow:0 10px 30px rgba(18,20,24,.25);white-space:nowrap;z-index:5;min-width:132px;"></div>`;
+  document.getElementById("acts").innerHTML = buildActs(n, shift, labels, marks);
   attachHover(labels,lastY,t);
 }
 function attachHover(labels,lastY,t){
