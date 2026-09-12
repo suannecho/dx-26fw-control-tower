@@ -419,9 +419,6 @@
       <div class="ig-grid" id="igGrid"></div>
     </section>
 
-    <footer>
-      <b>DX 26FW 선제 마케팅 대시보드</b> · 모든 숫자는 예시입니다.
-    </footer>
   </div></main>
 </div>
 
@@ -429,77 +426,78 @@
 /* ---------------- MOCK DATA (예시) — 스키마 유지 ---------------- */
 const CATS = {
   light: {
-    idx:1, name:"경량 다운", range:"노출 중 · 8/04 –", state:"진행 중", sig:"amber",
-    onset:{v:"—", thr:"+8%p", mark:"na"}, peak:{v:"—", thr:"+6%p", mark:"na"},
-    kpi:{ bs:"×1.12", bsT:"up", sos:"19.8%", sosT:"up", lead:"+63일" },
-    verdictKey:"progress",
+    idx:1, name:"경량 다운", range:"활성 8/04 – 10/26", state:"성공", sig:"go",
+    onset:{v:"+21%p", thr:"+8%p", mark:"ok"}, peak:{v:"+14%p", thr:"+6%p", mark:"ok"},
+    kpi:{ bs:"×1.24", bsT:"up", sos:"24.1%", sosT:"up", lead:"+63일" },
+    verdictKey:"success",
     tracker:{
       cal:["8/10","8/17","8/24","8/31","9/7","9/14","9/21","9/28","10/5","10/12","10/19","10/26"],
-      thisY:[9,12,15,18,22,26,null,null,null,null,null,null],
+      thisY:[9,12,15,18,22,26,31,38,49,60,68,65],
       lastY:[6,8,10,12,15,18,22,28,38,52,60,58],
       demand:[8,10,12,15,18,22,28,36,48,64,80,86],
       alignLbl:["-8주","-7주","-6주","-5주","-4주","-3주","-2주","-1주","태동","+1주","+2주","+3주"],
       lastYAlign:[8,10,12,15,18,22,28,38,52,60,58,55],
-      onsetIdx:8, peakIdx:10, est:true
+      onsetIdx:8, peakIdx:10, onsetEst:false, peakEst:false
     },
-    verdict:{tag:"태동 전 · 미리 알리는 중", body:"10/6(태동 예상)에 작년보다 앞섰는지 판정하고, 10/20(피크 예상)에 한 번 더 판정합니다.", cls:"na"},
-    diag:{ ok:true, text:"게시물과 반응 모두 정상. 브랜드 검색은 완만하게 오르는 중.",
-      postRate:62, nameRate:70, resp:[18,24,31,38,44,49], brand:[9,12,15,18,22,26], sos:[16.2,16.9,17.5,18.3,19.0,19.8], view:[10,13,17,20,24,28],
-      respTxt:"상승 ↑", respCls:"go", brandTxt:"완만 상승 ↑", brandCls:"go", sosTxt:"19.8% ↑", sosCls:"go", sosVal:19.8, viewTxt:"상승 ↑", viewCls:"go" }
+    verdict:{tag:"태동·피크 모두 작년보다 앞섬 · 성공", body:"미리 알린 효과가 성수기까지 이어졌습니다. 이 리드타임(63일)과 노출 배분을 다음 카테고리 기준으로 삼습니다.", cls:"go"},
+    diag:{ ok:true, text:"",
+      postRate:88, nameRate:74, resp:[40,52,66,74,80,78,76,72,70,66,62,60], brand:[9,12,15,18,22,26,31,38,49,60,68,65], sos:[16.2,16.9,17.5,18.3,19.0,19.8,20.6,21.5,22.4,23.3,24.1,23.8], view:[10,13,17,20,24,28,33,40,52,63,70,66],
+      respTxt:"상승 ↑", respCls:"go", brandTxt:"상승 ↑", brandCls:"go", sosTxt:"24.1% ↑", sosCls:"go", viewTxt:"상승 ↑", viewCls:"go" }
   },
   short: {
-    idx:2, name:"숏 다운", range:"노출 준비 · 9/29 –", state:"대기", sig:"wait",
-    onset:{v:"—", thr:"+8%p", mark:"na"}, peak:{v:"—", thr:"+6%p", mark:"na"},
-    kpi:{ bs:"—", bsT:"fl", sos:"—", sosT:"fl", lead:"예정 +34일" },
-    verdictKey:"wait",
+    idx:2, name:"숏 다운", range:"활성 9/29 – 11/30", state:"경고", sig:"alert",
+    onset:{v:"+16%p", thr:"+8%p", mark:"ok"}, peak:{v:"−5%p", thr:"+6%p", mark:"no"},
+    kpi:{ bs:"×1.16", bsT:"up", sos:"21.4%", sosT:"dn", lead:"+34일" },
+    verdictKey:"warn",
     tracker:{
       cal:["9/28","10/5","10/12","10/19","10/26","11/2","11/9","11/16","11/23","11/30","12/7","12/14"],
-      thisY:[null,null,null,null,null,null,null,null,null,null,null,null],
+      thisY:[8,12,17,24,34,49,58,62,62,60,null,null],
       lastY:[10,13,17,22,30,42,55,66,72,70,66,60],
       demand:[12,16,22,30,42,58,74,88,96,100,92,84],
       alignLbl:["-5주","-4주","-3주","-2주","-1주","태동","+1주","+2주","+3주","+4주","+5주","+6주"],
       lastYAlign:[10,13,17,22,30,42,55,66,72,70,66,60],
-      onsetIdx:5, peakIdx:8, est:true
+      onsetIdx:5, peakIdx:8, onsetEst:false, peakEst:false
     },
-    verdict:{tag:"노출 전 · 대기", body:"9/29부터 알립니다. 경량 다운 결과를 보고 시점을 확정합니다.", cls:"na"},
-    diag:{ ok:true, text:"아직 노출 전입니다.",
-      postRate:0, nameRate:0, resp:[], brand:[], view:[] }
+    verdict:{tag:"태동 땐 앞섰지만 피크 때 뒤처짐 · 경고", body:"미리 알린 효과가 성수기까지 이어지지 않았습니다. 다음 카테고리는 노출을 더 늦게 시작하고 태동일 근처에 집중합니다.", cls:"no"},
+    diag:{ ok:false, text:"게시물과 반응은 정상 범위인데 <b>피크 구간에서 패딩 검색 중 우리 비중이 역전</b>됐습니다. 콘텐츠보다 <b>피크 시점 노출 집중</b>이 필요합니다.",
+      postRate:72, nameRate:58, resp:[30,42,55,68,72,70,66,64,60,58], brand:[8,12,17,24,34,49,58,62,62,60], sos:[15.8,16.4,17.2,18.5,20.1,22.8,23.4,22.9,21.9,21.4], view:[9,13,18,25,34,47,55,58,57,54],
+      respTxt:"상승 후 유지 →", respCls:"", brandTxt:"태동↑ 피크→", brandCls:"amber", sosTxt:"21.4% ↓", sosCls:"alert", viewTxt:"둔화", viewCls:"amber" }
   },
   mid: {
-    idx:3, name:"미드 다운", range:"노출 준비 · 10/27 –", state:"대기", sig:"wait",
-    onset:{v:"—", thr:"+8%p", mark:"na"}, peak:{v:"—", thr:"+6%p", mark:"na"},
-    kpi:{ bs:"—", bsT:"fl", sos:"—", sosT:"fl", lead:"예정 +27일" },
-    verdictKey:"wait",
+    idx:3, name:"미드 다운", range:"활성 10/27 –", state:"진행 중", sig:"amber",
+    onset:{v:"+9%p", thr:"+8%p", mark:"ok"}, peak:{v:"—", thr:"+6%p", mark:"na"},
+    kpi:{ bs:"×1.09", bsT:"fl", sos:"18.7%", sosT:"fl", lead:"+27일" },
+    verdictKey:"progress",
     tracker:{
       cal:["10/26","11/2","11/9","11/16","11/23","11/30","12/7","12/14","12/21","12/28","1/4","1/11"],
-      thisY:[null,null,null,null,null,null,null,null,null,null,null,null],
+      thisY:[8,12,17,24,33,40,null,null,null,null,null,null],
       lastY:[9,12,16,22,30,40,52,62,68,66,60,52],
       demand:[10,14,20,28,38,52,68,82,92,96,90,80],
       alignLbl:["-4주","-3주","-2주","-1주","태동","+1주","+2주","+3주","+4주","+5주","+6주","+7주"],
       lastYAlign:[9,12,16,22,30,40,52,62,68,66,60,52],
-      onsetIdx:4, peakIdx:7, est:true
+      onsetIdx:4, peakIdx:7, onsetEst:false, peakEst:true
     },
-    verdict:{tag:"노출 전 · 대기", body:"10/27부터 알립니다.", cls:"na"},
-    diag:{ ok:true, text:"아직 노출 전입니다.",
-      postRate:0, nameRate:0, resp:[], brand:[], view:[] }
+    verdict:{tag:"태동 통과 · 피크 대기", body:"", cls:"na"},
+    diag:{ ok:true, text:"",
+      postRate:66, nameRate:61, resp:[24,33,44,52,58,62], brand:[8,12,17,24,33,40], sos:[15.1,15.9,16.6,17.4,18.2,18.7], view:[9,13,18,25,33,39],
+      respTxt:"상승 ↑", respCls:"go", brandTxt:"상승 ↑", brandCls:"go", sosTxt:"18.7% →", sosCls:"", viewTxt:"상승 ↑", viewCls:"go" }
   },
   long: {
-    idx:4, name:"롱 다운 · 방한화", range:"노출 준비 · 11/17 –", state:"대기", sig:"wait",
+    idx:4, name:"롱 다운 · 방한화", range:"노출 준비 · 12/1 –", state:"대기", sig:"wait",
     onset:{v:"—", thr:"+8%p", mark:"na"}, peak:{v:"—", thr:"+6%p", mark:"na"},
-    kpi:{ bs:"—", bsT:"fl", sos:"—", sosT:"fl", lead:"예정 +20일" },
+    kpi:{ bs:"—", bsT:"fl", sos:"—", sosT:"fl", lead:"예정 +21일" },
     verdictKey:"wait",
     tracker:{
-      cal:["11/16","11/23","11/30","12/7","12/14","12/21","12/28","1/4","1/11","1/18","1/25","2/1"],
+      cal:["11/30","12/7","12/14","12/21","12/28","1/4","1/11","1/18","1/25","2/1","2/8","2/15"],
       thisY:[null,null,null,null,null,null,null,null,null,null,null,null],
       lastY:[8,11,15,22,32,46,60,70,74,70,62,52],
       demand:[10,14,20,30,44,62,80,94,100,96,86,72],
       alignLbl:["-3주","-2주","-1주","태동","+1주","+2주","+3주","+4주","+5주","+6주","+7주","+8주"],
       lastYAlign:[8,11,15,22,32,46,60,70,74,70,62,52],
-      onsetIdx:3, peakIdx:6, est:true
+      onsetIdx:3, peakIdx:6, onsetEst:true, peakEst:true
     },
-    verdict:{tag:"노출 전 · 대기", body:"11/17부터 알립니다. 매출이 가장 큰 구간입니다.", cls:"na"},
-    diag:{ ok:true, text:"아직 노출 전입니다.",
-      postRate:0, nameRate:0, resp:[], brand:[], view:[] }
+    verdict:{tag:"노출 전 · 대기", body:"", cls:"na"},
+    diag:{ ok:true, text:"", postRate:0, nameRate:0, resp:[], brand:[], sos:[], view:[] }
   }
 };
 
@@ -512,15 +510,17 @@ const OUT_COLOR = { success:"go", warn:"alert", fail:"alert", progress:"amber", 
 
 /* ---- 캘린더 타임라인 (출시·태동·피크 실제 날짜) · 상단 '지금' 카드용 ----
    est:true = 예측값. photos = 제품 사진(없으면 빈 프레임). 실제 연결 시 이 객체만 갱신. */
-const NOW_CAT = "light";                       // 지금 알리는 중인 카테고리
-const NEXT_GATE = { date:"2026-09-30", name:"9월 30일 · 경량 다운" };
+const DEMO_TODAY = "2026-11-30";               // 팀 공유용 고정 날짜. null 이면 실제 오늘 날짜 사용
+const NOW_CAT = "mid";                         // 지금 알리는 중인 카테고리
+const NEXT_GATE = { date:"2026-12-31", name:"12월 31일 · 미드 다운 피크" };
 const TIMELINE = {
-  light: { launch:"2026-08-04", onset:{date:"2026-10-06", est:true}, peak:{date:"2026-10-20", est:true},
+  light: { launch:"2026-08-04", onset:{date:"2026-10-06", est:false}, peak:{date:"2026-10-20", est:false},
            photos:[{src:"img/light-1.jpg"},{src:"img/light-2.jpg"}] },
-  short: { launch:"2026-09-29", onset:{date:"2026-11-02", est:true}, peak:{date:"2026-11-23", est:true}, photos:[] },
-  mid:   { launch:"2026-10-27", onset:{date:"2026-11-23", est:true}, peak:{date:"2026-12-14", est:true}, photos:[] },
-  long:  { launch:"2026-11-17", onset:{date:"2026-12-07", est:true}, peak:{date:"2026-12-28", est:true}, photos:[] }
+  short: { launch:"2026-09-29", onset:{date:"2026-11-02", est:false}, peak:{date:"2026-11-23", est:false}, photos:[] },
+  mid:   { launch:"2026-10-27", onset:{date:"2026-11-23", est:false}, peak:{date:"2026-12-14", est:true}, photos:[] },
+  long:  { launch:"2026-12-01", onset:{date:"2026-12-22", est:true}, peak:{date:"2027-01-12", est:true}, photos:[] }
 };
+const HASHTAG = { light:"#경량패딩", short:"#숏패딩", mid:"#미드패딩", long:"#롱패딩" };
 
 /* chart / spark colors — one place */
 const C = { brand:"#1E4DB7", brand2:"#5B84E0", lastY:"#97A3BC", demandLine:"#CBD3E1", ink:"#0F2557",
@@ -536,7 +536,7 @@ const shortName = n => n.replace(" 다운","");
 /* ---------------- NOW CARD ---------------- */
 const DAY = 86400000;
 const parseD = s => { const [y,m,d]=s.split("-").map(Number); return new Date(y,m-1,d); };
-function todayDate(){ const q=new URLSearchParams(location.search).get("today"); const d=q?parseD(q):new Date(); d.setHours(0,0,0,0); return d; }
+function todayDate(){ const q=new URLSearchParams(location.search).get("today")||DEMO_TODAY; const d=q?parseD(q):new Date(); d.setHours(0,0,0,0); return d; }
 const diffDays = (a,b) => Math.round((a-b)/DAY);           // a - b (days)
 const fmtMD = d => `${d.getMonth()+1}/${d.getDate()}`;
 const WEEK = ["일","월","화","수","목","금","토"];
@@ -677,7 +677,7 @@ const IG = {
   light: {
     tagged: [
       { src:"img/ig/ig-01.jpg", cap:"#광고 디스커버리, 변우석 & 닝닝과 함께한 가을 캠페인 공개 📸", eng:18420, date:"9/10", ad:true },
-      { src:"img/ig/ig-07.mp4", poster:"img/ig/ig-01.jpg", cap:"변우석과 함께 빈칸 채우기.. 🫶🏻 I LOVE BYEON ______", eng:12960, date:"9/09", video:true },
+      { src:"img/ig/ig-07.mp4", poster:"img/ig/ig-07-cover.jpg", cap:"변우석과 함께 빈칸 채우기.. 🫶🏻 I LOVE BYEON ______", eng:12960, date:"9/09", video:true },
       { src:"img/ig/ig-10.jpg", cap:"Discover My Active Wellness with @ynxx.k 가볍게 걸치고, 자유롭게 움직이는 일상", eng:9310, date:"9/08" },
       { src:"img/ig/ig-08.jpg", cap:"#광고 벌써 경량패딩이라니 더위가 가긴 했나봅니다..!💨 올버트 후드 경량 패딩", eng:4120, date:"9/07", ad:true },
       { src:"img/ig/ig-03.jpg", cap:"#광고 슬슬 아침저녁으로 선선해지는 요즘, 에어웰 경량패딩!", eng:3870, date:"9/06", ad:true },
@@ -688,23 +688,26 @@ const IG = {
       { src:"img/ig/ig-05.jpg", cap:"#디스커버리 #DISCOVERY 🍃🍃", eng:1730, date:"9/01" }
     ],
     hashtag: [
-      { src:"img/ig/ht-08.jpg", brand:"Parfait", cap:"[겨울에 사면 늦어요 지금 사야 할 경량패딩] 요즘 갑자기 훅- 쌀쌀해진 거 느껴지죠", eng:21300, date:"9/12" },
+      { src:"img/ig/ht-08.jpg", brand:"매거진", cap:"[겨울에 사면 늦어요 지금 사야 할 경량패딩] 요즘 갑자기 훅- 쌀쌀해진 거 느껴지죠", eng:21300, date:"9/12" },
       { src:"img/ig/ht-04.jpg", brand:"뉴발란스", cap:"춥댜추워ㅓ #광고 #플라잉77구스다운 #경량패딩", eng:15800, date:"9/11", ad:true },
       { src:"img/ig/ht-01.jpg", brand:"마하그리드", cap:"#광고 겨울엔 역시 큼직한 실루엣이 제맛 🖤 넉넉하게 떨어지는 핏이라 레이어드해서 입기도 좋고", eng:12400, date:"9/10", ad:true },
       { src:"img/ig/ht-03.jpg", brand:"노스페이스", cap:"#광고 이제 가을겨울 시즌만 남았다🍂 아침저녁으로 쌀쌀한 날씨에 가볍게 걸쳐주기 좋은 노스페이스 라이트", eng:11900, date:"9/09", ad:true },
       { src:"img/ig/ht-05.jpg", brand:"뉴발란스", cap:"#광고 저랑 가을 겨울 준비 할 사람 💨 뉴발란스 플라잉 77 구스다운으로 데일리 룩부터 아웃도어 룩까지", eng:9700, date:"9/08", ad:true },
       { src:"img/ig/ht-02.jpg", brand:"무신사", cap:"#광고 뭐든 일찍 준비해서 나쁠건 없지! 무신사 경량 패딩 스타일링 기획전 10~20일", eng:8600, date:"9/07", ad:true },
       { src:"img/ig/ht-12.jpg", brand:"헬리녹스", cap:"#광고 헬리녹스 웨어의 이클립스 팩 다운 자켓. 지난 시즌 완판 + 2026 레드닷 어워드 수상", eng:7300, date:"9/06", ad:true },
-      { src:"img/ig/ht-09.jpg", brand:"리뷰", cap:"많고 많은 경량패딩 샘플들 중에서 선택된 패딩. 빵빵하면서 가볍고 + 부해 보임 없고 + 퀄, 디테일 좋은 ✨", eng:6100, date:"9/05" },
-      { src:"img/ig/ht-06.jpg", brand:"Teton Bros", cap:"#광고 Functional Beauty tetonbros 🔎 Alive Lightweight Down · Goose 850FP", eng:4200, date:"9/04", ad:true }
+      { src:"img/ig/ht-09.jpg", brand:"스몰 브랜드", cap:"많고 많은 경량패딩 샘플들 중에서 선택된 패딩. 빵빵하면서 가볍고 + 부해 보임 없고 + 퀄, 디테일 좋은 ✨", eng:6100, date:"9/05" },
+      { src:"img/ig/ht-06.jpg", brand:"Teton Bros", cap:"#광고 Functional Beauty tetonbros 🔎 Alive Lightweight Down · Goose 850FP", eng:4200, date:"9/04", ad:true },
+      { src:"img/ig/ht-13.jpg", brand:"매거진", cap:"경량 패딩 이렇게 입으면 됩니다 · 요즘 유행하는 뉴발란스 실버 경량패딩 코디", eng:3900, date:"9/03" }
     ]
   }
 };
+IG.short = IG.light; IG.mid = IG.light;   // 예시: 실제 연결 시 카테고리별 API 결과로 교체
 let igTab = "tagged";
 const fmtN = n => n>=10000 ? (n/10000).toFixed(1).replace(/\.0$/,"")+"만" : n.toLocaleString("ko-KR");
 function renderContent(){
   const c=CATS[current], data=(IG[current]||{})[igTab]||[];
-  document.getElementById("igTitle").textContent = igTab==="tagged" ? "우리 브랜드가 태그된 콘텐츠 TOP 10" : "#경량패딩 인기 콘텐츠 TOP 9";
+  document.getElementById("igTitle").textContent = igTab==="tagged" ? "우리 브랜드가 태그된 콘텐츠 TOP 10" : (HASHTAG[current]||"#패딩")+" 인기 콘텐츠 TOP 10";
+  document.getElementById("igHash").textContent = (HASHTAG[current]||"#패딩")+" 인기 콘텐츠";
   const g=document.getElementById("igGrid");
   if(!data.length){ g.innerHTML=`<div class="ig-empty" style="grid-column:1/-1">${c.name}은 아직 노출 전입니다.</div>`; return; }
   g.innerHTML = data.slice(0,10).map((p,i)=>`
@@ -712,7 +715,7 @@ function renderContent(){
       <div class="th">
         ${p.video ? `<video src="${p.src}" ${p.poster?`poster="${p.poster}"`:""} muted loop playsinline preload="metadata" onmouseenter="this.play()" onmouseleave="this.pause()"></video>` : `<img src="${p.src}" alt="" loading="lazy">`}
         <span class="rank">${i+1}</span>
-        ${p.brand ? `<span class="tag">${p.brand}</span>` : p.video ? `<span class="tag">영상</span>` : p.ad ? `<span class="tag">광고</span>` : ``}
+        ${p.brand ? `<span class="tag">${p.brand}</span>` : ``}
       </div>
       <div class="cap">${p.cap}</div>
       <div class="meta"><span><b class="num">${fmtN(p.eng)}</b> 반응</span><span class="num">${p.date}</span></div>
@@ -749,11 +752,11 @@ function buildChart(){
   const labels=alignMode?t.alignLbl:t.cal, lastY=alignMode?t.lastYAlign:t.lastY, n=labels.length;
   let marks=[];
   if(alignMode){ const oi=t.alignLbl.indexOf("태동");
-    marks.push({i:oi,label:t.est?"태동 예상":"태동",dash:false});
-    if(t.peakIdx!==null) marks.push({i:Math.min(oi+(t.peakIdx-t.onsetIdx),n-1),label:t.est?"피크 예상":"피크",dash:true});
+    marks.push({i:oi,label:t.onsetEst?"태동 예상":"태동",dash:false});
+    if(t.peakIdx!==null) marks.push({i:Math.min(oi+(t.peakIdx-t.onsetIdx),n-1),label:t.peakEst?"피크 예상":"피크",dash:true});
   } else {
-    if(t.onsetIdx!==null) marks.push({i:t.onsetIdx,label:t.est?"태동 예상":"태동",dash:false});
-    if(t.peakIdx!==null)  marks.push({i:t.peakIdx,label:t.est?"피크 예상":"피크",dash:true});
+    if(t.onsetIdx!==null) marks.push({i:t.onsetIdx,label:t.onsetEst?"태동 예상":"태동",dash:false});
+    if(t.peakIdx!==null)  marks.push({i:t.peakIdx,label:t.peakEst?"피크 예상":"피크",dash:true});
   }
   let grid="", yl="";
   [0,25,50,75,100].forEach(v=>{ const y=yAt(v);
