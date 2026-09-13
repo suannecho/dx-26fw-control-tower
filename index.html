@@ -136,10 +136,23 @@
   .ig-alert b{font-weight:800;}
   .ig-alert .sub{color:var(--ink-2); font-weight:500; margin-left:auto;}
   .panel.lead{margin-bottom:8px;}
-  .lead-wrap svg{display:block; width:100%; height:auto;}
-  .legend i.dot-b{width:12px; height:12px; border-radius:50%; background:var(--brand);}
-  .legend i.dot-o{width:12px; height:12px; border-radius:3px; background:#fff; border:2.5px solid var(--accent);}
-  .legend i.dot-g{width:12px; height:12px; border-radius:50%; background:#fff; border:2px dashed var(--ink-4);}
+  .lead-concl{font-size:17px; font-weight:800; letter-spacing:-.02em; line-height:1.45; padding:14px 18px; border-radius:var(--r-sm); background:var(--accent-tint); color:var(--ink); margin-bottom:16px;}
+  .lead-concl em{font-style:normal; color:var(--accent-ink);}
+  .lead-head,.lead-row{display:grid; grid-template-columns:150px 1fr 150px 150px; gap:16px; align-items:center;}
+  .lead-head{font-size:12px; font-weight:700; color:var(--ink-3); padding:0 14px 8px;}
+  .lead-head span:nth-child(n+3){text-align:center;}
+  .lead-row{padding:12px 14px; border-radius:14px; background:var(--card-2); margin-bottom:8px;}
+  .lead-row .nm{display:flex; align-items:center; gap:8px; font-weight:800; font-size:14.5px;}
+  .lead-row .nm i{width:9px; height:9px; border-radius:50%;}
+  .lead-row.go .nm i{background:var(--go);} .lead-row.alert .nm i{background:var(--alert);} .lead-row.amber .nm i{background:var(--amber);} .lead-row.wait .nm i{background:var(--wait);}
+  .lead-bar{position:relative; height:26px; border-radius:999px; background:var(--hatch); border:1px solid var(--line);}
+  .lead-bar > i{position:absolute; left:0; top:0; bottom:0; border-radius:999px; background:var(--brand);}
+  .lead-bar > i.plan{background:repeating-linear-gradient(135deg, var(--brand-2) 0 4px, transparent 4px 8px); opacity:.6;}
+  .lead-bar > b{position:absolute; left:12px; top:0; line-height:26px; font-size:13px; color:#fff; font-weight:800; white-space:nowrap;}
+  .lead-bar > b.dark{color:var(--ink);}
+  .lead-val{text-align:center; font-size:22px; font-weight:800; letter-spacing:-.03em;}
+  .lead-val.ok{color:var(--accent);} .lead-val.no{color:var(--alert-ink);} .lead-val.na{color:var(--ink-4); font-size:15px; font-weight:600;}
+  .lead-val small{display:block; font-size:11.5px; font-weight:600; color:var(--ink-3); letter-spacing:0;}
 
   /* ---------- STRATEGY (AI) ---------- */
   .ai-badge{display:inline-flex; align-items:center; gap:7px; padding:6px 12px; border-radius:999px; background:var(--accent); color:#fff; font-size:12.5px; font-weight:800; box-shadow:0 4px 14px var(--accent-glow);}
@@ -220,7 +233,7 @@
   .seg button:focus-visible{outline:2px solid var(--brand); outline-offset:1px;}
 
   .panel.chart{display:flex; flex-direction:column;}
-  .chart-holder{position:relative; flex:1; min-height:260px;}
+  .chart-holder{position:relative; flex:1; min-height:320px;}
   .chart-holder svg{position:absolute; inset:0; width:100%; height:100%; display:block;}
   .legend{display:flex; gap:18px; flex-wrap:wrap; margin-top:12px; font-size:13px; color:var(--ink-2);}
   .legend span{display:inline-flex; align-items:center; gap:7px;}
@@ -232,6 +245,7 @@
   .legend i.band{width:18px; height:12px; border-radius:3px;}
   .legend i.band.win{background:rgba(80,88,217,.14);} .legend i.band.ad{background:rgba(242,129,74,.16);} .legend i.band.est{background:rgba(242,129,74,.28);}
   .legend i.flg{width:auto; height:auto; background:none; color:var(--ink); font-size:14px; line-height:1;}
+  .legend .lg-act i{width:auto; height:auto; background:none; color:var(--brand); font-size:12px; margin:0 2px 0 6px;} .legend .lg-act em{font-style:normal; color:var(--ink-3); margin-left:4px;}
   .acts{margin-top:6px;} .acts svg{display:block; width:100%; height:auto;}
   .flags{display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; align-items:center;}
   .flags .fchip{display:inline-flex; align-items:center; gap:7px; padding:6px 11px; border-radius:999px; background:var(--card-2); font-size:12.5px; color:var(--ink-2);}
@@ -422,7 +436,6 @@
           </div>
         </div>
         <div class="chart-holder" id="chartHolder"></div>
-        <div class="acts" id="acts"></div>
         <div class="legend">
           <span><i></i>올해</span>
           <span><i class="dash"></i>작년</span>
@@ -433,6 +446,7 @@
           <span><i class="band ad"></i>검색 광고 집행 주</span>
           <span><i class="band est"></i>예상 범위</span>
           <span><i class="flg">⚑</i>외부 요인 (수동 표시)</span>
+          <span class="lg-act"><i>●</i>시딩 <i>■</i>공항패션 <i>▲</i>PPL <i>◆</i>매체 콘텐츠 <em>(빈 모양 = 계획)</em></span>
         </div>
         <div class="flags" id="flags"></div>
       </section>
@@ -473,7 +487,7 @@
         <div class="dcol">
           <h4>콘텐츠 반응 <span class="src">인스타그램</span></h4>
           <div class="metric">
-            <div class="mt"><span class="mk-">계획 대비 게시 완료</span><span class="mv num" id="mvPost">72%</span></div>
+            <div class="mt"><span class="mk-">게시 완료 (계획 대비)</span><span class="mv num" id="mvPost">—</span></div>
             <div class="bar"><i class="go" id="barPost" style="width:72%"></i></div>
           </div>
           <div class="metric grow">
@@ -520,17 +534,12 @@
 
     <!-- LEAD TIME vs ADVANTAGE -->
     <div class="sec" id="lead-sec">
-      <h2>일찍 시작할수록 앞섰나 <span>카테고리별 리드타임 vs 태동·피크 때 우위 · 선제 효과의 직접 증거</span></h2>
-      <span class="note">같은 해, 같은 모델·예산에서 시작 시점만 다른 4번의 시도</span>
+      <h2>얼마나 일찍 시작했고, 얼마나 앞섰나 <span>카테고리별 비교</span></h2>
     </div>
     <section class="panel lead">
-      <div class="lead-wrap" id="leadChart"></div>
-      <div class="legend">
-        <span><i class="dot-b"></i>태동 때 우위 (%p)</span>
-        <span><i class="dot-o"></i>피크 때 우위 (%p)</span>
-        <span><i class="dot-g"></i>아직 판정 전</span>
-        <span><i class="dash"></i>통과 기준</span>
-      </div>
+      <div class="lead-concl" id="leadConcl"></div>
+      <div class="lead-head"><span>카테고리</span><span>태동 며칠 전에 노출을 시작했나</span><span>태동 때 작년보다</span><span>피크 때 작년보다</span></div>
+      <div id="leadRows"></div>
     </section>
 
     <!-- STRATEGY (AI) -->
@@ -564,9 +573,9 @@ const CATS = {
     },
     verdict:{tag:"태동·피크 모두 작년보다 앞섬 · 성공", body:"미리 알린 효과가 성수기까지 이어졌습니다. 이 리드타임(63일)과 노출 배분을 다음 카테고리 기준으로 삼습니다.", cls:"go"},
     diag:{ ok:true, text:"",
-      postRate:88, nameRate:74, resp:[40,52,66,74,80,78,76,72,70,66,62,60], brand:[9,12,15,18,22,26,31,38,49,60,68,65], sos:[16.2,16.9,17.5,18.3,19.0,19.8,20.6,21.5,22.4,23.3,24.1,23.8], view:[10,13,17,20,24,28,33,40,52,63,70,66],
-      organic:[2,3,4,6,7,9,11,12,14,13,12,10], organicTxt:"상승 ↑", organicCls:"go",
-      respTxt:"상승 ↑", respCls:"go", brandTxt:"상승 ↑", brandCls:"go", sosTxt:"24.1% ↑", sosCls:"go", viewTxt:"상승 ↑", viewCls:"go" }
+      postRate:88, postDone:44, postPlan:50, resp:[40,52,66,74,80,78,76,72,70,66,62,60], brand:[9,12,15,18,22,26,31,38,49,60,68,65], sos:[16.2,16.9,17.5,18.3,19.0,19.8,20.6,21.5,22.4,23.3,24.1,23.8], view:[10,13,17,20,24,28,33,40,52,63,70,66],
+      organic:[2,3,4,6,7,9,11,12,14,13,12,10], organicTxt:"10건 (전주 12건)", organicCls:"",
+      respTxt:"9,800 (전주 +5%)", respCls:"go", brandTxt:"11,400 (작년 ×1.24)", brandCls:"go", sosTxt:"24.1% (작년 20.3%)", sosCls:"go", viewTxt:"38,600 (작년 ×1.31)", viewCls:"go" }
   },
   short: {
     idx:2, name:"숏 다운", range:"활성 9/29 – 11/30", state:"경고", sig:"alert",
@@ -585,9 +594,9 @@ const CATS = {
     },
     verdict:{tag:"태동 땐 앞섰지만 피크 때 뒤처짐 · 경고", body:"미리 알린 효과가 성수기까지 이어지지 않았습니다. 다음 카테고리는 노출을 더 늦게 시작하고 태동일 근처에 집중합니다.", cls:"no"},
     diag:{ ok:false, text:"게시물과 반응은 정상 범위인데 <b>피크 구간에서 패딩 검색 중 우리 비중이 역전</b>됐습니다. 콘텐츠보다 <b>피크 시점 노출 집중</b>이 필요합니다.",
-      postRate:72, nameRate:58, resp:[30,42,55,68,72,70,66,64,60,58], brand:[8,12,17,24,34,49,58,62,62,60], sos:[15.8,16.4,17.2,18.5,20.1,22.8,23.4,22.9,21.9,21.4], view:[9,13,18,25,34,47,55,58,57,54],
-      organic:[1,2,3,4,5,6,6,5,4,4], organicTxt:"피크 전 감소 ↓", organicCls:"alert",
-      respTxt:"상승 후 유지 →", respCls:"", brandTxt:"태동↑ 피크→", brandCls:"amber", sosTxt:"21.4% ↓", sosCls:"alert", viewTxt:"둔화", viewCls:"amber" }
+      postRate:72, postDone:36, postPlan:50, resp:[30,42,55,68,72,70,66,64,60,58], brand:[8,12,17,24,34,49,58,62,62,60], sos:[15.8,16.4,17.2,18.5,20.1,22.8,23.4,22.9,21.9,21.4], view:[9,13,18,25,34,47,55,58,57,54],
+      organic:[1,2,3,4,5,6,6,5,4,4], organicTxt:"4건 (피크 전 6건)", organicCls:"alert",
+      respTxt:"7,600 (전주 −3%)", respCls:"", brandTxt:"9,100 (작년 ×1.16)", brandCls:"go", sosTxt:"21.4% (작년 26.4%)", sosCls:"alert", viewTxt:"29,800 (전주 −6%)", viewCls:"alert" }
   },
   mid: {
     idx:3, name:"미드 다운", range:"활성 10/27 –", state:"진행 중", sig:"amber",
@@ -606,9 +615,9 @@ const CATS = {
     },
     verdict:{tag:"태동 통과 · 피크 대기", body:"", cls:"na"},
     diag:{ ok:true, text:"",
-      postRate:66, nameRate:61, resp:[24,33,44,52,58,62], brand:[8,12,17,24,33,40], sos:[15.1,15.9,16.6,17.4,18.2,18.7], view:[9,13,18,25,33,39],
-      organic:[1,2,3,3,4,5], organicTxt:"상승 ↑", organicCls:"go",
-      respTxt:"상승 ↑", respCls:"go", brandTxt:"상승 ↑", brandCls:"go", sosTxt:"18.7% →", sosCls:"", viewTxt:"상승 ↑", viewCls:"go" }
+      postRate:66, postDone:33, postPlan:50, resp:[24,33,44,52,58,62], brand:[8,12,17,24,33,40], sos:[15.1,15.9,16.6,17.4,18.2,18.7], view:[9,13,18,25,33,39],
+      organic:[1,2,3,3,4,5], organicTxt:"5건 (전주 4건)", organicCls:"go",
+      respTxt:"6,900 (전주 +7%)", respCls:"go", brandTxt:"7,200 (작년 ×1.09)", brandCls:"go", sosTxt:"18.7% (작년 18.5%)", sosCls:"", viewTxt:"24,100 (전주 +9%)", viewCls:"go" }
   },
   long: {
     idx:4, name:"롱 다운 · 방한화", range:"노출 준비 · 12/1 –", state:"대기", sig:"wait",
@@ -626,7 +635,7 @@ const CATS = {
       adWeeks:[], flags:[]
     },
     verdict:{tag:"노출 전 · 대기", body:"", cls:"na"},
-    diag:{ ok:true, text:"", postRate:0, nameRate:0, resp:[], organic:[], brand:[], sos:[], view:[] }
+    diag:{ ok:true, text:"", postRate:0, postDone:0, postPlan:50, resp:[], organic:[], brand:[], sos:[], view:[] }
   }
 };
 
@@ -729,42 +738,23 @@ function renderSummary(){
    실제 연결 시 캠페인 일정표(시트)에서 생성. */
 const ACT_ROWS = ["인플루언서 시딩","앰버서더 공항패션","앰버서더 인스타 PPL","인스타 매체 콘텐츠"];
 const ACTS = {
-  light: [ {row:0,i:0,label:"1차 · 12명",done:true},{row:0,i:4,label:"2차 · 15명",done:true},{row:0,i:8,label:"3차 · 10명",done:true},
+  light: [ {row:0,i:0,label:"시딩 1차",done:true},{row:0,i:4,label:"시딩 2차",done:true},{row:0,i:8,label:"시딩 3차",done:true},
            {row:1,i:2,label:"공항패션",done:true},
            {row:2,i:6,label:"PPL 1",done:true},{row:2,i:9,label:"PPL 2",done:true},
            {row:3,i:1,span:3,label:"매체 콘텐츠 1차",done:true},{row:3,i:7,span:3,label:"매체 콘텐츠 2차",done:true} ],
-  short: [ {row:0,i:0,label:"1차 · 14명",done:true},{row:0,i:3,label:"2차 · 16명",done:true},{row:0,i:5,label:"3차 · 8명",done:true},
+  short: [ {row:0,i:0,label:"시딩 1차",done:true},{row:0,i:3,label:"시딩 2차",done:true},{row:0,i:5,label:"시딩 3차",done:true},
            {row:1,i:2,label:"공항패션",done:true},
            {row:2,i:1,label:"PPL 1",done:true},{row:2,i:4,label:"PPL 2",done:true},
            {row:3,i:0,span:3,label:"매체 콘텐츠 1차",done:true},{row:3,i:3,span:3,label:"매체 콘텐츠 2차",done:true} ],
-  mid:   [ {row:0,i:0,label:"1차 · 12명",done:true},{row:0,i:2,label:"2차 · 14명",done:true},{row:0,i:6,label:"3차 · 20명 (피크 집중)",done:false},{row:0,i:7,label:"4차 · 20명",done:false},
+  mid:   [ {row:0,i:0,label:"시딩 1차",done:true},{row:0,i:2,label:"시딩 2차",done:true},{row:0,i:6,label:"시딩 3차",done:false},{row:0,i:7,label:"시딩 4차",done:false},
            {row:1,i:1,label:"공항패션",done:true},
            {row:2,i:3,label:"PPL 1",done:true},{row:2,i:6,label:"PPL 2",done:false},
            {row:3,i:1,span:3,label:"매체 콘텐츠 1차",done:true},{row:3,i:6,span:2,label:"매체 콘텐츠 2차 (피크)",done:false} ],
-  long:  [ {row:0,i:0,label:"1차 · 15명",done:false},{row:0,i:2,label:"2차 · 15명",done:false},{row:0,i:5,label:"3차 · 25명 (피크 집중)",done:false},{row:0,i:6,label:"4차 · 25명",done:false},
+  long:  [ {row:0,i:0,label:"시딩 1차",done:false},{row:0,i:2,label:"시딩 2차",done:false},{row:0,i:5,label:"시딩 3차",done:false},{row:0,i:6,label:"시딩 4차",done:false},
            {row:1,i:1,label:"공항패션",done:false},
            {row:2,i:2,label:"PPL 1",done:false},{row:2,i:5,label:"PPL 2",done:false},
            {row:3,i:0,span:3,label:"매체 콘텐츠 1차",done:false},{row:3,i:5,span:2,label:"매체 콘텐츠 2차 (피크)",done:false} ]
 };
-function buildActs(n, shift, labels, marks){
-  const items=ACTS[current]||[], rowH=34, top=14, H=top+rowH*ACT_ROWS.length+4, half=(plotR-plotL)/Math.max(1,n-1)/2;
-  let s=`<text x="${plotR}" y="${top-3}" text-anchor="end" font-size="10.5" fill="${C.tick}">● 집행 완료 · ○ 계획</text>`;
-  marks.forEach(m=>{ const x=xAt(m.i,n); s+=`<line x1="${x}" y1="${top}" x2="${x}" y2="${H}" stroke="${C.accent}" stroke-width="1.5" ${m.dash?'stroke-dasharray="4 4"':''} opacity=".6"/>`; });
-  ACT_ROWS.forEach((r,k)=>{ const y=top+k*rowH;
-    s+=`<text x="${plotL}" y="${y+11}" font-size="11" font-weight="700" fill="${C.tick}">${r}</text><line x1="${plotL}" y1="${y+rowH-3}" x2="${plotR}" y2="${y+rowH-3}" stroke="${C.grid}"/>`; });
-  items.forEach(a=>{ const i0=a.i+shift, i1=i0+(a.span||1)-1; if(i1<0||i0>n-1) return;
-    const x0=xAt(Math.max(0,i0),n)-half+2, x1=xAt(Math.min(n-1,i1),n)+half-2, y=top+a.row*rowH+15, w=Math.max(12,x1-x0);
-    const tip=`${a.label} · ${labels[Math.max(0,i0)]}${(a.span||1)>1?`–${labels[Math.min(n-1,i1)]}`:""} · ${a.done?"집행 완료":"계획"}`;
-    s+= a.done
-      ? `<rect x="${x0.toFixed(1)}" y="${y}" width="${w.toFixed(1)}" height="13" rx="6.5" fill="${C.brand}"><title>${tip}</title></rect>`
-      : `<rect x="${x0.toFixed(1)}" y="${y}" width="${w.toFixed(1)}" height="13" rx="6.5" fill="#fff" stroke="${C.brand2}" stroke-width="1.6" stroke-dasharray="4 3"><title>${tip}</title></rect>`;
-    const short=a.label.replace(/ \(.*\)/,""), tx=x0+w+6;
-    if((a.span||1)>1) s+=`<text x="${(x0+w/2).toFixed(1)}" y="${y+10}" text-anchor="middle" font-size="9.5" font-weight="700" fill="${a.done?"#fff":C.brand}">${short}</text>`;
-    else if(tx+short.length*6.5<plotR) s+=`<text x="${tx.toFixed(1)}" y="${y+10}" font-size="10" fill="${C.ink2||"#3E4776"}">${short}</text>`;
-  });
-  return `<svg viewBox="0 0 ${VB_W} ${H}" role="img" aria-label="활동 일정">${s}</svg>`;
-}
-
 /* ---------------- EXTERNAL FLAGS (수동 표시) ----------------
    할인·기획전·품절·경쟁 프로모션처럼 우리가 만들지 않은 변동. 판정 창에 걸리면 판정 타일에 '참고'로 표시. */
 function loadFlags(key){ try{ const s=localStorage.getItem("flags_"+key); if(s) CATS[key].tracker.flags=JSON.parse(s); }catch(e){} }
@@ -785,26 +775,26 @@ function renderFlags(){
 
 /* ---------------- LEAD TIME vs ADVANTAGE (선제 효과의 직접 증거) ---------------- */
 function renderLead(){
-  const W=900, H=280, L=54, R=24, T=28, B=44, X0=0, X1=80, Y0=-10, Y1=26;
-  const xs=d=>L+(d-X0)/(X1-X0)*(W-L-R), ys=v=>T+(Y1-v)/(Y1-Y0)*(H-T-B);
-  const pts=ORDER.map(k=>{ const c=CATS[k], tl=TIMELINE[k]; const lead=diffDays(parseD(tl.onset.date), parseD(tl.launch));
+  const rows=ORDER.map(k=>{ const c=CATS[k], tl=TIMELINE[k]; const lead=diffDays(parseD(tl.onset.date), parseD(tl.launch));
     const num=s=>{ const m=String(s).replace("−","-").match(/-?\d+(\.\d+)?/); return m?parseFloat(m[0]):null; };
-    return { k, name:c.name.replace(" 다운","").replace(" · 방한화",""), lead, on:c.onset.mark==="na"?null:num(c.onset.v), pk:c.peak.mark==="na"?null:num(c.peak.v), est:tl.onset.est }; });
-  let g="";
-  [-10,0,10,20].forEach(v=>{ g+=`<line x1="${L}" y1="${ys(v)}" x2="${W-R}" y2="${ys(v)}" stroke="${C.grid}"/><text x="${L-8}" y="${ys(v)+4}" text-anchor="end" font-size="11" fill="${C.tick}">${v>0?"+":""}${v}%p</text>`; });
-  [0,20,40,60,80].forEach(d=>{ g+=`<text x="${xs(d)}" y="${H-B+20}" text-anchor="middle" font-size="11" fill="${C.tick}">${d}일 전</text>`; });
-  g+=`<text x="${W-R}" y="${H-6}" text-anchor="end" font-size="11" fill="${C.ink3||C.tick}">태동일 기준 노출 시작 시점</text>`;
-  g+=`<line x1="${L}" y1="${ys(0)}" x2="${W-R}" y2="${ys(0)}" stroke="${C.axis}"/>`;
-  g+=`<line x1="${L}" y1="${ys(8)}" x2="${W-R}" y2="${ys(8)}" stroke="${C.brand}" stroke-dasharray="5 5" opacity=".6"/><text x="${W-R}" y="${ys(8)-5}" text-anchor="end" font-size="10.5" fill="${C.brand}">태동 통과 기준 +8%p</text>`;
-  g+=`<line x1="${L}" y1="${ys(6)}" x2="${W-R}" y2="${ys(6)}" stroke="${C.accent}" stroke-dasharray="5 5" opacity=".6"/><text x="${W-R}" y="${ys(6)+13}" text-anchor="end" font-size="10.5" fill="${C.accent}">피크 통과 기준 +6%p</text>`;
-  const onPts=pts.filter(p=>p.on!==null).sort((a,b)=>a.lead-b.lead);
-  if(onPts.length>1) g+=`<path d="${onPts.map((p,i)=>(i?"L":"M")+xs(p.lead).toFixed(1)+" "+ys(p.on).toFixed(1)).join(" ")}" fill="none" stroke="${C.brand}" stroke-width="2" stroke-dasharray="6 5" opacity=".5"/>`;
-  pts.forEach(p=>{ const x=xs(p.lead);
-    if(p.on===null){ g+=`<circle cx="${x}" cy="${ys(0)}" r="8" fill="#fff" stroke="${C.lastY}" stroke-width="2" stroke-dasharray="3 3"/><text x="${x}" y="${ys(0)-14}" text-anchor="middle" font-size="12" font-weight="700" fill="${C.tick}">${p.name} · ${p.lead}일 전 시작 예정</text>`; return; }
-    if(p.pk!==null){ g+=`<line x1="${x}" y1="${ys(p.on)}" x2="${x}" y2="${ys(p.pk)}" stroke="${C.lastY}" stroke-width="1.5"/><rect x="${x-7}" y="${ys(p.pk)-7}" width="14" height="14" rx="3" fill="#fff" stroke="${C.accent}" stroke-width="2.5"/><text x="${x+14}" y="${ys(p.pk)+4}" font-size="12" font-weight="700" fill="${C.accent}">피크 ${p.pk>0?"+":""}${p.pk}%p</text>`; }
-    else { g+=`<rect x="${x-7}" y="${ys(0)-7}" width="14" height="14" rx="3" fill="#fff" stroke="${C.lastY}" stroke-width="2" stroke-dasharray="3 3"/><text x="${x+14}" y="${ys(0)+4}" font-size="12" fill="${C.tick}">피크 판정 전</text>`; }
-    g+=`<circle cx="${x}" cy="${ys(p.on)}" r="9" fill="${C.brand}" stroke="#fff" stroke-width="3"/><text x="${x}" y="${ys(p.on)-16}" text-anchor="middle" font-size="13" font-weight="800" fill="${C.ink}">${p.name} · ${p.lead}일 전 시작 → 태동 ${p.on>0?"+":""}${p.on}%p</text>`; });
-  document.getElementById("leadChart").innerHTML=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="리드타임 대비 우위">${g}</svg>`;
+    return { k, c, lead, on:c.onset.mark==="na"?null:num(c.onset.v), onMark:c.onset.mark, pk:c.peak.mark==="na"?null:num(c.peak.v), pkMark:c.peak.mark, started:!tl.onset.est||diffDays(todayDate(),parseD(tl.launch))>=0, est:tl.onset.est }; });
+  const maxLead=Math.max(80, ...rows.map(r=>r.lead));
+  const fmt=v=>(v>0?"+":"")+v+"%p";
+  const val=(v,mark,label)=> v===null ? `<div class="lead-val na">${label}</div>` : `<div class="lead-val ${mark==="ok"?"ok":"no"}">${fmt(v)}<small>${mark==="ok"?"통과":"미달"}</small></div>`;
+  document.getElementById("leadRows").innerHTML = rows.map(r=>{ const w=Math.max(8, r.lead/maxLead*100);
+    const barTxt = r.started ? `${r.lead}일 전 시작` : `${r.lead}일 전 시작 예정 (${fmtMD(parseD(TIMELINE[r.k].launch))})`;
+    return `<div class="lead-row ${r.c.sig}">
+      <div class="nm"><i></i>${r.c.name}</div>
+      <div class="lead-bar"><i class="${r.started?"":"plan"}" style="width:${w.toFixed(1)}%"></i><b class="${r.started?"":"dark"}">${barTxt}</b></div>
+      ${val(r.on, r.onMark, r.started ? "판정 전" : "—")}
+      ${val(r.pk, r.pkMark, r.on===null ? "—" : "판정 전")}
+    </div>`; }).join("");
+  // 결론 한 문장: 태동 판정이 끝난 카테고리를 리드타임 순으로 나열
+  const done=rows.filter(r=>r.on!==null).sort((a,b)=>b.lead-a.lead);
+  const mono = done.every((r,i)=> i===0 || r.on<=done[i-1].on);
+  document.getElementById("leadConcl").innerHTML = done.length>=2
+    ? `${mono ? "일찍 시작한 카테고리일수록 태동 때 더 앞섰습니다." : "시작 시점과 태동 우위가 나란히 가지 않습니다. 원인 분석이 필요합니다."} ${done.map(r=>`<em>${r.c.name.replace(" 다운","")} ${r.lead}일 전 → ${fmt(r.on)}</em>`).join(" · ")}${done.some(r=>r.pk!==null&&r.pkMark==="no")?` 다만 피크까지 이어지려면 피크 직전 노출이 있어야 합니다.`:""}`
+    : "판정이 끝난 카테고리가 2개 이상 되면 비교 결론이 여기에 표시됩니다.";
 }
 
 /* ---------------- STRATEGY (AI) ----------------
@@ -938,7 +928,7 @@ function renderDiag(){
   const live = c.diag.resp.length>0;
   const $=id=>document.getElementById(id);
   dv.hidden = c.diag.ok;                       // 문제 있을 때만 진단 문장 표시
-  $("mvPost").textContent = live ? c.diag.postRate+"%" : "—"; $("barPost").style.width=c.diag.postRate+"%";
+  $("mvPost").textContent = live ? `${c.diag.postDone} / ${c.diag.postPlan}개 (${c.diag.postRate}%)` : "—"; $("barPost").style.width=c.diag.postRate+"%";
   const setTxt=(id,txt,cls)=>{ const e=$(id); e.textContent=live?txt:"—"; e.className="mv"+(live&&cls?" "+cls:"")+(id==="mvSos"?" num":""); };
   setTxt("mvResp",  c.diag.respTxt||"—",  c.diag.respCls);
   setTxt("mvBrand", c.diag.brandTxt||"—", c.diag.brandCls);
@@ -996,8 +986,8 @@ function renderContent(){
   if(hs.length){ const ours=hs.filter(p=>p.ours).length, comp=hs.filter(p=>p.ad).length, ads=tg.filter(p=>p.ad).length;
     al.hidden=false;
     al.innerHTML = ours===0
-      ? `<span>⚑</span><span><b>${HASHTAG[current]||"#패딩"} 인기 콘텐츠 TOP 10 중 우리 브랜드 0건</b> · 경쟁 브랜드 광고 ${comp}건. 해시태그 노출 점유가 없습니다.</span><span class="sub">태그된 콘텐츠 ${tg.length}개 중 광고 ${ads} · 자연 언급 ${tg.length-ads}</span>`
-      : `<span>✓</span><span>${HASHTAG[current]||"#패딩"} 인기 콘텐츠 TOP 10 중 우리 브랜드 <b>${ours}건</b></span><span class="sub">태그된 콘텐츠 ${tg.length}개 중 광고 ${ads} · 자연 언급 ${tg.length-ads}</span>`;
+      ? `<span>⚑</span><span><b>${HASHTAG[current]||"#패딩"} 인기 콘텐츠 TOP 10 중 우리 브랜드 0건</b> · 경쟁 브랜드 광고 ${comp}건. 해시태그 노출 점유가 없습니다.</span>`
+      : `<span>✓</span><span>${HASHTAG[current]||"#패딩"} 인기 콘텐츠 TOP 10 중 우리 브랜드 <b>${ours}건</b></span>`;
   } else al.hidden=true;
   if(!data.length){ g.innerHTML=`<div class="ig-empty" style="grid-column:1/-1">${c.name}은 아직 노출 전입니다.</div>`; return; }
   g.innerHTML = data.slice(0,10).map((p,i)=>`
@@ -1015,7 +1005,7 @@ document.getElementById("igTagged").addEventListener("click",()=>{ igTab="tagged
 document.getElementById("igHash").addEventListener("click",()=>{ igTab="hashtag"; igHash.classList.add("on"); igTagged.classList.remove("on"); renderContent(); });
 
 /* ---------------- CHART (inline SVG, no CDN) ---------------- */
-let VB_W=680, VB_H=300; const PL=36, PR=16, PT=36, PB=30;
+let VB_W=680, VB_H=300; const PL=36, PR=16, PT=40, PB=30;
 let plotL=PL, plotR=VB_W-PR, plotT=PT, plotB=VB_H-PB; const Y_MAX=110;
 const xAt=(i,n)=>plotL+(n<=1?0:(i/(n-1))*(plotR-plotL));
 const yAt=v=>plotB-(Math.max(0,Math.min(Y_MAX,v))/Y_MAX)*(plotB-plotT);
@@ -1069,6 +1059,16 @@ function buildChart(){
     mk+= m.dash
       ? `<rect x="${(cx-w/2).toFixed(1)}" y="${plotT-26}" width="${w}" height="20" rx="10" fill="#fff" stroke="${C.accent}" stroke-width="1.8"/><text x="${cx.toFixed(1)}" y="${plotT-12}" text-anchor="middle" font-size="11" font-weight="800" fill="${C.accent}">${m.label}</text>`
       : `<rect x="${(cx-w/2).toFixed(1)}" y="${plotT-26}" width="${w}" height="20" rx="10" fill="${C.accent}"/><text x="${cx.toFixed(1)}" y="${plotT-12}" text-anchor="middle" font-size="11" font-weight="800" fill="#fff">${m.label}</text>`; });
+  // 활동 포인트: 차트 상단 한 줄에 주별로 찍는다. 모양 = 종류, 채움 = 집행, 빈 모양 = 계획
+  let acts="";
+  { const byWeek={}; (ACTS[current]||[]).forEach(a=>{ const ii=a.i+shift; if(ii<0||ii>n-1) return; (byWeek[ii]=byWeek[ii]||[]).push(a); });
+    const shape=(row,x,y,done)=>{ const f=done?C.brand:"#fff", s=C.brand, sw=done?0:1.8;
+      if(row===0) return `<circle cx="${x}" cy="${y}" r="6" fill="${f}" stroke="${s}" stroke-width="${sw}"/>`;
+      if(row===1) return `<rect x="${x-5.5}" y="${y-5.5}" width="11" height="11" rx="2" fill="${f}" stroke="${s}" stroke-width="${sw}"/>`;
+      if(row===2) return `<path d="M${x} ${y-6.5} L${x+6.5} ${y+5} L${x-6.5} ${y+5} Z" fill="${f}" stroke="${s}" stroke-width="${sw}" stroke-linejoin="round"/>`;
+      return `<path d="M${x} ${y-7} L${x+7} ${y} L${x} ${y+7} L${x-7} ${y} Z" fill="${f}" stroke="${s}" stroke-width="${sw}" stroke-linejoin="round"/>`; };
+    Object.keys(byWeek).forEach(w=>{ const list=byWeek[w], x=xAt(+w,n); list.forEach((a,k)=>{ const y=plotT+12+k*16;
+      acts+=`<g>${shape(a.row,x,y,a.done)}<title>${a.label} · ${labels[+w]}${a.span>1?` ~ ${labels[Math.min(n-1,+w+a.span-1)]}`:""} · ${a.done?"집행 완료":"계획"}</title></g>`; }); }); }
   let endDot="";
   for(let i=n-1;i>=0;i--){ if(t.thisY[i]!==null&&t.thisY[i]!==undefined){ const x=xAt(i,n).toFixed(1), y=yAt(t.thisY[i]).toFixed(1);
     endDot=`<circle cx="${x}" cy="${y}" r="10" fill="${C.accent}" opacity=".18"/><circle cx="${x}" cy="${y}" r="5" fill="${C.accent}" stroke="#fff" stroke-width="2.5"/>`; break; } }
@@ -1084,7 +1084,7 @@ function buildChart(){
     ${areaSVG(t.thisY,n,"url(#areaGrad)")}
     ${lineSVG(lastY,n,C.lastY,2,"6 5")}
     ${lineSVG(t.thisY,n,C.brand,3.2,false)}
-    ${endDot}${mk}${fl}
+    ${endDot}${mk}${fl}${acts}
     <line x1="${plotL}" y1="${plotB}" x2="${plotR}" y2="${plotB}" stroke="${C.axis}" stroke-width="1"/>
   </svg>`;
   const holder=document.getElementById("chartHolder");
@@ -1092,7 +1092,6 @@ function buildChart(){
   holder.innerHTML=svg+
     `<div id="cGuide" style="position:absolute;top:${gTop}%;bottom:${gBot}%;width:0;border-left:1.5px dashed #F2814A;display:none;pointer-events:none;"></div>`+
     `<div id="cTip" style="position:absolute;display:none;pointer-events:none;background:#343CB0;color:#fff;font-size:12.5px;line-height:1.6;padding:10px 13px;border-radius:14px;box-shadow:0 10px 30px rgba(18,20,24,.25);white-space:nowrap;z-index:5;min-width:132px;"></div>`;
-  document.getElementById("acts").innerHTML = buildActs(n, shift, labels, marks);
   attachHover(labels,lastY,t);
 }
 function attachHover(labels,lastY,t){
