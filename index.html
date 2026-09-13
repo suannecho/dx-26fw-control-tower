@@ -233,7 +233,7 @@
   .seg button:focus-visible{outline:2px solid var(--brand); outline-offset:1px;}
 
   .panel.chart{display:flex; flex-direction:column;}
-  .chart-holder{position:relative; flex:1; min-height:320px;}
+  .chart-holder{position:relative; flex:1; min-height:400px;}
   .chart-holder svg{position:absolute; inset:0; width:100%; height:100%; display:block;}
   .legend{display:flex; gap:18px; flex-wrap:wrap; margin-top:12px; font-size:13px; color:var(--ink-2);}
   .legend span{display:inline-flex; align-items:center; gap:7px;}
@@ -246,6 +246,7 @@
   .legend i.band.win{background:rgba(80,88,217,.14);} .legend i.band.ad{background:rgba(242,129,74,.16);} .legend i.band.est{background:rgba(242,129,74,.28);}
   .legend i.flg{width:auto; height:auto; background:none; color:var(--ink); font-size:14px; line-height:1;}
   .legend .lg-act i{width:auto; height:auto; background:none; color:var(--brand); font-size:12px; margin:0 2px 0 6px;} .legend .lg-act em{font-style:normal; color:var(--ink-3); margin-left:4px;}
+  .legend .lg-act i.chip-d,.legend .lg-act i.chip-p{font-size:10.5px; font-weight:700; padding:2px 8px; border-radius:999px; margin:0 4px 0 8px;} .legend .lg-act i.chip-d{background:var(--brand); color:#fff;} .legend .lg-act i.chip-p{background:#fff; color:var(--brand); border:1.4px dashed var(--brand);}
   .acts{margin-top:6px;} .acts svg{display:block; width:100%; height:auto;}
   .flags{display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; align-items:center;}
   .flags .fchip{display:inline-flex; align-items:center; gap:7px; padding:6px 11px; border-radius:999px; background:var(--card-2); font-size:12.5px; color:var(--ink-2);}
@@ -446,7 +447,7 @@
           <span><i class="band ad"></i>검색 광고 집행 주</span>
           <span><i class="band est"></i>예상 범위</span>
           <span><i class="flg">⚑</i>외부 요인 (수동 표시)</span>
-          <span class="lg-act"><i>●</i>시딩 <i>■</i>공항패션 <i>▲</i>PPL <i>◆</i>매체 콘텐츠 <em>(빈 모양 = 계획)</em></span>
+          <span class="lg-act"><i class="chip-d">시딩 2차</i>집행 완료 <i class="chip-p">PPL 2</i>계획</span>
         </div>
         <div class="flags" id="flags"></div>
       </section>
@@ -596,7 +597,7 @@ const CATS = {
     diag:{ ok:false, text:"게시물과 반응은 정상 범위인데 <b>피크 구간에서 패딩 검색 중 우리 비중이 역전</b>됐습니다. 콘텐츠보다 <b>피크 시점 노출 집중</b>이 필요합니다.",
       postRate:72, postDone:36, postPlan:50, resp:[30,42,55,68,72,70,66,64,60,58], brand:[8,12,17,24,34,49,58,62,62,60], sos:[15.8,16.4,17.2,18.5,20.1,22.8,23.4,22.9,21.9,21.4], view:[9,13,18,25,34,47,55,58,57,54],
       organic:[1,2,3,4,5,6,6,5,4,4], organicTxt:"4건 (피크 전 6건)", organicCls:"alert",
-      respTxt:"7,600 (전주 −3%)", respCls:"", brandTxt:"9,100 (작년 ×1.16)", brandCls:"go", sosTxt:"21.4% (작년 26.4%)", sosCls:"alert", viewTxt:"29,800 (전주 −6%)", viewCls:"alert" }
+      respTxt:"7,600 (전주 −3%)", respCls:"", brandTxt:"9,100 (작년 ×1.16)", brandCls:"go", sosTxt:"21.4% (작년 26.4%)", sosCls:"alert", viewTxt:"29,800 (작년 ×0.94)", viewCls:"alert" }
   },
   mid: {
     idx:3, name:"미드 다운", range:"활성 10/27 –", state:"진행 중", sig:"amber",
@@ -617,7 +618,7 @@ const CATS = {
     diag:{ ok:true, text:"",
       postRate:66, postDone:33, postPlan:50, resp:[24,33,44,52,58,62], brand:[8,12,17,24,33,40], sos:[15.1,15.9,16.6,17.4,18.2,18.7], view:[9,13,18,25,33,39],
       organic:[1,2,3,3,4,5], organicTxt:"5건 (전주 4건)", organicCls:"go",
-      respTxt:"6,900 (전주 +7%)", respCls:"go", brandTxt:"7,200 (작년 ×1.09)", brandCls:"go", sosTxt:"18.7% (작년 18.5%)", sosCls:"", viewTxt:"24,100 (전주 +9%)", viewCls:"go" }
+      respTxt:"6,900 (전주 +7%)", respCls:"go", brandTxt:"7,200 (작년 ×1.09)", brandCls:"go", sosTxt:"18.7% (작년 18.5%)", sosCls:"", viewTxt:"24,100 (작년 ×1.12)", viewCls:"go" }
   },
   long: {
     idx:4, name:"롱 다운 · 방한화", range:"노출 준비 · 12/1 –", state:"대기", sig:"wait",
@@ -1005,7 +1006,7 @@ document.getElementById("igTagged").addEventListener("click",()=>{ igTab="tagged
 document.getElementById("igHash").addEventListener("click",()=>{ igTab="hashtag"; igHash.classList.add("on"); igTagged.classList.remove("on"); renderContent(); });
 
 /* ---------------- CHART (inline SVG, no CDN) ---------------- */
-let VB_W=680, VB_H=300; const PL=36, PR=16, PT=40, PB=30;
+let VB_W=680, VB_H=300; const PL=36, PR=16, PT=36, PB=110;
 let plotL=PL, plotR=VB_W-PR, plotT=PT, plotB=VB_H-PB; const Y_MAX=110;
 const xAt=(i,n)=>plotL+(n<=1?0:(i/(n-1))*(plotR-plotL));
 const yAt=v=>plotB-(Math.max(0,Math.min(Y_MAX,v))/Y_MAX)*(plotB-plotT);
@@ -1059,16 +1060,19 @@ function buildChart(){
     mk+= m.dash
       ? `<rect x="${(cx-w/2).toFixed(1)}" y="${plotT-26}" width="${w}" height="20" rx="10" fill="#fff" stroke="${C.accent}" stroke-width="1.8"/><text x="${cx.toFixed(1)}" y="${plotT-12}" text-anchor="middle" font-size="11" font-weight="800" fill="${C.accent}">${m.label}</text>`
       : `<rect x="${(cx-w/2).toFixed(1)}" y="${plotT-26}" width="${w}" height="20" rx="10" fill="${C.accent}"/><text x="${cx.toFixed(1)}" y="${plotT-12}" text-anchor="middle" font-size="11" font-weight="800" fill="#fff">${m.label}</text>`; });
-  // 활동 포인트: 차트 상단 한 줄에 주별로 찍는다. 모양 = 종류, 채움 = 집행, 빈 모양 = 계획
-  let acts="";
-  { const byWeek={}; (ACTS[current]||[]).forEach(a=>{ const ii=a.i+shift; if(ii<0||ii>n-1) return; (byWeek[ii]=byWeek[ii]||[]).push(a); });
-    const shape=(row,x,y,done)=>{ const f=done?C.brand:"#fff", s=C.brand, sw=done?0:1.8;
-      if(row===0) return `<circle cx="${x}" cy="${y}" r="6" fill="${f}" stroke="${s}" stroke-width="${sw}"/>`;
-      if(row===1) return `<rect x="${x-5.5}" y="${y-5.5}" width="11" height="11" rx="2" fill="${f}" stroke="${s}" stroke-width="${sw}"/>`;
-      if(row===2) return `<path d="M${x} ${y-6.5} L${x+6.5} ${y+5} L${x-6.5} ${y+5} Z" fill="${f}" stroke="${s}" stroke-width="${sw}" stroke-linejoin="round"/>`;
-      return `<path d="M${x} ${y-7} L${x+7} ${y} L${x} ${y+7} L${x-7} ${y} Z" fill="${f}" stroke="${s}" stroke-width="${sw}" stroke-linejoin="round"/>`; };
-    Object.keys(byWeek).forEach(w=>{ const list=byWeek[w], x=xAt(+w,n); list.forEach((a,k)=>{ const y=plotT+12+k*16;
-      acts+=`<g>${shape(a.row,x,y,a.done)}<title>${a.label} · ${labels[+w]}${a.span>1?` ~ ${labels[Math.min(n-1,+w+a.span-1)]}`:""} · ${a.done?"집행 완료":"계획"}</title></g>`; }); }); }
+  // 커뮤니케이션 활동: x축 아래에 주별 글자 칩으로. 파랑 채움 = 집행 완료, 빈 칩 = 계획. 여러 주짜리는 그 폭만큼 늘어난다.
+  let acts=`<text x="${plotL}" y="${plotB+36}" font-size="10.5" font-weight="700" fill="${C.tick}">활동</text>`;
+  { const rowH=21, y0=plotB+44, lanes=[];   // lanes[k] = 그 줄에서 마지막으로 차지한 x 끝
+    const items=(ACTS[current]||[]).map(a=>({...a, ii:a.i+shift})).filter(a=>a.ii+(a.span||1)-1>=0 && a.ii<=n-1).sort((a,b)=>a.ii-b.ii);
+    items.forEach(a=>{ const i0=Math.max(0,a.ii), i1=Math.min(n-1,a.ii+(a.span||1)-1), xc=xAt(i0,n);
+      const tw=a.label.length*10.5+18, w=(a.span||1)>1 ? Math.max(tw, xAt(i1,n)-xAt(i0,n)+tw*0.6) : tw;
+      const x0=Math.max(plotL, Math.min(plotR-w, (a.span||1)>1 ? xc-tw*0.3 : xc-w/2));
+      let k=0; while(lanes[k]!==undefined && lanes[k] > x0-4) k++; lanes[k]=x0+w; const y=y0+k*rowH;
+      const tip=`${a.label} · ${labels[i0]}${(a.span||1)>1?` ~ ${labels[i1]}`:""} · ${a.done?"집행 완료":"계획"}`;
+      acts+=`<line x1="${xc}" y1="${plotB}" x2="${xc}" y2="${y}" stroke="${C.brand2}" stroke-width="1" stroke-dasharray="2 3" opacity=".6"/>`;
+      acts+= a.done
+        ? `<g><rect x="${x0.toFixed(1)}" y="${y}" width="${w.toFixed(1)}" height="18" rx="9" fill="${C.brand}"/><text x="${(x0+w/2).toFixed(1)}" y="${y+12.5}" text-anchor="middle" font-size="10.5" font-weight="700" fill="#fff">${a.label}</text><title>${tip}</title></g>`
+        : `<g><rect x="${x0.toFixed(1)}" y="${y}" width="${w.toFixed(1)}" height="18" rx="9" fill="#fff" stroke="${C.brand}" stroke-width="1.4" stroke-dasharray="4 3"/><text x="${(x0+w/2).toFixed(1)}" y="${y+12.5}" text-anchor="middle" font-size="10.5" font-weight="700" fill="${C.brand}">${a.label}</text><title>${tip}</title></g>`; }); }
   let endDot="";
   for(let i=n-1;i>=0;i--){ if(t.thisY[i]!==null&&t.thisY[i]!==undefined){ const x=xAt(i,n).toFixed(1), y=yAt(t.thisY[i]).toFixed(1);
     endDot=`<circle cx="${x}" cy="${y}" r="10" fill="${C.accent}" opacity=".18"/><circle cx="${x}" cy="${y}" r="5" fill="${C.accent}" stroke="#fff" stroke-width="2.5"/>`; break; } }
