@@ -88,15 +88,15 @@
   .now-photos .ph img{width:100%; height:100%; object-fit:cover; display:block;}
   .now-photos .ph span{position:absolute; left:8px; bottom:8px; font-size:11px; font-weight:700; color:var(--ink); background:rgba(255,255,255,.92); border-radius:999px; padding:3px 9px;}
   .now-photos .ph.empty{display:grid; place-items:center; color:var(--ink-4); font-size:12px; font-weight:600; background:var(--hatch); border:1px solid var(--line);}
-  .now-date{font-size:13px; color:#DCE0FB; font-weight:600;}
-  .now-date b{display:block; font-size:32px; font-weight:800; letter-spacing:-.035em; color:#fff; line-height:1.1; margin-top:2px;}
-  .now-cat{display:flex; align-items:center; gap:12px; margin-top:14px; flex-wrap:wrap;}
+  .now-date{font-size:14px; color:#C7CBF7; font-weight:600; margin-top:10px;}
+  .now-date b{font-size:21px; font-weight:700; letter-spacing:-.02em; color:#fff; margin-left:6px;}
+  .now-cat{display:flex; align-items:center; gap:12px; flex-wrap:wrap;}
   .tag-live{display:inline-flex; align-items:center; gap:7px; padding:6px 12px 6px 9px; border-radius:999px; background:var(--accent); color:#fff; font-size:12.5px; font-weight:800; box-shadow:0 4px 14px var(--accent-glow);}
   .tag-live i{width:8px; height:8px; border-radius:50%; background:#fff; box-shadow:0 0 0 0 rgba(255,255,255,.7); animation:pulse 1.8s infinite;}
   @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,255,255,.7)} 70%{box-shadow:0 0 0 7px rgba(255,255,255,0)} 100%{box-shadow:0 0 0 0 rgba(255,255,255,0)}}
-  .nc-name{font-size:24px; font-weight:800; letter-spacing:-.03em; color:#fff;}
+  .nc-name{font-size:44px; font-weight:900; letter-spacing:-.04em; color:#fff; line-height:1.05; margin-top:10px;}
   .nc-sub{font-size:13px; color:var(--ink-3); font-weight:500;}
-  .tl{margin-top:30px;}
+  .tl{margin-top:26px;}
   .tl-bar{position:relative; height:12px; border-radius:99px; background:repeating-linear-gradient(135deg, rgba(255,255,255,.38) 0 1.5px, transparent 1.5px 7px), rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.25);}
   .tl-bar > i{position:absolute; left:0; top:0; bottom:0; border-radius:99px; background:linear-gradient(90deg,#C7CBF7,#FFFFFF);}
   .tl-bar .tick{position:absolute; top:-6px; width:2px; height:22px; background:rgba(255,255,255,.7); border-radius:2px; transform:translateX(-50%);}
@@ -249,12 +249,12 @@
   .legend .lg-act i{width:auto; height:auto; background:none; color:var(--brand); font-size:12px; margin:0 2px 0 6px;} .legend .lg-act em{font-style:normal; color:var(--ink-3); margin-left:4px;}
   .legend .lg-act i.chip-d,.legend .lg-act i.chip-p{font-size:10.5px; font-weight:700; padding:2px 8px; border-radius:999px; margin:0 4px 0 8px;} .legend .lg-act i.chip-d{background:var(--brand); color:#fff;} .legend .lg-act i.chip-p{background:#fff; color:var(--brand); border:1.4px dashed var(--brand);}
   .acts{margin-top:6px;} .acts svg{display:block; width:100%; height:auto;}
-  .flags{display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; align-items:center;}
+  .flags{display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; align-items:center;} .flags:empty{display:none;}
   .flags .fchip{display:inline-flex; align-items:center; gap:7px; padding:6px 11px; border-radius:999px; background:var(--card-2); font-size:12.5px; color:var(--ink-2);}
   .flags .fchip b{color:var(--ink);}
   .flags .fchip .x{cursor:pointer; color:var(--ink-4); font-weight:800; margin-left:2px;}
-  .flags .fadd{border:1.5px dashed var(--line-2); background:#fff; color:var(--ink-3); font-size:12.5px; font-weight:700; padding:6px 12px; border-radius:999px; cursor:pointer;}
-  .flags .fadd:hover{border-color:var(--accent); color:var(--accent-ink);}
+  .legend .fadd,.flags .fadd{border:1.5px dashed var(--line-2); background:#fff; color:var(--ink-3); font-size:12.5px; font-weight:700; padding:6px 12px; border-radius:999px; cursor:pointer;}
+  .legend .fadd:hover,.flags .fadd:hover{border-color:var(--accent); color:var(--accent-ink);}
 
   /* ---------- CROSS JUDGMENT ---------- */
   .panel.verdict{display:flex; flex-direction:column;}
@@ -394,11 +394,9 @@
     <section class="now" aria-label="오늘 상황">
       <div class="now-photos" id="nowPhotos"></div>
       <div>
-        <div class="now-date">오늘<b id="nowDate"></b></div>
-        <div class="now-cat">
-          <span class="tag-live"><i></i>지금 진행 중</span>
-          <span class="nc-name" id="nowName"></span>
-        </div>
+        <div class="now-cat"><span class="tag-live"><i></i>지금 진행 중</span></div>
+        <div class="nc-name" id="nowName"></div>
+        <div class="now-date">오늘 <b id="nowDate"></b></div>
         <div class="tl" id="tl"></div>
       </div>
       <div class="gatecard">
@@ -451,7 +449,7 @@
           <span><i class="band ad"></i>검색 광고 집행 주</span>
           <span><i class="band est"></i>예상 범위</span>
           <span><i class="flg">⚑</i>외부 요인 (수동 표시)</span>
-          <span class="lg-act"><i class="chip-d">시딩 2차</i>집행 완료 <i class="chip-p">PPL 2</i>계획</span>
+          <button class="fadd" type="button" id="flagAdd">+ 외부 요인 추가</button>
         </div>
         <div class="flags" id="flags"></div>
       </section>
@@ -767,16 +765,17 @@ function saveFlags(key){ try{ localStorage.setItem("flags_"+key, JSON.stringify(
 function renderFlags(){
   const t=CATS[current].tracker, el=document.getElementById("flags");
   el.innerHTML = (t.flags||[]).map((f,k)=>`<span class="fchip">⚑ <b>${t.cal[f.i]} 주</b> ${f.type}${f.note?` · ${f.note}`:""}<span class="x" data-k="${k}" title="삭제">×</span></span>`).join("")
-    + `<button class="fadd" type="button" id="flagAdd">+ 외부 요인 추가</button>`;
+;
   el.querySelectorAll(".x").forEach(x=>x.addEventListener("click",()=>{ t.flags.splice(+x.dataset.k,1); saveFlags(current); selectCat(); }));
-  document.getElementById("flagAdd").addEventListener("click",()=>{
+}
+document.getElementById("flagAdd").addEventListener("click",()=>{
+    const t=CATS[current].tracker;
     const wk=prompt(`어느 주인가요? (${t.cal[0]} ~ ${t.cal[t.cal.length-1]} 중 하나를 그대로 입력)`); if(!wk) return;
     const i=t.cal.indexOf(wk.trim()); if(i<0){ alert("그 주는 이 카테고리 기간에 없습니다."); return; }
     const type=prompt("종류 (할인 / 기획전 / 품절 / 경쟁 프로모션 / 기타)","할인"); if(!type) return;
     const note=prompt("메모 (선택)","")||"";
     (t.flags=t.flags||[]).push({i, type:type.trim(), note:note.trim()}); saveFlags(current); selectCat();
-  });
-}
+});
 
 /* ---------------- LEAD TIME vs ADVANTAGE (선제 효과의 직접 증거) ---------------- */
 function renderLead(){
