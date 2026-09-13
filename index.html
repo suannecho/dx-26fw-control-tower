@@ -111,16 +111,17 @@
   .ms .mh{font-size:11.5px; color:var(--ink-3); margin-top:2px;}
 
   /* ---------- TODAY SUMMARY ---------- */
-  .summary{background:#fff; border-radius:var(--r); box-shadow:var(--shadow); padding:20px 26px; margin-bottom:22px; display:grid; grid-template-columns:1.35fr 1fr; gap:26px; align-items:start;}
-  .sm-dec{border-left:1px solid var(--line-2); padding-left:26px;}
-  .dec-list{margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:8px; counter-reset:dec;}
-  .dec-list li{display:flex; gap:10px; align-items:flex-start; font-size:13.5px; color:var(--ink-2); line-height:1.5; padding:9px 12px; border-radius:12px; background:var(--card-2);}
+  .summary{background:#fff; border-radius:var(--r); box-shadow:var(--shadow); padding:18px 26px; margin-bottom:22px; display:grid; grid-template-columns:1.35fr 1fr; gap:26px; align-items:stretch;}
+  .sm-main{display:flex; flex-direction:column; justify-content:center;}
+  .sm-dec{border-left:1px solid var(--line-2); padding-left:26px; display:flex; flex-direction:column; justify-content:center;}
+  .dec-list{margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:6px; counter-reset:dec;}
+  .dec-list li{display:flex; gap:10px; align-items:flex-start; font-size:13.5px; color:var(--ink-2); line-height:1.45; padding:7px 11px; border-radius:12px; background:var(--card-2);}
   .dec-list li::before{counter-increment:dec; content:counter(dec); flex:0 0 22px; height:22px; border-radius:7px; background:var(--accent); color:#fff; font-size:12px; font-weight:800; display:grid; place-items:center; margin-top:1px;}
   .dec-list li b{color:var(--ink);}
   .sm-k{font-size:12px; font-weight:800; letter-spacing:.08em; color:var(--ink-3); margin-bottom:6px;}
-  .sm-h{font-size:24px; font-weight:800; letter-spacing:-.03em; line-height:1.3;}
+  .sm-h{font-size:27px; font-weight:800; letter-spacing:-.03em; line-height:1.3;}
   .sm-h em{font-style:normal; color:var(--accent);}
-  .sm-b{font-size:14px; color:var(--ink-2); margin-top:6px; line-height:1.55;}
+  .sm-b{font-size:14.5px; color:var(--ink-2); margin-top:8px; line-height:1.6;}
   .sm-list{display:grid; gap:6px;}
   .sm-row{display:flex; align-items:center; gap:10px; font-size:13.5px; color:var(--ink-2); padding:8px 12px; border-radius:999px; background:var(--card-2);}
   .sm-row i{width:9px; height:9px; border-radius:50%; flex:0 0 9px;}
@@ -256,8 +257,11 @@
   .flags .fadd:hover{border-color:var(--accent); color:var(--accent-ink);}
 
   /* ---------- CROSS JUDGMENT ---------- */
+  .panel.verdict{display:flex; flex-direction:column;}
+  .panel.verdict .xj{flex:1;}
+  .panel.verdict .matrix{margin-top:auto; padding-top:12px;}
   .xj{display:grid; grid-template-columns:1fr 1fr; gap:10px; align-items:stretch;}
-  .pt{border-radius:var(--r-sm); padding:16px 16px 14px; display:flex; flex-direction:column; gap:4px; background:var(--card-2);}
+  .pt{border-radius:var(--r-sm); padding:16px 16px 14px; display:flex; flex-direction:column; gap:4px; background:var(--card-2); justify-content:center;}
   .pt.ok{background:var(--go-tint);} .pt.no{background:var(--alert-tint);} .pt.na{background:var(--card-2);}
   .pt .w{font-size:13px; font-weight:700; color:var(--ink-2); display:flex; align-items:center; gap:7px;}
   .pt .w i{width:8px; height:8px; border-radius:2px; background:var(--accent);}
@@ -452,7 +456,7 @@
         <div class="flags" id="flags"></div>
       </section>
 
-      <section class="panel">
+      <section class="panel verdict">
         <div class="p-head"><div><h3>판정</h3><span class="ps">작년보다 얼마나 앞섰나 (%p)</span></div></div>
         <div class="xj">
           <div class="pt ok" id="ptOnset">
